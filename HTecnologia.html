@@ -140,7 +140,7 @@
       color: var(--c-500);
     }
     .hero-left p {
-      margin-top: 14px;
+      margin-top: 0px;
       color: var(--ink-900);
       font-size: 16px; font-weight: 400;
       line-height: 1.65;
@@ -309,6 +309,30 @@
   </header>
 
   <!-- HERO -->
+
+<!-- BOTÃO VOLTAR PARA O TEAMS -->
+<div style="
+    margin-top: 20px; 
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 1050px;   /* ajuste aqui para aproximar do centro */
+">
+    <a href="https://teams.microsoft.com/l/entity/04a9e734-37d3-480b-89ea-337cbccd23ed/bot"
+       style="
+           display: inline-block;
+           background: var(--c-700);
+           color: white;
+           font-weight: 600;
+           padding: 14px 28px;
+           border-radius: var(--radius);
+           text-decoration: none;
+           font-family: 'Lexend', sans-serif;
+           box-shadow: var(--shadow);
+       ">
+        ⟵ Retornar ao Teams
+    </a>
+</div>
+
   <section class="hero">
     <div class="hero-left">
       <h1>Roadmap da Transformação <span>2026</span></h1>
@@ -329,7 +353,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <main class="container" id="mainContainer"></main>
-
   <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-backdrop" onclick="closeModal()"></div>
