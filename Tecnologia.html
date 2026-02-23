@@ -430,8 +430,8 @@
        const metricTotalEl      = document.getElementById('metricTotal');
 // Inserir métricas1 aqui 
 
-      const m = hab.metricas; // << todas as métricas vêm daqui
-                if (metricTotalEl)      metricTotalEl.textContent      = m.total;
+      // total está diretamente em hab (não em hab.metricas)
+      if (metricTotalEl) metricTotalEl.textContent = hab.total ?? (hab.ideias ? hab.ideias.length : 0);
 // Inserir métricas2 aqui 
 
       // Atualizar textos de habilitador (splash e hero)
