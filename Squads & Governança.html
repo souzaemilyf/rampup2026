@@ -428,11 +428,11 @@
       // Atualizar total
 
        const metricTotalEl      = document.getElementById('metricTotal');
-<!------Inserir métricas1 aqui------->
+//Inserir métricas1 aqui 
 
       const m = hab.metricas; // << todas as métricas vêm daqui
                 if (metricTotalEl)      metricTotalEl.textContent      = m.total;
-<!------Inserir métricas2 aqui------->
+// Inserir métricas2 aqui 
 
       // Atualizar textos de habilitador (splash e hero)
       const splashEyebrow = document.querySelector('.splash-eyebrow');
@@ -440,7 +440,7 @@
 
       const heroP = document.querySelector('.hero-left p');
       if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
-----
+
       // Renderizar lista de ideias
       function renderHabilitadores(hab) {
       const container = document.getElementById('mainContainer');
@@ -457,7 +457,7 @@
       title.textContent = hab.nome || 'Habilitador';
       section.appendChild(title);
 
-<!---------Inserir bloco separar ideias por status---------->
+//Inserir bloco separar ideias por status
 
       
       function criarLista(titulo, lista) {
