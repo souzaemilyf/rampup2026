@@ -1,3 +1,602 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Habilitador Squads & Governança</title></head>
-<body>Habilitador Squads & Governança - placeholder</body></html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RampUp da Transformação 2026</title>
+  <link rel="shortcut icon" href="https://www.ecorodovias.com.br/wp-content/uploads/2025/03/favicon.svg" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* ── PALETA SÓLIDA ── */
+      --c-900: #056b28;
+      --c-700: #1da013;
+      --c-500: #72d216;
+      --c-200: #72d216;
+      --c-50: #edf7ee;
+      --white: #ffffff;
+      --bg: #f7f8f7;
+      /* ── NEUTROS ── */
+      --ink-900: #111714;
+      --ink-600: #374a3c;
+      --ink-400: #6b826f;
+      --ink-200: #c4d1c6;
+      --ink-100: #e8ede9;
+      /* ── ESPAÇAMENTO & FORMA ── */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,.10), 0 16px 48px rgba(0,0,0,.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 400;
+      background: var(--bg);
+      color: var(--ink-900);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--c-900);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      padding: 0 48px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-container {
+      width: 140px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    /* SPLASH SCREEN */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--c-900);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 28px;
+      transform: translateY(-100%);
+      animation: splashDown 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes splashDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    #splash.hide {
+      animation: splashUp 0.7s cubic-bezier(.55,0,1,.45) forwards;
+    }
+    @keyframes splashUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100%); opacity: 0; }
+    }
+    .splash-logo {
+      width: 200px; height: 200px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      animation: fadeIn .10s ease .10s forwards;
+    }
+    .splash-logo img {
+      width: auto; height: 300px;
+      max-width: 500px; object-fit: contain;
+    }
+    .splash-text {
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn .5s ease .75s forwards;
+    }
+    .splash-eyebrow {
+      font-size: 16px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--c-200);
+      margin-bottom: 14px;
+    }
+    .splash-title {
+      font-size: clamp(22px, 3.5vw, 38px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+      max-width: 560px;
+    }
+    .splash-title span {
+      color: var(--c-200);
+    }
+    .splash-bar {
+      width: 48px; height: 3px;
+      background: var(--c-500);
+      border-radius: 99px;
+      opacity: 0;
+      animation: fadeIn .4s ease 1s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* HERO */
+    .hero {
+      max-width: 1400px; margin: 0 auto;
+      padding: 56px 48px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .hero-left h1 {
+      font-weight: 800;
+      font-size: clamp(28px, 3.5vw, 46px);
+      color: var(--c-900);
+      line-height: 1.12;
+      letter-spacing: -.5px;
+      max-width: 580px;
+    }
+    .hero-left h1 span {
+      color: var(--c-500);
+    }
+    .hero-left p {
+      margin-top: 0px;
+      color: var(--ink-900);
+      font-size: 16px; font-weight: 400;
+      line-height: 1.65;
+      max-width: 460px;
+    }
+    .metrics-card {
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-width: 280px;
+      box-shadow: var(--shadow);
+    }
+    .metrics-title {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .8px; text-transform: uppercase;
+      color: var(--ink-400);
+      margin-bottom: 18px;
+    }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .metric-item { display:flex; flex-direction:column; gap:4px; }
+    .metric-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--ink-900);
+      line-height: 1;
+    }
+    .metric-label { font-size: 12px; font-weight: 500; color: var(--ink-600); }
+    /* CONTAINER PRINCIPAL */
+    .container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 40px 48px 80px;
+    }
+    .habilitador-section { margin-bottom: 60px; }
+    .section-title {
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--c-900);
+      margin-bottom: 8px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid var(--c-700);
+    }
+    /* LISTA */
+    .lista-wrapper { margin: 32px 0; }
+    .lista-title {
+      font-size: 14px; font-weight: 700;
+      color: var(--ink-600);
+      margin-bottom: 12px;
+      padding-left: 12px;
+      border-left: 3px solid var(--ink-400);
+    }
+    .lista-items { display:flex; flex-direction:column; gap:8px; }
+    .lista-item {
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .lista-item:hover { border-color: var(--c-500); box-shadow: var(--shadow); }
+    .lista-item-titulo { font-size: 13px; font-weight: 500; color: var(--ink-900); }
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      display: none; align-items:center; justify-content:center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-backdrop {
+      position:absolute; inset:0;
+      background: rgba(2,61,23,.50);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      animation: fadeInModal .25s ease;
+    }
+    @keyframes fadeInModal { from{opacity:0;} to{opacity:1;} }
+    .modal-box {
+      position:relative; z-index:2;
+      background:var(--white);
+      border:1px solid var(--ink-100);
+      border-radius:16px;
+      width:100%; max-width:920px; max-height:90vh;
+      overflow-y:auto; padding:36px;
+      box-shadow:var(--shadow-lg);
+      animation:modalIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes modalIn { from{opacity:0; transform:scale(.96) translateY(16px);} to{opacity:1; transform:scale(1) translateY(0);} }
+    .modal-header {
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:20px; margin-bottom:28px; padding-bottom:24px;
+      border-bottom:1px solid var(--ink-100);
+    }
+    .modal-title {
+      font-weight:800; font-size:clamp(24px,3vw,32px);
+      color:var(--c-900); line-height:1.2; letter-spacing:-0.3px;
+    }
+    .modal-close {
+      width:36px; height:36px; flex-shrink:0;
+      background:var(--bg);
+      border:1px solid var(--ink-200);
+      border-radius:var(--radius-sm);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .15s, border-color .15s;
+    }
+    .modal-close:hover { background:#fee2e2; border-color:#fca5a5; }
+    .info-grid {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:14px; margin-bottom:16px;
+    }
+    @media (max-width:600px) { .info-grid { grid-template-columns:1fr; } }
+    .info-card {
+      background:var(--white);
+      border:1px solid var(--ink-200);
+      border-top:3px solid transparent;
+      border-radius:var(--radius-sm);
+      padding:20px;
+    }
+    .info-card.contexto { border-top-color:var(--c-700); }
+    .info-card.problema { border-top-color:#d97706; }
+    .info-card.resultado { border-top-color:var(--c-500); }
+    .info-card.analiseIA { border-top-color:#005CFF; grid-column: 1 / -1; }
+    .info-label {
+      font-size:14px; font-weight:800;
+      letter-spacing:.8px; text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .info-text { font-size:13px; font-weight:500; color:var(--ink-900); line-height:1.7; }
+    /* TOAST */
+    .toast {
+      position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%);
+      background:var(--ink-900); color:var(--white);
+      font-family:'Lexend',sans-serif; font-size:13px; font-weight:500;
+      padding:10px 22px; border-radius:var(--radius-sm);
+      box-shadow:var(--shadow);
+      opacity:0; pointer-events:none;
+      transition:opacity .25s, transform .25s;
+      z-index:9999; white-space:nowrap;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+    /* RESPONSIVE */
+    @media (max-width:768px) {
+      header, .hero, .container { padding-left:20px; padding-right:20px; }
+      .hero { grid-template-columns:1fr; gap:24px; }
+      .modal-box { padding:22px; }
+      .info-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- SPLASH -->
+  <div id="splash">
+    <div class="splash-logo" id="splashLogo"></div>
+    <div class="splash-text">
+      <div class="splash-eyebrow">Habilitador: Squads & Governança</div>
+    </div>
+    <div class="splash-bar"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container" id="logoContainer"></div>
+  </header>
+
+  <!-- HERO -->
+
+<!-- BOTÃO VOLTAR PARA O TEAMS -->
+<div style="
+    margin-top: 20px; 
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 1050px;   /* ajuste aqui para aproximar do centro */
+">
+    <a href="https://teams.microsoft.com/l/entity/04a9e734-37d3-480b-89ea-337cbccd23ed/bot"
+       style="
+           display: inline-block;
+           background: var(--c-700);
+           color: white;
+           font-weight: 600;
+           padding: 14px 28px;
+           border-radius: var(--radius);
+           text-decoration: none;
+           font-family: 'Lexend', sans-serif;
+           box-shadow: var(--shadow);
+       ">
+        ⟵ Retornar ao Teams
+    </a>
+</div>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Roadmap da Transformação <span>2026</span></h1>
+      <p>Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de Squads & Governança.</p>
+    </div>
+    <div class="hero-right">
+      <div class="metrics-card">
+        <div class="metrics-title">Ideias Recebidas</div>
+        <div class="metrics-grid">
+          <div class="metric-item total">
+            <div class="metric-value" id="metricTotal">6</div>
+            <div class="metric-label">Total</div>
+          </div>
+<!-------Inserir bloco com demais métricas------->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="container" id="mainContainer"></main>
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <button class="modal-close" onclick="closeModal()" title="Fechar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="info-grid">
+        <div class="info-card contexto">
+          <div class="info-label">🔍 Contexto</div>
+          <p class="info-text" id="modalContexto"></p>
+        </div>
+        <div class="info-card problema">
+          <div class="info-label">⚠️ Problema</div>
+          <p class="info-text" id="modalProblema"></p>
+        </div>
+        <div class="info-card resultado">
+          <div class="info-label">🎯 Resultado Esperado</div>
+          <p class="info-text" id="modalResultado"></p>
+        </div>
+        <div class="info-card analiseIA">
+          <div class="info-label">✨ Análise IA</div>
+          <p class="info-text" id="modalAnaliseIA"></p>
+        </div>
+      </div>
+      <div id="modalEntregaveisWrapper"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  
+<script>
+  window.COPILOT_PAYLOAD = {"habilitadores":[{"nome":"Squads & Governança","total":6,"ideias":[{"id":"1","titulo":"Atualizar governança com a nova estrutura de TD e Inovação","contexto":"Mudança organizacional","problema":"Alinhamento da governança à nova estrutura e identificação de oportunidades","resultado":"Diagnóstico de oportunidades e plano de ação para implantação imediata","analiseIA":""},{"id":"2","titulo":"Atualizar OKRs e conectar às metas do Planejamento Estratégico 25-30","contexto":"Revisão de metas estratégicas e operacionais","problema":"Falta de conexão entre metas e execução","resultado":"Governança clara e alinhada ao planejamento","analiseIA":""},{"id":"12","titulo":"Alinhamento com automation first; mapear competências da transformação.","contexto":"Seleção estratégica para suportar mudanças","problema":"Processos de seleção não priorizam competências digitais","resultado":"Times preparados para automação e transformação","analiseIA":""},{"id":"3","titulo":"Proteger o valor estratégico da transformação (cultural e financeiro)","contexto":"Sustentação da mudança organizacional","problema":"Risco de perda de valor durante o processo de transformação","resultado":"Garantia de impacto positivo e duradouro da transformação","analiseIA":""},{"id":"7","titulo":"Programa de Recompensas de Inovação – entender status e continuidade","contexto":"Avaliação de programa vigente","problema":"Falta de clareza sobre impacto e futuro do programa","resultado":"Decisão sobre manutenção, reformulação ou encerramento","analiseIA":""},{"id":"17","titulo":"Um agente que automatizasse minhas tarefas","contexto":"todas as minhas tarefas são repetidas, poderia ser feito uma atuomação em python","problema":"não sei responder","resultado":"diminuição de tempo","analiseIA":""}]}]};
+</script>
+
+
+  <script>
+    // URLs de logo
+    const LOGO_URL = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
+    const LOGO_RAMPUP = 'https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
+
+    let DATA = null;
+
+    // Função chamada pelo Power Automate (via script injetado)
+    window.injectData = function (payload) {
+      try {
+        DATA = typeof payload === 'string' ? JSON.parse(payload) : payload;
+        renderAll();
+        showToast('✅ Dados carregados!');
+      } catch (e) {
+        showToast('❌ Erro: ' + e.message);
+        console.error(e);
+      }
+    };
+
+    function renderAll() {
+      if (!DATA) return;
+      if (!Array.isArray(DATA.habilitadores) || DATA.habilitadores.length === 0) {
+        showToast('Nenhum habilitador encontrado nos dados.');
+        return;
+      }
+
+      const hab = DATA.habilitadores[0];
+
+      // Atualizar total
+
+       const metricTotalEl      = document.getElementById('metricTotal');
+<!------Inserir métricas1 aqui------->
+
+      const m = hab.metricas; // << todas as métricas vêm daqui
+                if (metricTotalEl)      metricTotalEl.textContent      = m.total;
+<!------Inserir métricas2 aqui------->
+
+      // Atualizar textos de habilitador (splash e hero)
+      const splashEyebrow = document.querySelector('.splash-eyebrow');
+      if (splashEyebrow) splashEyebrow.textContent = 'Habilitador: ' + (hab.nome || '');
+
+      const heroP = document.querySelector('.hero-left p');
+      if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
+----
+      // Renderizar lista de ideias
+      function renderHabilitadores(hab) {
+      const container = document.getElementById('mainContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      const section = document.createElement('div');
+      section.className = 'habilitador-section';
+                section.dataset.habilitador = hab.nome;
+
+      const title = document.createElement('h2');
+      title.className = 'section-title';
+      title.textContent = hab.nome || 'Habilitador';
+      section.appendChild(title);
+
+<!---------Inserir bloco separar ideias por status---------->
+
+      
+      function criarLista(titulo, lista) {
+                if (!lista || lista.length === 0) return null;
+
+      const listaWrapper = document.createElement('div');
+      listaWrapper.className = 'lista-wrapper';
+
+      const listaTitle = document.createElement('div');
+      listaTitle.className = 'lista-title';
+      listaTitle.textContent = 'Ideias recebidas';
+      listaWrapper.appendChild(listaTitle);
+
+      const listaItems = document.createElement('div');
+      listaItems.className = 'lista-items';
+
+      (hab.ideias || []).forEach(ideia => {
+        const item = document.createElement('div');
+        item.className = 'lista-item';
+        item.onclick = () => openModal(ideia);
+
+        const tituloEl = document.createElement('div');
+        tituloEl.className = 'lista-item-titulo';
+        tituloEl.textContent = ideia.titulo || '(Sem título)';
+
+        item.appendChild(tituloEl);
+        listaItems.appendChild(item);
+      });
+
+      listaWrapper.appendChild(listaItems);
+      section.appendChild(listaWrapper);
+      container.appendChild(section);
+    }
+
+function openModal(ideia) {
+  document.getElementById('modalTitle').textContent = ideia.titulo || '';
+  document.getElementById('modalContexto').textContent = ideia.contexto || '';
+  document.getElementById('modalProblema').textContent = ideia.problema || '';
+  document.getElementById('modalResultado').textContent = ideia.resultado || '';
+  document.getElementById('modalAnaliseIA').textContent = ideia.analiseIA || '';
+
+  // ─────────────────────────────────────────────
+  //   ENTREGÁVEIS (opcionais)
+  // ─────────────────────────────────────────────
+  const wrapper = document.getElementById('modalEntregaveisWrapper');
+  if (wrapper) {
+    wrapper.innerHTML = '';
+
+    if (ideia.entregaveis && Array.isArray(ideia.entregaveis) && ideia.entregaveis.length > 0) {
+      const entregDiv = document.createElement('div');
+      entregDiv.className = 'modal-entregaveis';
+
+      const entregTitle = document.createElement('div');
+      entregTitle.className = 'modal-entregaveis-title';
+      entregTitle.textContent = 'Entregáveis previstos';
+      entregDiv.appendChild(entregTitle);
+
+      const ul = document.createElement('ul');
+      ul.className = 'modal-entregaveis-list';
+
+      ideia.entregaveis.forEach(ent => {
+        const li = document.createElement('li');
+        li.textContent = ent.nome || '';
+        ul.appendChild(li);
+      });
+
+      entregDiv.appendChild(ul);
+      wrapper.appendChild(entregDiv);
+    }
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    let _tt;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(_tt);
+      _tt = setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    function initSplash() {
+      const splash = document.getElementById('splash');
+      const splashLogo = document.getElementById('splashLogo');
+      if (!splash) return;
+
+      if (LOGO_RAMPUP) {
+        const img = document.createElement('img');
+        img.src = LOGO_RAMPUP;
+        img.alt = 'Logo Ramp Up 2026';
+        img.onerror = () => splashLogo.textContent = 'ER';
+        splashLogo.innerHTML = '';
+        splashLogo.appendChild(img);
+      } else {
+        splashLogo.textContent = 'ER';
+      }
+
+      setTimeout(() => {
+        splash.classList.add('hide');
+        splash.addEventListener('animationend', () => {
+          splash.remove();
+          document.body.style.overflow = '';
+        }, { once: true });
+      }, 2500);
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    function initLogo() {
+      const container = document.getElementById('logoContainer');
+      if (!container || !LOGO_URL) return;
+
+      const img = document.createElement('img');
+      img.src = LOGO_URL;
+      img.className = 'logo-img';
+      img.alt = 'Logo EcoRodovias';
+      container.appendChild(img);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLogo();
+      initSplash();
+      if (window.COPILOT_PAYLOAD) {
+        window.injectData(window.COPILOT_PAYLOAD);
+      }
+    });
+  </script>
+</body>
+</html>
