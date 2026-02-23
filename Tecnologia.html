@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ramp Up da Transformação 2026</title>
+  <title>RampUp da Transformação 2026</title>
   <link rel="shortcut icon" href="https://www.ecorodovias.com.br/wp-content/uploads/2025/03/favicon.svg" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -346,6 +346,7 @@
             <div class="metric-value" id="metricTotal">6</div>
             <div class="metric-label">Total</div>
           </div>
+  <!-- Inserir bloco com demais métricas -->
         </div>
       </div>
     </div>
@@ -425,11 +426,13 @@
       const hab = DATA.habilitadores[0];
 
       // Atualizar total
-      const total = typeof hab.total === 'number'
-        ? hab.total
-        : (Array.isArray(hab.ideias) ? hab.ideias.length : 0);
-      const metricTotalEl = document.getElementById('metricTotal');
-      if (metricTotalEl) metricTotalEl.textContent = total;
+
+       const metricTotalEl      = document.getElementById('metricTotal');
+// Inserir métricas1 aqui 
+
+      const m = hab.metricas; // << todas as métricas vêm daqui
+                if (metricTotalEl)      metricTotalEl.textContent      = m.total;
+// Inserir métricas2 aqui 
 
       // Atualizar textos de habilitador (splash e hero)
       const splashEyebrow = document.querySelector('.splash-eyebrow');
@@ -439,30 +442,47 @@
       if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
 
       // Renderizar lista de ideias
+      renderHabilitadores(hab);
+    }
+
+    function renderHabilitadores(hab) {
       const container = document.getElementById('mainContainer');
       if (!container) return;
+
       container.innerHTML = '';
 
       const section = document.createElement('div');
       section.className = 'habilitador-section';
+      section.dataset.habilitador = hab.nome;
 
       const title = document.createElement('h2');
       title.className = 'section-title';
       title.textContent = hab.nome || 'Habilitador';
       section.appendChild(title);
 
+//Inserir bloco separar ideias por status
+
+  // ===== Função auxiliar para criar listas =====
+      criarLista('Ideias recebidas', hab.ideias || [], section, hab);
+
+      container.appendChild(section);
+    }
+
+    function criarLista(titulo, lista, section, hab) {
+      if (!lista || lista.length === 0) return;
+
       const listaWrapper = document.createElement('div');
       listaWrapper.className = 'lista-wrapper';
 
       const listaTitle = document.createElement('div');
       listaTitle.className = 'lista-title';
-      listaTitle.textContent = 'Ideias recebidas';
+      listaTitle.textContent = titulo;
       listaWrapper.appendChild(listaTitle);
 
       const listaItems = document.createElement('div');
       listaItems.className = 'lista-items';
 
-      (hab.ideias || []).forEach(ideia => {
+      lista.forEach(ideia => {
         const item = document.createElement('div');
         item.className = 'lista-item';
         item.onclick = () => openModal(ideia);
@@ -477,23 +497,48 @@
 
       listaWrapper.appendChild(listaItems);
       section.appendChild(listaWrapper);
-      container.appendChild(section);
     }
 
-    function openModal(ideia) {
-      document.getElementById('modalTitle').textContent = ideia.titulo || '';
-      document.getElementById('modalContexto').textContent = ideia.contexto || '';
-      document.getElementById('modalProblema').textContent = ideia.problema || '';
-      document.getElementById('modalResultado').textContent = ideia.resultado || '';
-      document.getElementById('modalAnaliseIA').textContent = ideia.analiseIA || '';
+function openModal(ideia) {
+  document.getElementById('modalTitle').textContent = ideia.titulo || '';
+  document.getElementById('modalContexto').textContent = ideia.contexto || '';
+  document.getElementById('modalProblema').textContent = ideia.problema || '';
+  document.getElementById('modalResultado').textContent = ideia.resultado || '';
+  document.getElementById('modalAnaliseIA').textContent = ideia.analiseIA || '';
 
-      // Sem entregáveis no Fluxo 1 – apenas limpa o wrapper
-      const wrapper = document.getElementById('modalEntregaveisWrapper');
-      if (wrapper) wrapper.innerHTML = '';
+  // ─────────────────────────────────────────────
+  //   ENTREGÁVEIS (opcionais)
+  // ─────────────────────────────────────────────
+  const wrapper = document.getElementById('modalEntregaveisWrapper');
+  if (wrapper) {
+    wrapper.innerHTML = '';
 
-      document.getElementById('modalOverlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
+    if (ideia.entregaveis && Array.isArray(ideia.entregaveis) && ideia.entregaveis.length > 0) {
+      const entregDiv = document.createElement('div');
+      entregDiv.className = 'modal-entregaveis';
+
+      const entregTitle = document.createElement('div');
+      entregTitle.className = 'modal-entregaveis-title';
+      entregTitle.textContent = 'Entregáveis previstos';
+      entregDiv.appendChild(entregTitle);
+
+      const ul = document.createElement('ul');
+      ul.className = 'modal-entregaveis-list';
+
+      ideia.entregaveis.forEach(ent => {
+        const li = document.createElement('li');
+        li.textContent = ent.nome || '';
+        ul.appendChild(li);
+      });
+
+      entregDiv.appendChild(ul);
+      wrapper.appendChild(entregDiv);
     }
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('open');
@@ -532,10 +577,15 @@
 
       setTimeout(() => {
         splash.classList.add('hide');
-        splash.addEventListener('animationend', () => {
-          splash.remove();
-          document.body.style.overflow = '';
-        }, { once: true });
+        // Fallback: remove o splash mesmo se animationend não disparar
+        const removeSplash = () => {
+          if (splash.parentNode) {
+            splash.remove();
+            document.body.style.overflow = '';
+          }
+        };
+        splash.addEventListener('animationend', removeSplash, { once: true });
+        setTimeout(removeSplash, 1000); // garante remoção após no máximo 1s
       }, 2500);
 
       document.body.style.overflow = 'hidden';
