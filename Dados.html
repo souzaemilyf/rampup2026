@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RampUp 2026 — Habilitador [Habilitador]</title>
+  <link rel="shortcut icon" href="https://www.ecorodovias.com.br/wp-content/uploads/2025/03/favicon.svg" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --c-900:#056b28; --c-700:#1da013; --c-500:#72d216; --c-200:#72d216; --c-50:#edf7ee;
+      --white:#fff; --bg:#f7f8f7; --ink-900:#111714; --ink-600:#374a3c; --ink-400:#6b826f; --ink-200:#c4d1c6; --ink-100:#e8ede9;
+      --radius:12px; --radius-sm:8px; --shadow:0 1px 4px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06); --shadow-lg:0 2px 8px rgba(0,0,0,.10),0 16px 48px rgba(0,0,0,.12);
+    }
+    *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Lexend',sans-serif;background:var(--bg);color:var(--ink-900);min-height:100vh;overflow-x:hidden}
+    header{position:sticky;top:0;z-index:100;background:var(--c-900);border-bottom:1px solid rgba(255,255,255,.1);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:center}
+    .logo-container{width:140px;height:40px;display:flex;align-items:center;justify-content:center}
+    .logo-img{max-width:100%;max-height:100%;object-fit:contain}
+    #splash{position:fixed;inset:0;z-index:9999;background:var(--c-900);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transform:translateY(-100%);animation:splashDown .7s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes splashDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+    #splash.hide{animation:splashUp .7s cubic-bezier(.55,0,1,.45) forwards}
+    @keyframes splashUp{from{transform:translateY(0);opacity:1}to{transform:translateY(-100%);opacity:0}}
+    .splash-logo{width:200px;height:200px;border-radius:16px;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeIn .1s ease .1s forwards}
+    .splash-logo img{width:auto;height:300px;max-width:500px;object-fit:contain}
+    .splash-eyebrow{font-size:16px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--c-200)}
+    .splash-bar{width:48px;height:3px;background:var(--c-500);border-radius:99px;opacity:0;animation:fadeIn .4s ease 1s forwards}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .hero{max-width:1400px;margin:0 auto;padding:56px 48px 40px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;border-bottom:1px solid var(--ink-100)}
+    .hero-left h1{font-weight:800;font-size:clamp(28px,3.5vw,46px);color:var(--c-900);line-height:1.12;letter-spacing:-.5px;max-width:580px}
+    .hero-left h1 span{color:var(--c-500)}
+    .hero-left p{margin-top:0;color:var(--ink-900);font-size:16px;line-height:1.65;max-width:560px}
+    .metrics-card{background:var(--white);border:1px solid var(--ink-200);border-radius:var(--radius);padding:24px;min-width:280px;box-shadow:var(--shadow)}
+    .metrics-title{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-400);margin-bottom:18px}
+    .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .metric-item{display:flex;flex-direction:column;gap:4px}
+    .metric-value{font-size:32px;font-weight:800;line-height:1}
+    .metric-item.total .metric-value{color:var(--ink-900)}
+    .metric-item.viaveis .metric-value{color:var(--c-700)}
+    .metric-item.estudar .metric-value{color:#d97706}
+    .metric-item.inviaveis .metric-value{color:var(--ink-400)}
+    .metric-label{font-size:12px;font-weight:500;color:var(--ink-600)}
+    .container{max-width:1400px;margin:0 auto;padding:40px 48px 80px}
+    .habilitador-section{margin-bottom:60px}
+    .section-title{font-weight:800;font-size:28px;color:var(--c-900);margin-bottom:8px;padding-bottom:16px;border-bottom:3px solid var(--c-700)}
+    .lista-wrapper{margin:32px 0}
+    .lista-title{font-size:14px;font-weight:700;color:var(--ink-600);margin-bottom:12px;padding-left:12px;border-left:3px solid var(--ink-400)}
+    .lista-title.estudar{border-left-color:#d97706;color:#92400e}
+    .lista-title.inviavel{border-left-color:var(--ink-400)}
+    .lista-items{display:flex;flex-direction:column;gap:8px}
+    .lista-item{background:var(--white);border:1px solid var(--ink-200);border-radius:var(--radius-sm);padding:12px 16px;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;align-items:center;justify-content:space-between}
+    .lista-item:hover{border-color:var(--c-500);box-shadow:var(--shadow)}
+    .lista-item-titulo{font-size:13px;font-weight:500;color:var(--ink-900)}
+    .lista-item-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+    .lista-item-badge.estudar{background:#fef3c7;color:#92400e}
+    .lista-item-badge.inviavel{background:var(--ink-100);color:var(--ink-600)}
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
+    .modal-overlay.open{display:flex}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(2,61,23,.50);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .modal-box{position:relative;z-index:2;background:var(--white);border:1px solid var(--ink-100);border-radius:16px;width:100%;max-width:920px;max-height:90vh;overflow-y:auto;padding:36px;box-shadow:var(--shadow-lg)}
+    .modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--ink-100)}
+    .modal-title{font-weight:800;font-size:clamp(24px,3vw,32px);color:var(--c-900);line-height:1.2}
+    .modal-close{width:36px;height:36px;background:var(--bg);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+    @media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+    .info-card{background:var(--white);border:1px solid var(--ink-200);border-top:3px solid transparent;border-radius:8px;padding:20px}
+    .info-card.contexto{border-top-color:var(--c-700)}
+    .info-card.problema{border-top-color:#d97706}
+    .info-card.resultado{border-top-color:var(--c-500)}
+    .info-card.analiseIA{border-top-color:#005CFF;grid-column:1/-1}
+    .info-label{font-size:14px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
+    .info-text{font-size:13px;font-weight:500;color:var(--ink-900);line-height:1.7}
+    .modal-entregaveis{margin-top:20px}
+    .modal-entregaveis-title{font-size:14px;font-weight:700;color:var(--c-700);margin-bottom:12px}
+    .modal-entregaveis-list{list-style:none;padding:0}
+    .modal-entregaveis-list li{padding:8px 0 8px 20px;position:relative;font-size:13px;color:var(--ink-600)}
+    .modal-entregaveis-list li::before{content:'•';position:absolute;left:0;color:var(--c-500);font-weight:700}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink-900);color:#fff;font-size:13px;font-weight:500;padding:10px 22px;border-radius:8px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999;white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+    @media(max-width:768px){header,.hero,.container{padding-left:20px;padding-right:20px}.hero{grid-template-columns:1fr;gap:24px}.modal-box{padding:22px}}
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <div class="splash-logo" id="splashLogo"></div>
+    <div class="splash-text">
+      <div class="splash-eyebrow">Habilitador: —</div>
+    </div>
+    <div class="splash-bar"></div>
+  </div>
+
+  <header>
+    <div class="logo-container" id="logoContainer"></div>
+  </header>
+
+  <!-- Botão Teams (mantido) -->
+  <div style="margin-top:20px;display:flex;justify-content:flex-start;padding-left:1050px;">
+    <a href="https://teams.microsoft.com/l/entity/04a9e734-37d3-480b-89ea-337cbccd23ed/bot" style="display:inline-block;background:var(--c-700);color:#fff;font-weight:600;padding:14px 28px;border-radius:12px;text-decoration:none;box-shadow:var(--shadow);">⟵ Retornar ao Teams</a>
+  </div>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Roadmap da Transformação <span>2026</span></h1>
+      <p>Veja abaixo o resumo de priozação das ideias para o Habilitador de [Habilitador] por status: Viável, a Estudar e Inviável.</p>
+    </div>
+    <div class="hero-right">
+      <div class="metrics-card">
+        <div class="metrics-title">Visão Geral</div>
+        <div class="metrics-grid">
+          <div class="metric-item total">
+            <div class="metric-value" id="metricTotal">0</div>
+            <div class="metric-label">Total</div>
+          </div>
+          <div class="metric-item viaveis">
+            <div class="metric-value" id="metricViaveis">0</div>
+            <div class="metric-label">Viáveis</div>
+          </div>
+          <div class="metric-item estudar">
+            <div class="metric-value" id="metricEstudar">0</div>
+            <div class="metric-label">A Estudar</div>
+          </div>
+          <div class="metric-item inviaveis">
+            <div class="metric-value" id="metricInviaveis">0</div>
+            <div class="metric-label">Inviáveis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" id="mainContainer"></main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <button class="modal-close" onclick="closeModal()" title="Fechar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="info-grid">
+        <div class="info-card contexto">
+          <div class="info-label">🔍 Contexto</div>
+          <p class="info-text" id="modalContexto"></p>
+        </div>
+        <div class="info-card problema">
+          <div class="info-label">⚠️ Problema</div>
+          <p class="info-text" id="modalProblema"></p>
+        </div>
+        <div class="info-card resultado">
+          <div class="info-label">🎯 Resultado Esperado</div>
+          <p class="info-text" id="modalResultado"></p>
+        </div>
+        <div class="info-card analiseIA">
+          <div class="info-label">✨ Análise IA</div>
+          <p class="info-text" id="modalAnaliseIA"></p>
+        </div>
+      </div>
+      <div id="modalEntregaveisWrapper"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const LOGO_URL='https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
+    const LOGO_RAMPUP='https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
+
+    // Entrada de dados
+    let DATA=null;
+    window.injectData=function(payload){
+      try{ DATA= typeof payload==='string' ? JSON.parse(payload) : payload; renderAll(); showToast('✅ Dados carregados!'); }
+      catch(e){ showToast('❌ Erro: '+e.message); console.error(e); }
+    };
+
+    // Adapter: aceita tanto listas separadas quanto lista única com status
+    function normalizeHabilitador(habRaw){
+      const hasArrays = habRaw.viaveis || habRaw.a_estudar || habRaw.inviaveis;
+      if(hasArrays){
+        return {
+          nome: habRaw.nome || 'Habilitador',
+          viaveis: habRaw.viaveis || [],
+          a_estudar: habRaw.a_estudar || [],
+          inviaveis: habRaw.inviaveis || []
+        };
+      }
+      const ideias = Array.isArray(habRaw.ideias)? habRaw.ideias : [];
+      const viaveis   = ideias.filter(i=> (i.status||'').toLowerCase()==='viavel');
+      const a_estudar = ideias.filter(i=> (i.status||'').toLowerCase()==='a_estudar');
+      const inviaveis = ideias.filter(i=> (i.status||'').toLowerCase()==='inviavel');
+      return { nome: habRaw.nome||'Habilitador', viaveis, a_estudar, inviaveis };
+    }
+
+    function renderAll(){
+      if(!DATA || !Array.isArray(DATA.habilitadores) || DATA.habilitadores.length===0){
+        showToast('Nenhum habilitador encontrado nos dados.'); return;
+      }
+      const habNorm = normalizeHabilitador(DATA.habilitadores[0]);
+
+      // Métricas
+      const total = habNorm.viaveis.length + habNorm.a_estudar.length + habNorm.inviaveis.length;
+      document.getElementById('metricTotal').textContent = total;
+      document.getElementById('metricViaveis').textContent = habNorm.viaveis.length;
+      document.getElementById('metricEstudar').textContent = habNorm.a_estudar.length;
+      document.getElementById('metricInviaveis').textContent = habNorm.inviaveis.length;
+
+      // Textos
+      const splashEyebrow=document.querySelector('.splash-eyebrow');
+      if(splashEyebrow) splashEyebrow.textContent='Habilitador: ' + (habNorm.nome||'');
+
+      // Render
+      const container=document.getElementById('mainContainer');
+      container.innerHTML='';
+      const section=document.createElement('div');
+      section.className='habilitador-section'; section.dataset.habilitador=habNorm.nome;
+      const title=document.createElement('h2'); title.className='section-title'; title.textContent=habNorm.nome; section.appendChild(title);
+
+      // Três listas (sem timeline)
+      if(habNorm.viaveis.length>0){ section.appendChild(renderLista(habNorm.viaveis,'viavel','Viáveis')); }
+      if(habNorm.a_estudar.length>0){ section.appendChild(renderLista(habNorm.a_estudar,'estudar','A Estudar')); }
+      if(habNorm.inviaveis.length>0){ section.appendChild(renderLista(habNorm.inviaveis,'inviavel','Inviáveis')); }
+
+      container.appendChild(section);
+    }
+
+    function renderLista(iniciativas,tipo,tituloLista){
+      const wrapper=document.createElement('div'); wrapper.className='lista-wrapper';
+      const title=document.createElement('div'); title.className='lista-title ' + (tipo==='estudar'?'estudar':(tipo==='inviavel'?'inviavel':'')); title.textContent=tituloLista; wrapper.appendChild(title);
+      const items=document.createElement('div'); items.className='lista-items';
+      iniciativas.forEach((ini)=>{
+        const item=document.createElement('div'); item.className='lista-item'; item.onclick=()=>openModal(ini);
+        const tituloEl=document.createElement('div'); tituloEl.className='lista-item-titulo'; tituloEl.textContent=ini.titulo||'(Sem título)';
+        const badge=document.createElement('span'); badge.className='lista-item-badge '+(tipo==='estudar'?'estudar':(tipo==='inviavel'?'inviavel':'')); badge.textContent=(tipo==='estudar'?'A Estudar':(tipo==='inviavel'?'Inviável':'Viável'));
+        item.appendChild(tituloEl); item.appendChild(badge); items.appendChild(item);
+      });
+      wrapper.appendChild(items); return wrapper;
+    }
+
+    function openModal(data){
+      document.getElementById('modalTitle').textContent = data.titulo||'';
+      document.getElementById('modalContexto').textContent = data.contexto||'';
+      document.getElementById('modalProblema').textContent = data.problema||'';
+      document.getElementById('modalResultado').textContent = data.resultado||'';
+      document.getElementById('modalAnaliseIA').textContent = data.analiseIA||'';
+
+      const wrapper=document.getElementById('modalEntregaveisWrapper');
+      wrapper.innerHTML='';
+      if(Array.isArray(data.entregaveis) && data.entregaveis.length>0){
+        const div=document.createElement('div'); div.className='modal-entregaveis';
+        const t=document.createElement('div'); t.className='modal-entregaveis-title'; t.textContent='Entregáveis Previstos'; div.appendChild(t);
+        const ul=document.createElement('ul'); ul.className='modal-entregaveis-list';
+        data.entregaveis.forEach(ent=>{ const li=document.createElement('li'); li.textContent = ent.nome || '—'; ul.appendChild(li); });
+        div.appendChild(ul); wrapper.appendChild(div);
+      }
+      document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow='hidden';
+    }
+    function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+    // Infra
+    let _tt; function showToast(msg){ const el=document.getElementById('toast'); if(!el) return; el.textContent=msg; el.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),3000); }
+    function initSplash(){ const s=document.getElementById('splash'); const sl=document.getElementById('splashLogo'); if(!s) return; if(LOGO_RAMPUP){ const img=document.createElement('img'); img.src=LOGO_RAMPUP; img.alt='Logo Ramp Up 2026'; img.onerror=()=>sl.textContent='ER'; sl.innerHTML=''; sl.appendChild(img);} setTimeout(()=>{ s.classList.add('hide'); const rm=()=>{ if(s.parentNode){ s.remove(); document.body.style.overflow=''; } }; s.addEventListener('animationend',rm,{once:true}); setTimeout(rm,1000); },2500); document.body.style.overflow='hidden'; }
+    function initLogo(){ const c=document.getElementById('logoContainer'); if(!c||!LOGO_URL) return; const img=document.createElement('img'); img.src=LOGO_URL; img.className='logo-img'; img.alt='Logo EcoRodovias'; c.appendChild(img); }
+
+<!-- Replace -->
+
+
+    // Exemplo mínimo (remover em produção)
+    window.COPILOT_PAYLOAD={
+             "habilitadores":[{
+             "nome":"Tecnologia",
+             "viaveis": [{"id":"6","titulo":"Atualizar roadmap plurianual de dados para report da Transformação","contexto":"Necessidade de alinhamento entre dados e estratégia de transformação","problema":"Falta de visibilidade sobre entregas de valor e recuperação de receita","resultado":"Roadmap claro","analiseIA":""}],
+             "a_estudar": [],
+             "inviaveis": [{"id":"15","titulo":"Implementar uma arquitetura de \"Data Mesh\" (Malha de Dados)","contexto":"Descentralizar a gestão de dados, tratando-os como um produto de cada unidade de negócio (Ecovias, Ecoponte, Eco101, etc.), sob uma governança central","problema":"Atualmente, o time de Operações da EcoRodovias pode ter dados valiosos sobre o Free Flow que o time de Marketing ou Financeiro demora semanas para acessar ou entender.","resultado":"Redução drástica no tempo de geração de insights (Time-to-Insight) e maior autonomia para analistas criarem dashboards sem depender do TI central","analiseIA":""}]
+      }]
+    };
+    document.addEventListener('DOMContentLoaded',()=>{ initLogo(); initSplash(); if(window.COPILOT_PAYLOAD){ window.injectData(window.COPILOT_PAYLOAD); } });
+  </script>
+</body>
+</html>
