@@ -436,10 +436,10 @@
 
       // Atualizar textos de habilitador (splash e hero)
       const splashEyebrow = document.querySelector('.splash-eyebrow');
-      if (splashEyebrow) splashEyebrow.textContent = 'Habilitador: ' + (Dados);
+      if (splashEyebrow) splashEyebrow.textContent = 'Habilitador: ' + (hab.nome || '');
 
       const heroP = document.querySelector('.hero-left p');
-      if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de Dados || ''}.`;
+      if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
 
       // Renderizar lista de ideias
       renderHabilitadores(hab);
