@@ -298,7 +298,7 @@
   <div id="splash">
     <div class="splash-logo" id="splashLogo"></div>
     <div class="splash-text">
-      <div class="splash-eyebrow">Habilitador: [Habilitador]</div>
+      <div class="splash-eyebrow">Habilitador: Tecnologia</div>
     </div>
     <div class="splash-bar"></div>
   </div>
@@ -336,14 +336,14 @@
   <section class="hero">
     <div class="hero-left">
       <h1>Roadmap da Transformação <span>2026</span></h1>
-      <p>Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de [Habilitador].</p>
+      <p>Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de Tecnologia.</p>
     </div>
     <div class="hero-right">
       <div class="metrics-card">
         <div class="metrics-title">Ideias Recebidas</div>
         <div class="metrics-grid">
           <div class="metric-item total">
-            <div class="metric-value" id="metricTotal">[Ideias_Total]</div>
+            <div class="metric-value" id="metricTotal">6</div>
             <div class="metric-label">Total</div>
           </div>
   <!-- Inserir bloco com demais métricas -->
@@ -391,8 +391,7 @@
 
   <div class="toast" id="toast"></div>
 
- <!--@@PAYLOAD_JSON@@-->
-
+  
   <script>
     // URLs de logo
     const LOGO_URL = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
@@ -586,6 +585,8 @@ function openModal(ideia) {
 
       document.body.style.overflow = 'hidden';
     }
+
+window.COPILOT_PAYLOAD= {}
 
     function initLogo() {
       const container = document.getElementById('logoContainer');
