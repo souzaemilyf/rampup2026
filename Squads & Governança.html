@@ -346,7 +346,7 @@
             <div class="metric-value" id="metricTotal">6</div>
             <div class="metric-label">Total</div>
           </div>
-<!-------Inserir bloco com demais métricas------->
+  <!-- Inserir bloco com demais métricas -->
         </div>
       </div>
     </div>
@@ -392,11 +392,6 @@
   <div class="toast" id="toast"></div>
 
   
-<script>
-  window.COPILOT_PAYLOAD = {"habilitadores":[{"nome":"Squads & Governança","total":6,"ideias":[{"id":"1","titulo":"Atualizar governança com a nova estrutura de TD e Inovação","contexto":"Mudança organizacional","problema":"Alinhamento da governança à nova estrutura e identificação de oportunidades","resultado":"Diagnóstico de oportunidades e plano de ação para implantação imediata","analiseIA":""},{"id":"2","titulo":"Atualizar OKRs e conectar às metas do Planejamento Estratégico 25-30","contexto":"Revisão de metas estratégicas e operacionais","problema":"Falta de conexão entre metas e execução","resultado":"Governança clara e alinhada ao planejamento","analiseIA":""},{"id":"12","titulo":"Alinhamento com automation first; mapear competências da transformação.","contexto":"Seleção estratégica para suportar mudanças","problema":"Processos de seleção não priorizam competências digitais","resultado":"Times preparados para automação e transformação","analiseIA":""},{"id":"3","titulo":"Proteger o valor estratégico da transformação (cultural e financeiro)","contexto":"Sustentação da mudança organizacional","problema":"Risco de perda de valor durante o processo de transformação","resultado":"Garantia de impacto positivo e duradouro da transformação","analiseIA":""},{"id":"7","titulo":"Programa de Recompensas de Inovação – entender status e continuidade","contexto":"Avaliação de programa vigente","problema":"Falta de clareza sobre impacto e futuro do programa","resultado":"Decisão sobre manutenção, reformulação ou encerramento","analiseIA":""},{"id":"17","titulo":"Um agente que automatizasse minhas tarefas","contexto":"todas as minhas tarefas são repetidas, poderia ser feito uma atuomação em python","problema":"não sei responder","resultado":"diminuição de tempo","analiseIA":""}]}]};
-</script>
-
-
   <script>
     // URLs de logo
     const LOGO_URL = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
@@ -428,10 +423,10 @@
       // Atualizar total
 
        const metricTotalEl      = document.getElementById('metricTotal');
-//Inserir métricas1 aqui 
+// Inserir métricas1 aqui 
 
-      const m = hab.metricas; // << todas as métricas vêm daqui
-                if (metricTotalEl)      metricTotalEl.textContent      = m.total;
+      // total está diretamente em hab (não em hab.metricas)
+      if (metricTotalEl) metricTotalEl.textContent = hab.total ?? (hab.ideias ? hab.ideias.length : 0);
 // Inserir métricas2 aqui 
 
       // Atualizar textos de habilitador (splash e hero)
@@ -442,7 +437,10 @@
       if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
 
       // Renderizar lista de ideias
-      function renderHabilitadores(hab) {
+      renderHabilitadores(hab);
+    }
+
+    function renderHabilitadores(hab) {
       const container = document.getElementById('mainContainer');
       if (!container) return;
 
@@ -450,7 +448,7 @@
 
       const section = document.createElement('div');
       section.className = 'habilitador-section';
-                section.dataset.habilitador = hab.nome;
+      section.dataset.habilitador = hab.nome;
 
       const title = document.createElement('h2');
       title.className = 'section-title';
@@ -459,22 +457,27 @@
 
 //Inserir bloco separar ideias por status
 
-      
-      function criarLista(titulo, lista) {
-                if (!lista || lista.length === 0) return null;
+  // ===== Função auxiliar para criar listas =====
+      criarLista('Ideias recebidas', hab.ideias || [], section, hab);
+
+      container.appendChild(section);
+    }
+
+    function criarLista(titulo, lista, section, hab) {
+      if (!lista || lista.length === 0) return;
 
       const listaWrapper = document.createElement('div');
       listaWrapper.className = 'lista-wrapper';
 
       const listaTitle = document.createElement('div');
       listaTitle.className = 'lista-title';
-      listaTitle.textContent = 'Ideias recebidas';
+      listaTitle.textContent = titulo;
       listaWrapper.appendChild(listaTitle);
 
       const listaItems = document.createElement('div');
       listaItems.className = 'lista-items';
 
-      (hab.ideias || []).forEach(ideia => {
+      lista.forEach(ideia => {
         const item = document.createElement('div');
         item.className = 'lista-item';
         item.onclick = () => openModal(ideia);
@@ -489,7 +492,6 @@
 
       listaWrapper.appendChild(listaItems);
       section.appendChild(listaWrapper);
-      container.appendChild(section);
     }
 
 function openModal(ideia) {
@@ -570,14 +572,21 @@ function openModal(ideia) {
 
       setTimeout(() => {
         splash.classList.add('hide');
-        splash.addEventListener('animationend', () => {
-          splash.remove();
-          document.body.style.overflow = '';
-        }, { once: true });
+        // Fallback: remove o splash mesmo se animationend não disparar
+        const removeSplash = () => {
+          if (splash.parentNode) {
+            splash.remove();
+            document.body.style.overflow = '';
+          }
+        };
+        splash.addEventListener('animationend', removeSplash, { once: true });
+        setTimeout(removeSplash, 1000); // garante remoção após no máximo 1s
       }, 2500);
 
       document.body.style.overflow = 'hidden';
     }
+
+window.COPILOT_PAYLOAD= {}
 
     function initLogo() {
       const container = document.getElementById('logoContainer');
