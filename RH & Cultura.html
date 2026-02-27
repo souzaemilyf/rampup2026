@@ -630,6 +630,7 @@
     .info-card.contexto  { border-top-color: var(--c-700); }
     .info-card.problema  { border-top-color: #d97706; }
     .info-card.resultado { border-top-color: var(--c-500); }
+    .info-card.analiseIA { border-top-color: #005CFF; }
 
     .info-label {
       font-size: 14px;
@@ -642,6 +643,7 @@
     .info-card.contexto  .info-label { color: var(--c-900); }
     .info-card.problema  .info-label { color: #92400e; }
     .info-card.resultado .info-label { color: var(--c-500); }
+    .info-card.analiseIA .info-label { color: #005CFF; }
 
     .info-text {
       font-size: 13px;
@@ -812,7 +814,7 @@
       </div>
       <div class="info-card analiseIA">
         <div class="info-label">✨ Análise da IA</div>
-        <p class="info-text" id="modalResultado"></p>
+        <p class="info-text" id="modalanaliseIA"></p>
       </div>
     </div>
     <div id="modalEntregaveisWrapper"></div>
@@ -1246,6 +1248,7 @@ function openModal(iniciativa) {
   document.getElementById('modalContexto').textContent = iniciativa.contexto;
   document.getElementById('modalProblema').textContent = iniciativa.problema;
   document.getElementById('modalResultado').textContent = iniciativa.resultado;
+    document.getElementById('modalanaliseIA').textContent = iniciativa.analise;
   
   // Entregáveis (se houver)
   const wrapper = document.getElementById('modalEntregaveisWrapper');
@@ -1378,7 +1381,6 @@ window.COPILOT_PAYLOAD=
    }
  ]
 }
-
 
 </script>
 </body>
