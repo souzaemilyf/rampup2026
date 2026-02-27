@@ -1198,13 +1198,19 @@ function renderRoadmap(iniciativas, habilitadorNome) {
     tdIniciativa.textContent = iniciativa.titulo;
     tr.appendChild(tdIniciativa);
     
-    // Agrupar entregáveis por mês
-    const entregaveisPorMes = {};
+    // Agrupar entregáveis por TRIMESTRE
+    const entregaveisPorTri = {};
     (iniciativa.entregaveis || []).forEach(ent => {
-      const mes = ent.mes.toLowerCase().trim();
-      if (!entregaveisPorMes[mes]) entregaveisPorMes[mes] = [];
-      entregaveisPorMes[mes].push(ent.nome);
-    });
+    if (!ent.mes) return;
+    const mes = ent.mes.toLowerCase().trim();
+
+  // Descobre em qual TRIMESTRE esse mês está
+  const triObj = TRIMESTRES_COLUNAS.find(t => t.meses.includes(mes));
+  const triKey = triObj ? triObj.nome : 'OUTROS';
+
+  if (!entregaveisPorTri[triKey]) entregaveisPorTri[triKey] = [];
+  entregaveisPorTri[triKey].push(ent.nome);
+});
     
     // DEBUG - Entregáveis agrupados
     if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
@@ -1214,34 +1220,27 @@ function renderRoadmap(iniciativas, habilitadorNome) {
       console.log('Trimestres/meses a verificar:', TRIMESTRES_COLUNAS);
     }
     
-    // Colunas de meses
+    // Colunas de TRIMESTRES (células mescladas por trimestre)
     TRIMESTRES_COLUNAS.forEach(tri => {
-      tri.meses.forEach((mes, mesIdx) => {
-        const td = document.createElement('td');
-        td.className = 'mes-cell';
-        if (mesIdx === 0) td.classList.add('tri-start');
-        
-        const entregs = entregaveisPorMes[mes] || [];
-        
-        // DEBUG DETALHADO
-        if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-          console.log(`  → Mês '${mes}': ${entregs.length} entregáveis`, entregs);
-        }
-        
-        if (entregs.length > 0) {
-          entregs.forEach(nome => {
-            const pill = document.createElement('span');
-            pill.className = 'entregavel-pill';
-            pill.textContent = nome.length > 30 ? nome.substring(0, 27) + '...' : nome;
-            pill.title = nome;
-            td.appendChild(pill);
-            console.log(`    ✓ Pill criada: ${nome.substring(0, 30)}`);
-          });
-        }
-        
-        tr.appendChild(td);
-      });
+    const td = document.createElement('td');
+    td.className = 'mes-cell tri-cell';
+    td.colSpan = tri.meses.length;   // mescla as 3 colunas de meses
+
+    const entregs = entregaveisPorTri[tri.nome] || [];
+
+    // Cada entregável em uma linha separada
+    if (entregs.length > 0) {
+    entregs.forEach(nome => {
+      const pill = document.createElement('div');
+      pill.className = 'entregavel-pill';
+      pill.textContent = nome;
+      pill.title = nome;
+      td.appendChild(pill);
     });
+  }
+
+  tr.appendChild(td);
+});
     
     tbody.appendChild(tr);
   });
@@ -1449,6 +1448,7 @@ window.COPILOT_PAYLOAD=
     }
   ]
 }
+
 
 </script>
 </body>
