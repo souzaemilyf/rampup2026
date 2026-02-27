@@ -460,8 +460,7 @@
 
 
 
-    .lista-item:
-      hover {
+    .lista-item:hover {
       border-color: var(--c-500);
       box-shadow: var(--shadow);
       align-items: flex-start;
@@ -947,9 +946,42 @@ function normalizeDataByPhase() {
     });
   }
 
-  // FASE 3:
-  // - Usa os dados completos normalmente (viáveis + entregáveis)
-  // - Não precisa de alteração aqui
+// FASE 3 — converter entregaveis string → array
+if (window.faseAtual === 3) {
+  DATA.habilitadores.forEach(hab => {
+    ['viaveis', 'a_estudar', 'inviaveis'].forEach(listaNome => {
+      const lista = hab[listaNome];
+
+      if (Array.isArray(lista)) {
+        lista.forEach(iniciativa => {
+
+          // se não existir entregaveis
+          if (!iniciativa.entregaveis) {
+            iniciativa.entregaveis = [];
+            return;
+          }
+
+          // se vier STRING JSON
+          if (typeof iniciativa.entregaveis === 'string') {
+            try {
+              const parsed = JSON.parse(iniciativa.entregaveis);
+              iniciativa.entregaveis = Array.isArray(parsed) ? parsed : [];
+            } catch {
+              iniciativa.entregaveis = [];
+            }
+            return;
+          }
+
+          // se vier qualquer outra coisa que não seja array
+          if (!Array.isArray(iniciativa.entregaveis)) {
+            iniciativa.entregaveis = [];
+          }
+
+        });
+      }
+    });
+  });
+}
 }
 
 // ══════════════════════════════════════════════════════
