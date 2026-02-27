@@ -1008,6 +1008,11 @@ function renderHabilitadores() {
     title.textContent = hab.nome;
     section.appendChild(title);
     
+    // 🔹 LISTA VIÁVEIS  (Fase 2 e 3)
+    if (hab.viaveis && hab.viaveis.length > 0) {
+      section.appendChild(renderLista(hab.viaveis, 'viavel', 'Viáveis'));
+    }
+    
     // 🔹 ROADMAP (viáveis) — só na FASE 3
     if (window.faseAtual === 3 && hab.viaveis && hab.viaveis.length > 0) {
       section.appendChild(renderRoadmap(hab.viaveis, hab.nome));
@@ -1019,8 +1024,7 @@ function renderHabilitadores() {
       section.appendChild(renderLista(hab.a_estudar, 'estudar', tituloLista));
     }
     
-    // 🔹 LISTA INVIÁVEIS (não aparece na fase 1 porque normalizeDataByPhase
-    // junta tudo em a_estudar e zera inviaveis)
+    // 🔹 LISTA INVIÁVEIS
     if (hab.inviaveis && hab.inviaveis.length > 0) {
       section.appendChild(renderLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
     }
@@ -1244,7 +1248,7 @@ function renderLista(iniciativas, tipo, tituloLista) {
 
     // 🔹 FASE 1: não exibe badge de status (fica só o título)
     // 🔹 FASE 2 e 3: exibe o badge normalmente
-  if (window.faseAtual !== 1) {
+if (window.faseAtual !== 1) {
   const badge = document.createElement('span');
   badge.className = `lista-item-badge ${tipo}`;
   
@@ -1259,6 +1263,7 @@ function renderLista(iniciativas, tipo, tituloLista) {
 
   item.appendChild(badge);
 }
+
 
     items.appendChild(item);
   });
