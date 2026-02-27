@@ -436,6 +436,16 @@
       gap: 8px;
     }
 
+    .lista-title.viavel {
+      border-left-color: var(--c-700);
+      color: var(--c-700);
+    }
+
+    .lista-item-badge.viavel {
+      background: #dcfce7;
+      color: #166534;
+    }
+
     .lista-item {
       background: var(--white);
       border: 1px solid var(--ink-200);
@@ -448,16 +458,24 @@
       justify-content: space-between;
     }
 
-    .lista-item:hover {
+
+
+    .lista-item:
+      hover {
       border-color: var(--c-500);
       box-shadow: var(--shadow);
-    }
+      align-items: flex-start;
+}
 
     .lista-item-titulo {
       font-size: 13px;
       font-weight: 500;
       color: var(--ink-900);
-    }
+      max-width: 700px;
+      white-space: normal !important;     /* permite quebra */
+      flex: 1 1 auto !important;          /* PERMITE encolher */
+      min-width: 0 !important;            /* LIBERA o flex para reduzir */
+}
 
     .lista-item-badge {
       font-size: 10px;
@@ -630,7 +648,7 @@
     .info-card.contexto  { border-top-color: var(--c-700); }
     .info-card.problema  { border-top-color: #d97706; }
     .info-card.resultado { border-top-color: var(--c-500); }
-    .info-card.analiseIA { border-top-color: #005CFF; }
+    .info-card.analiseIA { border-top-color: #005CFF; grid-column: 1 / -1;}
 
     .info-label {
       font-size: 14px;
@@ -643,7 +661,7 @@
     .info-card.contexto  .info-label { color: var(--c-900); }
     .info-card.problema  .info-label { color: #92400e; }
     .info-card.resultado .info-label { color: var(--c-500); }
-    .info-card.analiseIA .info-label { color: #005CFF; }
+    .info-card.analiseIA .info-label { color: #005CFF; grid-column: 1 / -1;}
 
     .info-text {
       font-size: 13px;
@@ -1226,12 +1244,21 @@ function renderLista(iniciativas, tipo, tituloLista) {
 
     // 🔹 FASE 1: não exibe badge de status (fica só o título)
     // 🔹 FASE 2 e 3: exibe o badge normalmente
-    if (window.faseAtual !== 1) {
-      const badge = document.createElement('span');
-      badge.className = `lista-item-badge ${tipo}`;
-      badge.textContent = tipo === 'estudar' ? 'A Estudar' : 'Inviável';
-      item.appendChild(badge);
-    }
+  if (window.faseAtual !== 1) {
+  const badge = document.createElement('span');
+  badge.className = `lista-item-badge ${tipo}`;
+  
+  if (tipo === 'estudar') {
+    badge.textContent = 'A Estudar';
+  } else if (tipo === 'viavel') {
+    badge.textContent = 'Viável';
+  } else {
+    // inviavel
+    badge.textContent = 'Inviável';
+  }
+
+  item.appendChild(badge);
+}
 
     items.appendChild(item);
   });
