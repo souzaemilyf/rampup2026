@@ -1212,13 +1212,6 @@ function renderRoadmap(iniciativas, habilitadorNome) {
   entregaveisPorTri[triKey].push(ent.nome);
 });
     
-    // DEBUG - Entregáveis agrupados
-    if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-      console.log('═══════════════════════════════');
-      console.log('Iniciativa:', iniciativa.titulo);
-      console.log('Entregáveis agrupados por mês:', entregaveisPorMes);
-      console.log('Trimestres/meses a verificar:', TRIMESTRES_COLUNAS);
-    }
     
     // Colunas de TRIMESTRES (células mescladas por trimestre)
     TRIMESTRES_COLUNAS.forEach(tri => {
