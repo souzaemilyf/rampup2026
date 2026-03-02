@@ -314,6 +314,7 @@
       width: 100%;
       border-collapse: collapse;
       min-width: 900px;
+      table-layout: fixed;
     }
 
     .gantt-table th {
@@ -324,7 +325,7 @@
       color: var(--white);
       background: var(--c-700);
       padding: 10px 14px;
-      border: 1px solid var(--c-900);
+      border: 1px solid var(--ink-100);
       text-align: center;
       white-space: nowrap;
       position: sticky;
@@ -355,7 +356,8 @@
 
     .gantt-table th.col-iniciativa {
       text-align: left;
-      min-width: 280px;
+      min-width: 200px;
+      width: 200px;
       background: var(--c-900);
       border-right: 1px solid rgba(0, 0, 0, 0.15);
     }
@@ -392,23 +394,45 @@
       color: var(--ink-600);
       padding: 4px;
     }
-    
+
+
+    .gantt-table td.tri-cell {
+      text-align: left !important;
+      vertical-align: top !important;
+    }
 
 
     .entregavel-pill {
       display: block;
       background: var(--c-700);
       color: var(--white);
-      font-size: 10px;
-      font-weight: 600;
-      padding: 6px 6px;
+      font-size: 8px;
+      font-weight: 400;
+      padding: 4px 4px;
       border-radius: 4px;
-      margin: 3px;
+      margin: 2px;
       white-space: normal;
       overflow: visible;
-      line-height: 1.3;
-      min-height: 26px;
+      line-height: 1.2;
+      min-height: 0;
+      
     }
+
+
+    .tri-cell .entregavel-pill {
+      display: block !important;
+      width: 100%;
+      white-space: normal !important;
+      margin-bottom: 4px;
+    }
+
+
+
+    .tri-cell {
+      text-align: left !important;
+      vertical-align: top !important;
+    }
+
 
 
     /* ══════════════════════════════
@@ -460,8 +484,7 @@
 
 
 
-    .lista-item:
-      hover {
+    .lista-item:hover {
       border-color: var(--c-500);
       box-shadow: var(--shadow);
       align-items: flex-start;
@@ -947,9 +970,42 @@ function normalizeDataByPhase() {
     });
   }
 
-  // FASE 3:
-  // - Usa os dados completos normalmente (viáveis + entregáveis)
-  // - Não precisa de alteração aqui
+// FASE 3 — converter entregaveis string → array
+if (window.faseAtual === 3) {
+  DATA.habilitadores.forEach(hab => {
+    ['viaveis', 'a_estudar', 'inviaveis'].forEach(listaNome => {
+      const lista = hab[listaNome];
+
+      if (Array.isArray(lista)) {
+        lista.forEach(iniciativa => {
+
+          // se não existir entregaveis
+          if (!iniciativa.entregaveis) {
+            iniciativa.entregaveis = [];
+            return;
+          }
+
+          // se vier STRING JSON
+          if (typeof iniciativa.entregaveis === 'string') {
+            try {
+              const parsed = JSON.parse(iniciativa.entregaveis);
+              iniciativa.entregaveis = Array.isArray(parsed) ? parsed : [];
+            } catch {
+              iniciativa.entregaveis = [];
+            }
+            return;
+          }
+
+          // se vier qualquer outra coisa que não seja array
+          if (!Array.isArray(iniciativa.entregaveis)) {
+            iniciativa.entregaveis = [];
+          }
+
+        });
+      }
+    });
+  });
+}
 }
 
 // ══════════════════════════════════════════════════════
@@ -1008,9 +1064,9 @@ function renderHabilitadores() {
     title.textContent = hab.nome;
     section.appendChild(title);
     
-    // 🔹 LISTA VIÁVEIS  (Fase 2 e 3)
-    if (hab.viaveis && hab.viaveis.length > 0) {
-      section.appendChild(renderLista(hab.viaveis, 'viavel', 'Viáveis'));
+    // 🔹 LISTA VIÁVEIS — somente Fase 2
+    if (window.faseAtual === 2 && hab.viaveis && hab.viaveis.length > 0) {
+    section.appendChild(renderLista(hab.viaveis, 'viavel', 'Viáveis'));
     }
     
     // 🔹 ROADMAP (viáveis) — só na FASE 3
@@ -1151,68 +1207,70 @@ function renderRoadmap(iniciativas, habilitadorNome) {
   thead.appendChild(mesesRow);
   table.appendChild(thead);
   
-  // BODY
-  const tbody = document.createElement('tbody');
-  
-  iniciativas.forEach(iniciativa => {
+// BODY
+const tbody = document.createElement('tbody');
+
+iniciativas.forEach(iniciativa => {
+  const entregaveis = iniciativa.entregaveis || [];
+  if (!entregaveis.length) return;
+
+  // 1) Mapeia cada entregável para seu TRIMESTRE
+  const entregaveisComTri = entregaveis
+    .filter(ent => ent.mes) // ignora entregáveis sem mês
+    .map(ent => {
+      const mes = ent.mes.toLowerCase().trim();
+      const triObj = TRIMESTRES_COLUNAS.find(t => t.meses.includes(mes));
+      return {
+        nome: ent.nome,
+        tri: triObj ? triObj.nome : null
+      };
+    })
+    .filter(ent => ent.tri); // ignora se não achar tri
+
+  if (!entregaveisComTri.length) return;
+
+  // (Opcional) Ordena por ordem dos trimestres
+  const ordemTri = TRIMESTRES_COLUNAS.map(t => t.nome);
+  entregaveisComTri.sort((a, b) => ordemTri.indexOf(a.tri) - ordemTri.indexOf(b.tri));
+
+  const totalLinhas = entregaveisComTri.length;
+
+  entregaveisComTri.forEach((ent, index) => {
     const tr = document.createElement('tr');
     tr.onclick = () => openModal(iniciativa);
-    
-    // Coluna da iniciativa
-    const tdIniciativa = document.createElement('td');
-    tdIniciativa.className = 'iniciativa-cell';
-    tdIniciativa.textContent = iniciativa.titulo;
-    tr.appendChild(tdIniciativa);
-    
-    // Agrupar entregáveis por mês
-    const entregaveisPorMes = {};
-    (iniciativa.entregaveis || []).forEach(ent => {
-      const mes = ent.mes.toLowerCase().trim();
-      if (!entregaveisPorMes[mes]) entregaveisPorMes[mes] = [];
-      entregaveisPorMes[mes].push(ent.nome);
-    });
-    
-    // DEBUG - Entregáveis agrupados
-    if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-      console.log('═══════════════════════════════');
-      console.log('Iniciativa:', iniciativa.titulo);
-      console.log('Entregáveis agrupados por mês:', entregaveisPorMes);
-      console.log('Trimestres/meses a verificar:', TRIMESTRES_COLUNAS);
+
+    // Coluna da iniciativa só na primeira linha (rowSpan)
+    if (index === 0) {
+      const tdIniciativa = document.createElement('td');
+      tdIniciativa.className = 'iniciativa-cell';
+      tdIniciativa.textContent = iniciativa.titulo;
+      tdIniciativa.rowSpan = totalLinhas;
+      tr.appendChild(tdIniciativa);
     }
-    
-    // Colunas de meses
+
+    // Para cada trimestre, criamos um TD mesclado e colocamos
+    // o entregável SOMENTE no trimestre correspondente
     TRIMESTRES_COLUNAS.forEach(tri => {
-      tri.meses.forEach((mes, mesIdx) => {
-        const td = document.createElement('td');
-        td.className = 'mes-cell';
-        if (mesIdx === 0) td.classList.add('tri-start');
-        
-        const entregs = entregaveisPorMes[mes] || [];
-        
-        // DEBUG DETALHADO
-        if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-          console.log(`  → Mês '${mes}': ${entregs.length} entregáveis`, entregs);
-        }
-        
-        if (entregs.length > 0) {
-          entregs.forEach(nome => {
-            const pill = document.createElement('span');
-            pill.className = 'entregavel-pill';
-            pill.textContent = nome.length > 30 ? nome.substring(0, 27) + '...' : nome;
-            pill.title = nome;
-            td.appendChild(pill);
-            console.log(`    ✓ Pill criada: ${nome.substring(0, 30)}`);
-          });
-        }
-        
-        tr.appendChild(td);
-      });
+      const td = document.createElement('td');
+      td.className = 'mes-cell tri-cell';
+      td.colSpan = tri.meses.length;
+
+      if (ent.tri === tri.nome) {
+        const pill = document.createElement('div');
+        pill.className = 'entregavel-pill';
+        pill.textContent = ent.nome;
+        pill.title = ent.nome;
+        td.appendChild(pill);
+      }
+
+      tr.appendChild(td);
     });
-    
+
     tbody.appendChild(tr);
   });
-  
-  table.appendChild(tbody);
+});
+
+table.appendChild(tbody);
   scrollDiv.appendChild(table);
   wrapper.appendChild(scrollDiv);
   
@@ -1399,22 +1457,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.COPILOT_PAYLOAD=
 {
-  "fase": 3,
+  "fase": 1,
   "metricas": {
-    "total": 6,
-    "viaveis": 2,
-    "a_estudar": 2,
-    "inviaveis": 2
+    "total": 6
   },
   "habilitadores": [
     {
       "nome": "RH & Cultura",
-      "viaveis": [{"id":"22","titulo":"Criar uma plataforma interna onde áreas possam \"anunciar\" micro-tarefas ou projetos de curto prazo para colaboradores de outras áreas/unidades dedicarem 10% do seu tempo.","contexto":"permitir que pessoas testem novas carreiras sem sair da empresa","problema":"Silos organizacionais e subutilização de talentos","resultado":"Descoberta de talentos internos, maior retenção de pessoas","analise":"Esta ideia resolve o problema dos silos organizacionais e da subutilização de talentos, promovendo integração entre áreas e aproveitamento máximo das capacidades dos colaboradores.  \nPode gerar impacto em retenção de pessoas, descoberta de talentos internos, engajamento, eficiência operacional e experiência do colaborador [1]​[2].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"},{"id":"53","titulo":"Avaliar ocupantes de posições-chave: aplicar assessment de adesão ao mindset e mapa de influências","contexto":"Necessidade de evolução de competências para transformação; plano de ação para detratores e promotores","problema":"Resistência cultural e falta de clareza sobre papéis","resultado":"Cultura alinhada à transformação, com líderes influentes e engajados","analise":"Esta ideia resolve a resistência cultural e a falta de clareza sobre papéis, promovendo uma cultura alinhada à transformação. Pode gerar impacto em eficiência operacional, engajamento da liderança e aceleração da transformação digital. OKR: Fortalecer cultura digital, garantir liderança como sponsor e maximizar resultados do negócio core. Árvore de valor: Eixo de cultura organizacional e liderança transformadora [1].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"}],
-      "a_estudar":  [{"id":"48","titulo":"Recompensas atreladas à evolução das competências; valiar novos formatos; indicadores de valor; metodologia OKR e ICP.","contexto":"Incentivos são críticos para engajamento e sucesso da transformação.\n","problema":"Falta de conexão entre performance e evolução\n","resultado":"Sistema de recompensas que impulsione transformação e inovação\n","analise":"Esta ideia resolve a falta de conexão entre performance e evolução, promovendo um sistema de recompensas alinhado à transformação e inovação. Pode gerar impacto em engajamento, eficiência operacional, experiência do usuário e governança. OKR: Fortalecer cultura digital (30% das horas de treinamento de liderança focadas em digital/IA; 70% favorabilidade de engajamento da transformação), Garantir liderança como sponsor (mindset de transformação em 100% das avaliações; 80% ou mais dos líderes com evidências mensais de comportamento sponsor). Árvore de valor: Engajamento, eficiência operacional e cultura de transformação [1].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"},{"id":"55","titulo":"Alinhamento sobre os desligamentos relacionados à eficiência;","contexto":"A empresa enfrenta barreiras políticas internas que dificultam decisões de desligamento por baixa performance, enfraquecendo iniciativas de eficiência e transformação cultural.","problema":"A ausência de alinhamento entre áreas e lideranças gera resistência a decisões necessárias, mantém colaboradores com desempenho abaixo do esperado e impede avanços reais na maturidade de gestão.","resultado":"O alinhamento sobre desligamentos ligados à eficiência fortalece a cultura de responsabilização, reduz interferências políticas, dá respaldo às lideranças e cria um ambiente mais coerente com a agenda de performance e evolução organizacional.","analise":"Esta ideia resolve a falta de alinhamento entre áreas e lideranças, que dificulta decisões de desligamento por baixa performance e impede avanços na maturidade de gestão. Pode gerar impacto em eficiência operacional, fortalecimento da cultura de responsabilização e evolução organizacional. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento, Fortalecer cultura digital. Árvore de valor: Eficiência operacional, cultura e gestão, crescimento e evolução organizacional [1].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"}],
-      "inviaveis":  [{"id":"40","titulo":"Fomento da cultura de citizen developer","contexto":"a necessidade de disseminação de conhecimento entre áreas da companhia","problema":"facilita a disseminação de conhecimento e o protagonismo de cada pessoa, em cada área","resultado":"desenvolver pessoas que sejam capazes de rodar iniciativas de tecnologia de forma autonoma, com baixa dependencia de fornecedores e/ou area de tecnologia.","analise":"Esta ideia resolve a necessidade de disseminar conhecimento entre áreas e promover o protagonismo de cada pessoa. Pode gerar impacto em eficiência operacional, experiência do usuário e governança. OKR: 3, 4. Árvore de valor: Fortalecimento da cultura digital e eficiência administrativa [1].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"},{"id":"54","titulo":"Criar novos modelos de contratação e relações de trabalho","contexto":"Acordos individuais para jornada; troca de CLT para PJ; contrato misto; apoio a desligamentos.","problema":"Estrutura atual limita agilidade, produtividade e eficiência","resultado":"Modelos de trabalho mais adaptáveis e produtivos","analise":"Esta ideia resolve a limitação de agilidade, produtividade e eficiência causada pela estrutura atual. Pode gerar impacto em eficiência operacional, produtividade e experiência do usuário. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento. Árvore de valor: Eficiência operacional e crescimento do negócio [1].","entregaveis":"[{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"2 Tri\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"},{\"nome\":\"Teste\",\"mes\":\"\"}]"}]
-    }
-  ]
+      "viaveis": [],
+      "a_estudar": 
+        [{"id":"22","titulo":"Criar uma plataforma interna onde áreas possam \"anunciar\" micro-tarefas ou projetos de curto prazo para colaboradores de outras áreas/unidades dedicarem 10% do seu tempo.","contexto":"permitir que pessoas testem novas carreiras sem sair da empresa","problema":"Silos organizacionais e subutilização de talentos","resultado":"Descoberta de talentos internos, maior retenção de pessoas","analise":"Esta ideia resolve o problema dos silos organizacionais e da subutilização de talentos, promovendo integração entre áreas e aproveitamento máximo das capacidades dos colaboradores.  \nPode gerar impacto em retenção de pessoas, descoberta de talentos internos, engajamento, eficiência operacional e experiência do colaborador [1]​[2]."},{"id":"40","titulo":"Fomento da cultura de citizen developer","contexto":"a necessidade de disseminação de conhecimento entre áreas da companhia","problema":"facilita a disseminação de conhecimento e o protagonismo de cada pessoa, em cada área","resultado":"desenvolver pessoas que sejam capazes de rodar iniciativas de tecnologia de forma autonoma, com baixa dependencia de fornecedores e/ou area de tecnologia.","analise":"Esta ideia resolve a necessidade de disseminar conhecimento entre áreas e promover o protagonismo de cada pessoa. Pode gerar impacto em eficiência operacional, experiência do usuário e governança. OKR: 3, 4. Árvore de valor: Fortalecimento da cultura digital e eficiência administrativa [1]."},{"id":"48","titulo":"Recompensas atreladas à evolução das competências; valiar novos formatos; indicadores de valor; metodologia OKR e ICP.","contexto":"Incentivos são críticos para engajamento e sucesso da transformação.\n","problema":"Falta de conexão entre performance e evolução\n","resultado":"Sistema de recompensas que impulsione transformação e inovação\n","analise":"Esta ideia resolve a falta de conexão entre performance e evolução, promovendo um sistema de recompensas alinhado à transformação e inovação. Pode gerar impacto em engajamento, eficiência operacional, experiência do usuário e governança. OKR: Fortalecer cultura digital (30% das horas de treinamento de liderança focadas em digital/IA; 70% favorabilidade de engajamento da transformação), Garantir liderança como sponsor (mindset de transformação em 100% das avaliações; 80% ou mais dos líderes com evidências mensais de comportamento sponsor). Árvore de valor: Engajamento, eficiência operacional e cultura de transformação [1]."},{"id":"53","titulo":"Avaliar ocupantes de posições-chave: aplicar assessment de adesão ao mindset e mapa de influências","contexto":"Necessidade de evolução de competências para transformação; plano de ação para detratores e promotores","problema":"Resistência cultural e falta de clareza sobre papéis","resultado":"Cultura alinhada à transformação, com líderes influentes e engajados","analise":"Esta ideia resolve a resistência cultural e a falta de clareza sobre papéis, promovendo uma cultura alinhada à transformação. Pode gerar impacto em eficiência operacional, engajamento da liderança e aceleração da transformação digital. OKR: Fortalecer cultura digital, garantir liderança como sponsor e maximizar resultados do negócio core. Árvore de valor: Eixo de cultura organizacional e liderança transformadora [1]."},{"id":"54","titulo":"Criar novos modelos de contratação e relações de trabalho","contexto":"Acordos individuais para jornada; troca de CLT para PJ; contrato misto; apoio a desligamentos.","problema":"Estrutura atual limita agilidade, produtividade e eficiência","resultado":"Modelos de trabalho mais adaptáveis e produtivos","analise":"Esta ideia resolve a limitação de agilidade, produtividade e eficiência causada pela estrutura atual. Pode gerar impacto em eficiência operacional, produtividade e experiência do usuário. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento. Árvore de valor: Eficiência operacional e crescimento do negócio [1]."},{"id":"55","titulo":"Alinhamento sobre os desligamentos relacionados à eficiência;","contexto":"A empresa enfrenta barreiras políticas internas que dificultam decisões de desligamento por baixa performance, enfraquecendo iniciativas de eficiência e transformação cultural.","problema":"A ausência de alinhamento entre áreas e lideranças gera resistência a decisões necessárias, mantém colaboradores com desempenho abaixo do esperado e impede avanços reais na maturidade de gestão.","resultado":"O alinhamento sobre desligamentos ligados à eficiência fortalece a cultura de responsabilização, reduz interferências políticas, dá respaldo às lideranças e cria um ambiente mais coerente com a agenda de performance e evolução organizacional.","analise":"Esta ideia resolve a falta de alinhamento entre áreas e lideranças, que dificulta decisões de desligamento por baixa performance e impede avanços na maturidade de gestão. Pode gerar impacto em eficiência operacional, fortalecimento da cultura de responsabilização e evolução organizacional. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento, Fortalecer cultura digital. Árvore de valor: Eficiência operacional, cultura e gestão, crescimento e evolução organizacional [1]."}],
+       "inviaveis": []
+   }
+ ]
 }
+//32048b09-2f74-4b56-b25b-233ec715dd10
+
 
 </script>
 </body>
