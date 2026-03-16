@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ramp Up da Transformação 2026</title>
+  <title>RampUp da Transformação 2026</title>
   <link rel="shortcut icon" href="https://www.ecorodovias.com.br/wp-content/uploads/2025/03/favicon.svg" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -13,27 +13,23 @@
       --c-700: #1da013;
       --c-500: #72d216;
       --c-200: #72d216;
-      --c-50:  #edf7ee;
+      --c-50: #edf7ee;
       --white: #ffffff;
-      --bg:    #f7f8f7;
-
+      --bg: #f7f8f7;
       /* ── NEUTROS ── */
       --ink-900: #111714;
       --ink-600: #374a3c;
       --ink-400: #6b826f;
       --ink-200: #c4d1c6;
       --ink-100: #e8ede9;
-
       /* ── ESPAÇAMENTO & FORMA ── */
-      --radius:    12px;
+      --radius: 12px;
       --radius-sm: 8px;
-      --shadow:    0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+      --shadow: 0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
       --shadow-lg: 0 2px 8px rgba(0,0,0,.10), 0 16px 48px rgba(0,0,0,.12);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Lexend', sans-serif;
       font-weight: 400;
@@ -42,10 +38,7 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* ══════════════════════════════
-       HEADER
-    ══════════════════════════════ */
+    /* HEADER */
     header {
       position: sticky; top: 0; z-index: 100;
       background: var(--c-900);
@@ -54,20 +47,15 @@
       height: 64px;
       display: flex; align-items: center; justify-content: center;
     }
-
     .logo-container {
       width: 140px; height: 40px;
       display: flex; align-items: center; justify-content: center;
     }
-
     .logo-img {
       max-width: 100%; max-height: 100%;
       object-fit: contain;
     }
-
-    /* ══════════════════════════════
-       SPLASH SCREEN
-    ══════════════════════════════ */
+    /* SPLASH SCREEN */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
       background: var(--c-900);
@@ -76,59 +64,49 @@
       transform: translateY(-100%);
       animation: splashDown 0.7s cubic-bezier(.22,1,.36,1) forwards;
     }
-
     @keyframes splashDown {
       from { transform: translateY(-100%); }
-      to   { transform: translateY(0); }
+      to { transform: translateY(0); }
     }
-
     #splash.hide {
       animation: splashUp 0.7s cubic-bezier(.55,0,1,.45) forwards;
     }
-
     @keyframes splashUp {
       from { transform: translateY(0); opacity: 1; }
-      to   { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(-100%); opacity: 0; }
     }
-
     .splash-logo {
       width: 200px; height: 200px;
       border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
       opacity: 0;
-      animation: fadeIn .5s ease .5s forwards;
+      animation: fadeIn .10s ease .10s forwards;
     }
-
     .splash-logo img {
       width: auto; height: 300px;
-      max-width: 300px; object-fit: contain;
+      max-width: 500px; object-fit: contain;
     }
-
     .splash-text {
       text-align: center;
       opacity: 0;
       animation: fadeIn .5s ease .75s forwards;
     }
-
     .splash-eyebrow {
-      font-size: 13px; font-weight: 600;
+      font-size: 16px; font-weight: 600;
       letter-spacing: 2px; text-transform: uppercase;
       color: var(--c-200);
       margin-bottom: 14px;
     }
-
     .splash-title {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: clamp(22px, 3.5vw, 38px);
+      font-weight: 800;
       color: var(--white);
       line-height: 1.2;
       max-width: 560px;
     }
-
     .splash-title span {
       color: var(--c-200);
     }
-
     .splash-bar {
       width: 48px; height: 3px;
       background: var(--c-500);
@@ -136,15 +114,11 @@
       opacity: 0;
       animation: fadeIn .4s ease 1s forwards;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
+    /* HERO */
     .hero {
       max-width: 1400px; margin: 0 auto;
       padding: 56px 48px 40px;
@@ -154,7 +128,6 @@
       align-items: center;
       border-bottom: 1px solid var(--ink-100);
     }
-
     .hero-left h1 {
       font-weight: 800;
       font-size: clamp(28px, 3.5vw, 46px);
@@ -163,21 +136,16 @@
       letter-spacing: -.5px;
       max-width: 580px;
     }
-
     .hero-left h1 span {
       color: var(--c-500);
     }
-
     .hero-left p {
-      margin-top: 14px;
+      margin-top: 0px;
       color: var(--ink-900);
-      font-size: 16px; font-weight: 300;
-      font-weight: 400;
+      font-size: 16px; font-weight: 400;
       line-height: 1.65;
       max-width: 460px;
     }
-
-    /* CARD DE MÉTRICAS */
     .metrics-card {
       background: var(--white);
       border: 1px solid var(--ink-200);
@@ -186,94 +154,27 @@
       min-width: 280px;
       box-shadow: var(--shadow);
     }
-
     .metrics-title {
       font-size: 12px; font-weight: 600;
       letter-spacing: .8px; text-transform: uppercase;
       color: var(--ink-400);
       margin-bottom: 18px;
     }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .metric-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .metric-item { display:flex; flex-direction:column; gap:4px; }
     .metric-value {
       font-size: 32px;
       font-weight: 800;
-      color: var(--c-700);
+      color: var(--ink-900);
       line-height: 1;
     }
-
-    .metric-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink-600);
-    }
-
-    .metric-item.total .metric-value { color: var(--ink-900); }
-    .metric-item.viaveis .metric-value { color: var(--c-700); }
-    .metric-item.estudar .metric-value { color: #d97706; }
-    .metric-item.inviaveis .metric-value { color: var(--ink-400); }
-
-    /* ══════════════════════════════
-       TOOLBAR (FILTROS)
-    ══════════════════════════════ */
-    .toolbar {
-      max-width: 1400px; margin: 0 auto;
-      padding: 20px 48px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid var(--ink-100);
-      position: sticky;
-      top: 64px;
-      background: var(--bg);
-      z-index: 90;
-    }
-
-    .toolbar-label {
-      font-size: 12px; font-weight: 500;
-      color: var(--ink-400);
-      margin-right: 4px;
-      text-transform: uppercase; letter-spacing: .5px;
-    }
-
-    .filter-btn {
-      background: var(--white);
-      border: 1px solid var(--ink-200);
-      color: var(--ink-600);
-      font-family: 'Lexend', sans-serif;
-      font-size: 12px; font-weight: 500;
-      padding: 5px 14px; border-radius: 6px;
-      cursor: pointer;
-      transition: background .15s, border-color .15s, color .15s;
-    }
-    .filter-btn:hover  { border-color: var(--c-500); color: var(--c-700); }
-    .filter-btn.active { background: var(--c-700); color: var(--white); border-color: var(--c-700); }
-
-    /* ══════════════════════════════
-       CONTAINER PRINCIPAL
-    ══════════════════════════════ */
+    .metric-label { font-size: 12px; font-weight: 500; color: var(--ink-600); }
+    /* CONTAINER PRINCIPAL */
     .container {
       max-width: 1400px; margin: 0 auto;
       padding: 40px 48px 80px;
     }
-
-    .habilitador-section {
-      margin-bottom: 60px;
-    }
-
-    .habilitador-section.hidden {
-      display: none;
-    }
-
+    .habilitador-section { margin-bottom: 60px; }
     .section-title {
       font-weight: 800;
       font-size: 28px;
@@ -282,194 +183,16 @@
       padding-bottom: 16px;
       border-bottom: 3px solid var(--c-700);
     }
-
-    /* ══════════════════════════════
-       ROADMAP GANTT (TABELA)
-    ══════════════════════════════ */
-    .roadmap-wrapper {
-      margin: 32px 0;
-    }
-
-    .roadmap-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--c-700);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .gantt-scroll {
-      overflow-x: auto;
-      background: var(--white);
-      border: 1px solid var(--ink-200);
-      border-radius: var(--radius);
-    }
-
-    .gantt-scroll::-webkit-scrollbar { height: 5px; }
-    .gantt-scroll::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 99px; }
-
-    .gantt-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-      table-layout: fixed;
-    }
-
-    .gantt-table th {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--c-700);
-      padding: 10px 14px;
-      border: 1px solid var(--ink-100);
-      text-align: center;
-      white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    
-    .gantt-table thead tr:first-child th {
-      background: var(--c-900);
-      font-size: 13px;
-      font-weight: 800;
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--ink-200);
-      border-right: 2px solid var(--c-900);
-    }
-    
-    .gantt-table thead tr:first-child th:last-child {
-      border-right: 1px solid var(--c-900);
-    }
-    
-    .gantt-table thead tr:nth-child(2) th {
-      background: #f5f5f5;
-      color: #6b826f;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 6px 10px;
-    }
-
-    .gantt-table th.col-iniciativa {
-      text-align: left;
-      min-width: 200px;
-      width: 200px;
-      background: var(--c-900);
-      border-right: 1px solid rgba(0, 0, 0, 0.15);
-    }
-
-    .gantt-table tbody tr {
-      cursor: pointer;
-      transition: background .15s;
-    }
-
-    .gantt-table tbody tr:hover {
-      background: var(--c-50);
-    }
-
-    .gantt-table td {
-      border: 1px solid var(--ink-100);
-      padding: 4px;
-      min-height: 50px;
-      vertical-align: top;
-    }
-
-    .gantt-table td.iniciativa-cell {
-      padding: 12px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      background: var(--white);
-      border-right: 1px solid rgba(0, 0, 0, 0.75);
-    }
-
-    .gantt-table td.mes-cell {
-      position: relative;
-      text-align: center;
-      font-size: 11px;
-      color: var(--ink-600);
-      padding: 4px;
-    }
-
-
-    .gantt-table td.tri-cell {
-      text-align: left !important;
-      vertical-align: top !important;
-    }
-
-
-    .entregavel-pill {
-      display: block;
-      background: var(--c-700);
-      color: var(--white);
-      font-size: 8px;
-      font-weight: 400;
-      padding: 4px 4px;
-      border-radius: 4px;
-      margin: 2px;
-      white-space: normal;
-      overflow: visible;
-      line-height: 1.2;
-      min-height: 0;
-      
-    }
-
-
-    .tri-cell .entregavel-pill {
-      display: block !important;
-      width: 100%;
-      white-space: normal !important;
-      margin-bottom: 4px;
-    }
-
-
-
-    .tri-cell {
-      text-align: left !important;
-      vertical-align: top !important;
-    }
-
-
-
-    /* ══════════════════════════════
-       LISTAS (A ESTUDAR / INVIÁVEIS)
-    ══════════════════════════════ */
-    .lista-wrapper {
-      margin: 32px 0;
-    }
-
+    /* LISTA */
+    .lista-wrapper { margin: 32px 0; }
     .lista-title {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 14px; font-weight: 700;
       color: var(--ink-600);
       margin-bottom: 12px;
       padding-left: 12px;
       border-left: 3px solid var(--ink-400);
     }
-
-    .lista-title.estudar { border-left-color: #d97706; color: #92400e; }
-    .lista-title.inviavel { border-left-color: var(--ink-400); }
-
-    .lista-items {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .lista-title.viavel {
-      border-left-color: var(--c-700);
-      color: var(--c-700);
-    }
-
-    .lista-item-badge.viavel {
-      background: #dcfce7;
-      color: #166534;
-    }
-
+    .lista-items { display:flex; flex-direction:column; gap:8px; }
     .lista-item {
       background: var(--white);
       border: 1px solid var(--ink-200);
@@ -477,1004 +200,415 @@
       padding: 12px 16px;
       cursor: pointer;
       transition: border-color .15s, box-shadow .15s;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display:flex; align-items:center; justify-content:space-between;
     }
-
-
-
-    .lista-item:hover {
-      border-color: var(--c-500);
-      box-shadow: var(--shadow);
-      align-items: flex-start;
-}
-
-    .lista-item-titulo {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      max-width: 700px;
-      white-space: normal !important;     /* permite quebra */
-      flex: 1 1 auto !important;          /* PERMITE encolher */
-      min-width: 0 !important;            /* LIBERA o flex para reduzir */
-}
-
-    .lista-item-badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-    }
-
-    .lista-item-badge.estudar {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .lista-item-badge.inviavel {
-      background: var(--ink-100);
-      color: var(--ink-600);
-    }
-
-
-    /* Bordas SOMENTE na linha verde dos TRI */
-    .gantt-table thead tr:first-child th:nth-child(3),  /* antes 3TRI */
-    .gantt-table thead tr:first-child th:nth-child(4),  /* antes 4TRI */
-    .gantt-table thead tr:first-child th:nth-child(5) { /* antes 1TRI/27 */
-      border-left: 2px solid var(--c-900);
-    }
-    
-    /* Background alternado DISCRETO nos meses (header) */
-    .gantt-table thead tr:nth-child(2) th:nth-child(2),   /* Abr */
-    .gantt-table thead tr:nth-child(2) th:nth-child(3),   /* Mai */
-    .gantt-table thead tr:nth-child(2) th:nth-child(4),   /* Jun */
-    .gantt-table thead tr:nth-child(2) th:nth-child(8),   /* Out */
-    .gantt-table thead tr:nth-child(2) th:nth-child(9),   /* Nov */
-    .gantt-table thead tr:nth-child(2) th:nth-child(10) { /* Dez */
-      background: #f0f0f0;
-    }
-    
-    /* Background alternado DISCRETO nas células de dados */
-    .gantt-table tbody td:nth-child(2),   /* Abr */
-    .gantt-table tbody td:nth-child(3),   /* Mai */
-    .gantt-table tbody td:nth-child(4),   /* Jun */
-    .gantt-table tbody td:nth-child(8),   /* Out */
-    .gantt-table tbody td:nth-child(9),   /* Nov */
-    .gantt-table tbody td:nth-child(10) { /* Dez */
-      background: rgba(237, 247, 238, 0.3);
-    }
-
-    
-    /* Bordas tracejadas DEPOIS de JUN, SET, DEZ */
-    .gantt-table tbody td:nth-child(4),  /* JUN (depois dele = antes de JUL) */
-    .gantt-table tbody td:nth-child(7),  /* SET (depois dele = antes de OUT) */
-    .gantt-table tbody td:nth-child(10) { /* DEZ (depois dele = antes de JAN) */
-      border-right: 1px dotted rgba(5, 107, 40, 0.5);
-    }
-    
-    /* Mesma borda no header dos meses */
-    .gantt-table thead tr:nth-child(2) th:nth-child(4),  /* JUN */
-    .gantt-table thead tr:nth-child(2) th:nth-child(7),  /* SET */
-    .gantt-table thead tr:nth-child(2) th:nth-child(10) { /* DEZ */
-      border-right: 1px dotted rgba(5, 107, 40, 0.5);
-    }
-    /* ══════════════════════════════
-       MODAL
-    ══════════════════════════════ */
+    .lista-item:hover { border-color: var(--c-500); box-shadow: var(--shadow); }
+    .lista-item-titulo { font-size: 13px; font-weight: 500; color: var(--ink-900); }
+    /* MODAL */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
+      display: none; align-items:center; justify-content:center;
       padding: 24px;
     }
-
-    .modal-overlay.open { display: flex; }
-
+    .modal-overlay.open { display:flex; }
     .modal-backdrop {
-      position: absolute; inset: 0;
-      background: rgba(2, 61, 23, .50);
+      position:absolute; inset:0;
+      background: rgba(2,61,23,.50);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       animation: fadeInModal .25s ease;
     }
-
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
+    @keyframes fadeInModal { from{opacity:0;} to{opacity:1;} }
     .modal-box {
-      position: relative; z-index: 2;
-      background: var(--white);
-      border: 1px solid var(--ink-100);
-      border-radius: 16px;
-      width: 100%; max-width: 920px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 36px;
-      box-shadow: var(--shadow-lg);
-      animation: modalIn .3s cubic-bezier(.22,1,.36,1);
+      position:relative; z-index:2;
+      background:var(--white);
+      border:1px solid var(--ink-100);
+      border-radius:16px;
+      width:100%; max-width:920px; max-height:90vh;
+      overflow-y:auto; padding:36px;
+      box-shadow:var(--shadow-lg);
+      animation:modalIn .3s cubic-bezier(.22,1,.36,1);
     }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(.96) translateY(16px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .modal-box::-webkit-scrollbar { width: 5px; }
-    .modal-box::-webkit-scrollbar-track { background: transparent; }
-    .modal-box::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 99px; }
-
+    @keyframes modalIn { from{opacity:0; transform:scale(.96) translateY(16px);} to{opacity:1; transform:scale(1) translateY(0);} }
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--ink-100);
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:20px; margin-bottom:28px; padding-bottom:24px;
+      border-bottom:1px solid var(--ink-100);
     }
-
     .modal-title {
-      font-weight: 800;
-      font-size: clamp(24px, 3vw, 32px);
-      color: var(--c-900);
-      line-height: 1.2;
-      letter-spacing: -0.3px;
+      font-weight:800; font-size:clamp(24px,3vw,32px);
+      color:var(--c-900); line-height:1.2; letter-spacing:-0.3px;
     }
-
     .modal-close {
-      width: 36px; height: 36px;
-      flex-shrink: 0;
-      background: var(--bg);
-      border: 1px solid var(--ink-200);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .15s, border-color .15s;
+      width:36px; height:36px; flex-shrink:0;
+      background:var(--bg);
+      border:1px solid var(--ink-200);
+      border-radius:var(--radius-sm);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .15s, border-color .15s;
     }
-
-    .modal-close:hover {
-      background: #fee2e2;
-      border-color: #fca5a5;
-    }
-
-    .modal-close:hover svg {
-      stroke: #ef4444;
-    }
-
+    .modal-close:hover { background:#fee2e2; border-color:#fca5a5; }
     .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 16px;
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:14px; margin-bottom:16px;
     }
-
-    @media (max-width: 600px) {
-      .info-grid { grid-template-columns: 1fr; }
-    }
-
+    @media (max-width:600px) { .info-grid { grid-template-columns:1fr; } }
     .info-card {
-      background: var(--white);
-      border: 1px solid var(--ink-200);
-      border-top: 3px solid transparent;
-      border-radius: var(--radius-sm);
-      padding: 20px;
+      background:var(--white);
+      border:1px solid var(--ink-200);
+      border-top:3px solid transparent;
+      border-radius:var(--radius-sm);
+      padding:20px;
     }
-
-    .info-card.contexto  { border-top-color: var(--c-700); }
-    .info-card.problema  { border-top-color: #d97706; }
-    .info-card.resultado { border-top-color: var(--c-500); }
-    .info-card.analiseIA { border-top-color: #005CFF; grid-column: 1 / -1;}
-
+    .info-card.contexto { border-top-color:var(--c-700); }
+    .info-card.problema { border-top-color:#d97706; }
+    .info-card.resultado { border-top-color:var(--c-500); }
+    .info-card.analiseIA { border-top-color:#005CFF; grid-column: 1 / -1; }
     .info-label {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      font-size:14px; font-weight:800;
+      letter-spacing:.8px; text-transform:uppercase;
+      margin-bottom:10px;
     }
-
-    .info-card.contexto  .info-label { color: var(--c-900); }
-    .info-card.problema  .info-label { color: #92400e; }
-    .info-card.resultado .info-label { color: var(--c-500); }
-    .info-card.analiseIA .info-label { color: #005CFF; grid-column: 1 / -1;}
-
-    .info-text {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      line-height: 1.7;
-    }
-
-    /* Lista de entregáveis no modal (para a Estudar/Inviáveis) */
-    .modal-entregaveis {
-      margin-top: 20px;
-    }
-
-    .modal-entregaveis-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--c-700);
-      margin-bottom: 12px;
-    }
-
-    .modal-entregaveis-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .modal-entregaveis-list li {
-      padding: 8px 0;
-      padding-left: 20px;
-      position: relative;
-      font-size: 14px;
-      color: var(--ink-900);
-      font-weight: 400;
-    }
-
-    .modal-entregaveis-list li::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      color: var(--c-500);
-      font-weight: 700;
-    }
-
-    /* ══════════════════════════════
-       TOAST
-    ══════════════════════════════ */
+    .info-text { font-size:13px; font-weight:500; color:var(--ink-900); line-height:1.7; }
+    /* TOAST */
     .toast {
-      position: fixed; bottom: 20px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--ink-900);
-      color: var(--white);
-      font-family: 'Lexend', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 10px 22px;
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s, transform .25s;
-      z-index: 9999;
-      white-space: nowrap;
+      position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%);
+      background:var(--ink-900); color:var(--white);
+      font-family:'Lexend',sans-serif; font-size:13px; font-weight:500;
+      padding:10px 22px; border-radius:var(--radius-sm);
+      box-shadow:var(--shadow);
+      opacity:0; pointer-events:none;
+      transition:opacity .25s, transform .25s;
+      z-index:9999; white-space:nowrap;
     }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    /* ══════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════ */
-    @media (max-width: 768px) {
-      header,
-      .hero,
-      .toolbar,
-      .container { padding-left: 20px; padding-right: 20px; }
-      
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .modal-box { padding: 22px; }
-      .info-grid { grid-template-columns: 1fr; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+    /* RESPONSIVE */
+    @media (max-width:768px) {
+      header, .hero, .container { padding-left:20px; padding-right:20px; }
+      .hero { grid-template-columns:1fr; gap:24px; }
+      .modal-box { padding:22px; }
+      .info-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
-
-<!-- ── SPLASH SCREEN ── -->
-<div id="splash">
-  <div class="splash-text">
-    <div class="splash-eyebrow">Bem-vindo(a) ao</div>
+  <!-- SPLASH -->
+  <div id="splash">
     <div class="splash-logo" id="splashLogo"></div>
-    <div class="splash-title">Habilitador: Tecnologia</div>
+    <div class="splash-text">
+      <div class="splash-eyebrow">Habilitador: Tecnologia</div>
+    </div>
+    <div class="splash-bar"></div>
   </div>
-  <div class="splash-bar"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container" id="logoContainer"></div>
+  </header>
+
+  <!-- HERO -->
+
+<!-- BOTÃO VOLTAR PARA O TEAMS -->
+<div style="
+    margin-top: 20px; 
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 1050px;   /* ajuste aqui para aproximar do centro */
+">
+    <a href="https://teams.microsoft.com/l/entity/04a9e734-37d3-480b-89ea-337cbccd23ed/bot"
+       style="
+           display: inline-block;
+           background: var(--c-700);
+           color: white;
+           font-weight: 600;
+           padding: 14px 28px;
+           border-radius: var(--radius);
+           text-decoration: none;
+           font-family: 'Lexend', sans-serif;
+           box-shadow: var(--shadow);
+       ">
+        ⟵ Retornar ao Teams
+    </a>
 </div>
 
-<!-- ── HEADER ── -->
-<header>
-  <div class="logo-container" id="logoContainer">
-    <!-- Logo será injetada aqui via LOGO_URL -->
-  </div>
-</header>
-
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="hero-left">
-    <h1>Ramp Up <span>2026</span></h1>
-    <p>Veja as ideias enviadas para a construção do Roadmap de Transformação 2026 para o Habilitador Tecnologia.</p>
-  </div>
-  <div class="hero-right">
-    <div class="metrics-card">
-      <div class="metrics-title">Visão Geral das Iniciativas</div>
-      <div class="metrics-grid">
-        <div class="metric-item total">
-          <div class="metric-value" id="metricTotal">0</div>
-          <div class="metric-label">Total</div>
-        </div>
-        <div class="metric-item viaveis">
-          <div class="metric-value" id="metricViaveis">0</div>
-          <div class="metric-label">Viáveis</div>
-        </div>
-        <div class="metric-item estudar">
-          <div class="metric-value" id="metricEstudar">0</div>
-          <div class="metric-label">A Estudar</div>
-        </div>
-        <div class="metric-item inviaveis">
-          <div class="metric-value" id="metricInviaveis">0</div>
-          <div class="metric-label">Inviáveis</div>
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Roadmap da Transformação <span>2026</span></h1>
+      <p>Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de Tecnologia.</p>
+    </div>
+    <div class="hero-right">
+      <div class="metrics-card">
+        <div class="metrics-title">Ideias Recebidas</div>
+        <div class="metrics-grid">
+          <div class="metric-item total">
+            <div class="metric-value" id="metricTotal">6</div>
+            <div class="metric-label">Total</div>
+          </div>
+  <!-- Inserir bloco com demais métricas -->
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── CONTAINER PRINCIPAL ── -->
-<main class="container" id="mainContainer">
-  <!-- Seções de habilitadores serão geradas dinamicamente -->
-</main>
-
-<!-- ── MODAL ── -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-backdrop" onclick="closeModal()"></div>
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modalTitle"></h2>
-      <button class="modal-close" onclick="closeModal()" title="Fechar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="container" id="mainContainer"></main>
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <button class="modal-close" onclick="closeModal()" title="Fechar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="info-grid">
+        <div class="info-card contexto">
+          <div class="info-label">🔍 Contexto</div>
+          <p class="info-text" id="modalContexto"></p>
+        </div>
+        <div class="info-card problema">
+          <div class="info-label">⚠️ Problema</div>
+          <p class="info-text" id="modalProblema"></p>
+        </div>
+        <div class="info-card resultado">
+          <div class="info-label">🎯 Resultado Esperado</div>
+          <p class="info-text" id="modalResultado"></p>
+        </div>
+        <div class="info-card analiseIA">
+          <div class="info-label">✨ Análise IA</div>
+          <p class="info-text" id="modalAnaliseIA"></p>
+        </div>
+      </div>
+      <div id="modalEntregaveisWrapper"></div>
     </div>
-
-    <div class="info-grid">
-      <div class="info-card contexto">
-        <div class="info-label">🔍 Contexto</div>
-        <p class="info-text" id="modalContexto"></p>
-      </div>
-      <div class="info-card problema">
-        <div class="info-label">⚠️ Problema</div>
-        <p class="info-text" id="modalProblema"></p>
-      </div>
-      <div class="info-card resultado">
-        <div class="info-label">🎯 Resultado Esperado</div>
-        <p class="info-text" id="modalResultado"></p>
-      </div>
-      <div class="info-card analiseIA">
-        <div class="info-label">✨ Análise da IA</div>
-        <p class="info-text" id="modalanaliseIA"></p>
-      </div>
-    </div>
-    <div id="modalEntregaveisWrapper"></div>
   </div>
-</div>
 
-<div class="toast" id="toast"></div>
+  <div class="toast" id="toast"></div>
 
+  
 <script>
-// ══════════════════════════════════════════════════════
-//  ⚙️ CONFIGURAÇÃO
-// ══════════════════════════════════════════════════════
+  window.COPILOT_PAYLOAD = {"habilitadores":[{"nome":"Tecnologia","total":6,"ideias":[{"id":"5","titulo":"Construir governança e arquitetura de IA","contexto":"Estruturação necessária para escalar iniciativas","problema":"Ausência de modelo estruturado para IA","resultado":"Base sólida para expansão e sustentabilidade da IA","analiseIA":""},{"id":"25","titulo":"Cobrar via pix o passeiro que tem as placas padrão mercosul atraves do qr code da placa","contexto":"o cliente precisa entrar num portal para pagar sendo prejudicado caso esqueça","problema":"possibilidade de perda de receita","resultado":"aumento de fautramento e maior credibilidade para a empresa","analiseIA":""},{"id":"8","titulo":"Evoluir pedido digital e PIX; acelerar escaladas para experiência do usuário; integrar CCO, ouvidoria e CCP.","contexto":"Necessidade de melhorar jornada digital e atendimento","problema":"Experiência do usuário pouco eficiente","resultado":"Processos digitais ágeis e satisfação do cliente","analiseIA":""},{"id":"4","titulo":"Consolidar iniciativas de IA (No code, Hiperautomação, LLM com RH)","contexto":"Diversas frentes de IA em andamento ou pendentes","problema":"Falta de integração e priorização das iniciativas","resultado":"Entregas de valor concretas ainda em 2026","analiseIA":""},{"id":"27","titulo":"EcoHub Digital de Eficiência – portal único para registrar, priorizar e implementar soluções digitais simples (automação, dashboards, apps)","contexto":"A transformação digital avança, mas de forma desigual entre áreas e concessões; ainda há dependência excessiva da TI e pouca escala entre boas práticas.","problema":"Centraliza ideias, reduz controles manuais, acelera entregas de baixo custo e facilita reutilização de soluções entre concessões.","resultado":"Mais eficiência operacional, mais autonomia das áreas, redução de retrabalho, processos digitalizados e ganhos mensuráveis conectados ao MGP.","analiseIA":"Esta ideia resolve a falta de padronização e agilidade na implementação de soluções digitais, centralizando iniciativas e reduzindo a dependência da TI. Pode gerar impacto em eficiência operacional, autonomia das áreas, redução de retrabalho, digitalização de processos e ganhos mensuráveis conectados ao MGP [1]."},{"id":"37","titulo":"Enviar automaticamente link de cobrança do pedágio free flow ao usuário no momento em que ele passar pela via","contexto":"os usuários precisam acessar o site do pedágio digital para efetuar o pagamento","problema":"inadimplência de pagamento por esquecimento ou desconhecimento","resultado":"redução da inadimplência, melhora na receita, proporcionar melhor experiência ao usuário","analiseIA":"Esta ideia resolve o problema de inadimplência causada por esquecimento ou desconhecimento do usuário.  \nPode gerar impacto em receita, eficiência operacional, redução de inadimplência e experiência do usuário.  \nOKR: 1, 2, 4.  \nÁrvore de valor: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento, Acelerar captura de valor [1]."}]}]};
+</script>
+
+
+  <script>
+    // URLs de logo
     const LOGO_URL = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
     const LOGO_RAMPUP = 'https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
 
+    let DATA = null;
 
-const MESES_DISPLAY = {
-  'abr': 'Abr', 'mai': 'Mai', 'jun': 'Jun',
-  'jul': 'Jul', 'ago': 'Ago', 'set': 'Set',
-  'out': 'Out', 'nov': 'Nov', 'dez': 'Dez',
-  'jan': 'Jan', 'fev': 'Fev', 'mar': 'Mar'
-};
-
-const TRIMESTRES_COLUNAS = [
-  { nome: '2TRI/26', meses: ['abr', 'mai', 'jun'] },
-  { nome: '3TRI/26', meses: ['jul', 'ago', 'set'] },
-  { nome: '4TRI/26', meses: ['out', 'nov', 'dez'] },
-  { nome: '1TRI/27', meses: ['jan', 'fev', 'mar'] }
-];
-
-// ══════════════════════════════════════════════════════
-//  DADOS (serão substituídos pelo JSON do Copilot Studio)
-// ══════════════════════════════════════════════════════
-let DATA = null;
-let currentFilter = 'todos';
-
-
-// ══════════════════════════════════════════════════════
-//  PONTO DE ENTRADA
-// ══════════════════════════════════════════════════════
-window.injectData = function(payload) {
-  try {
-    DATA = typeof payload === 'string' ? JSON.parse(payload) : payload;
-
-    // 👉 NOVO: fase de exibição (1, 2 ou 3). Default = 3 (completo)
-    window.faseAtual = DATA.fase || 3;
-
-    renderAll();
-    showToast('✅ Dados carregados!');
-  } catch(e) {
-    showToast('❌ Erro: ' + e.message);
-    console.error(e);
-  }
-};
-
-// ══════════════════════════════════════════════════════
-//  RENDER PRINCIPAL
-// ══════════════════════════════════════════════════════
-function renderAll() {
-  if (!DATA) return;
-
-  // 1) Normaliza os dados conforme a fase (3.C)
-  normalizeDataByPhase();
-
-  // 2) Métricas
-  document.getElementById('metricTotal').textContent     = DATA.metricas?.total      ?? 0;
-  document.getElementById('metricViaveis').textContent   = DATA.metricas?.viaveis    ?? 0;
-  document.getElementById('metricEstudar').textContent   = DATA.metricas?.a_estudar  ?? 0;
-  document.getElementById('metricInviaveis').textContent = DATA.metricas?.inviaveis  ?? 0;
-
-  // 3) Aplica configurações visuais da fase (3.B)
-  applyPhaseConfig();
-
-
-  // 4) Habilitadores (inclui listas e roadmap)
-  renderHabilitadores();
-}
-
-// ══════════════════════════════════════════════════════
-//  NORMALIZAÇÃO POR FASE (3.C)
-// ══════════════════════════════════════════════════════
-function normalizeDataByPhase() {
-  if (!DATA || !DATA.habilitadores) return;
-
-  // FASE 1:
-  // - Queremos UMA lista única de ideias por habilitador
-  // - Sem status explícito (viável / inviável / a estudar)
-  if (window.faseAtual === 1) {
-    DATA.habilitadores.forEach(hab => {
-      const merged = [];
-
-      if (Array.isArray(hab.viaveis))   merged.push(...hab.viaveis);
-      if (Array.isArray(hab.a_estudar)) merged.push(...hab.a_estudar);
-      if (Array.isArray(hab.inviaveis)) merged.push(...hab.inviaveis);
-
-      // Tudo vai para "a_estudar" só para reutilizar o componente de lista
-      hab.a_estudar = merged;
-      hab.viaveis   = [];
-      hab.inviaveis = [];
-    });
-  }
-
-  // FASE 2:
-  // - Mantém viáveis / a estudar / inviáveis
-  // - Não precisa de transformação especial de dados
-  // - Apenas garantimos que arrays existam
-  if (window.faseAtual === 2) {
-    DATA.habilitadores.forEach(hab => {
-      hab.viaveis   = hab.viaveis   || [];
-      hab.a_estudar = hab.a_estudar || [];
-      hab.inviaveis = hab.inviaveis || [];
-    });
-  }
-
-// FASE 3 — converter entregaveis string → array
-if (window.faseAtual === 3) {
-  DATA.habilitadores.forEach(hab => {
-    ['viaveis', 'a_estudar', 'inviaveis'].forEach(listaNome => {
-      const lista = hab[listaNome];
-
-      if (Array.isArray(lista)) {
-        lista.forEach(iniciativa => {
-
-          // se não existir entregaveis
-          if (!iniciativa.entregaveis) {
-            iniciativa.entregaveis = [];
-            return;
-          }
-
-          // se vier STRING JSON
-          if (typeof iniciativa.entregaveis === 'string') {
-            try {
-              const parsed = JSON.parse(iniciativa.entregaveis);
-              iniciativa.entregaveis = Array.isArray(parsed) ? parsed : [];
-            } catch {
-              iniciativa.entregaveis = [];
-            }
-            return;
-          }
-
-          // se vier qualquer outra coisa que não seja array
-          if (!Array.isArray(iniciativa.entregaveis)) {
-            iniciativa.entregaveis = [];
-          }
-
-        });
+    // Função chamada pelo Power Automate (via script injetado)
+    window.injectData = function (payload) {
+      try {
+        DATA = typeof payload === 'string' ? JSON.parse(payload) : payload;
+        renderAll();
+        showToast('✅ Dados carregados!');
+      } catch (e) {
+        showToast('❌ Erro: ' + e.message);
+        console.error(e);
       }
-    });
-  });
-}
-}
+    };
 
-// ══════════════════════════════════════════════════════
-//  APLICAÇÃO VISUAL POR FASE (3.B)
-// ══════════════════════════════════════════════════════
-function applyPhaseConfig() {
-  // --- MÉTRICAS ---
-  const miTotal     = document.getElementById('metricTotal')?.closest('.metric-item');
-  const miViaveis   = document.getElementById('metricViaveis')?.closest('.metric-item');
-  const miEstudar   = document.getElementById('metricEstudar')?.closest('.metric-item');
-  const miInviaveis = document.getElementById('metricInviaveis')?.closest('.metric-item');
-
-  if (window.faseAtual === 1) {
-    // FASE 1: mostrar só Total
-    if (miTotal)     miTotal.style.display = '';
-    if (miViaveis)   miViaveis.style.display = 'none';
-    if (miEstudar)   miEstudar.style.display = 'none';
-    if (miInviaveis) miInviaveis.style.display = 'none';
-  } else {
-    // FASE 2 e 3: mostrar todas as métricas
-    if (miTotal)     miTotal.style.display = '';
-    if (miViaveis)   miViaveis.style.display = '';
-    if (miEstudar)   miEstudar.style.display = '';
-    if (miInviaveis) miInviaveis.style.display = '';
-  }
-
-  // --- ROADMAP ---
-  // FASE 1 e 2 não devem mostrar Roadmap (Gantt)
-  if (window.faseAtual === 1 || window.faseAtual === 2) {
-    document.querySelectorAll('.roadmap-wrapper').forEach(el => {
-      el.style.display = 'none';
-    });
-  } else {
-    // FASE 3: Roadmap pode aparecer normalmente
-    document.querySelectorAll('.roadmap-wrapper').forEach(el => {
-      el.style.display = '';
-    });
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  RENDER HABILITADORES
-// ══════════════════════════════════════════════════════
-function renderHabilitadores() {
-  const container = document.getElementById('mainContainer');
-  container.innerHTML = '';
-  
-  DATA.habilitadores.forEach(hab => {
-    const section = document.createElement('div');
-    section.className = 'habilitador-section';
-    section.dataset.habilitador = hab.nome;
-    
-    // Título da seção
-    const title = document.createElement('h2');
-    title.className = 'section-title';
-    title.textContent = hab.nome;
-    section.appendChild(title);
-    
-    // 🔹 LISTA VIÁVEIS — somente Fase 2
-    if (window.faseAtual === 2 && hab.viaveis && hab.viaveis.length > 0) {
-    section.appendChild(renderLista(hab.viaveis, 'viavel', 'Viáveis'));
-    }
-    
-    // 🔹 ROADMAP (viáveis) — só na FASE 3
-    if (window.faseAtual === 3 && hab.viaveis && hab.viaveis.length > 0) {
-      section.appendChild(renderRoadmap(hab.viaveis, hab.nome));
-    }
-    
-    // 🔹 LISTA A ESTUDAR / IDEIAS RECEBIDAS NA FASE 1
-    if (hab.a_estudar && hab.a_estudar.length > 0) {
-      const tituloLista = (window.faseAtual === 1) ? 'Ideias Recebidas' : 'A Estudar';
-      section.appendChild(renderLista(hab.a_estudar, 'estudar', tituloLista));
-    }
-    
-    // 🔹 LISTA INVIÁVEIS
-    if (hab.inviaveis && hab.inviaveis.length > 0) {
-      section.appendChild(renderLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
-    }
-    
-    container.appendChild(section);
-  });
-}
-
-// ══════════════════════════════════════════════════════
-//  MATCHING FUZZY DE TÍTULOS (para Power Automate)
-// ══════════════════════════════════════════════════════
-function normalizarTitulo(titulo) {
-  if (!titulo) return '';
-  return titulo
-    .toLowerCase()
-    .trim()
-    .replace(/\.+$/, '')           // remove pontos finais
-    .replace(/\s+/g, ' ')          // normaliza espaços
-    .replace(/[àáâãäå]/g, 'a')
-    .replace(/[èéêë]/g, 'e')
-    .replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõö]/g, 'o')
-    .replace(/[ùúûü]/g, 'u')
-    .replace(/[ç]/g, 'c')
-    .replace(/[^a-z0-9\s]/g, '');  // remove pontuação
-}
-
-function encontrarEntregaveis(tituloIdeia, todasIniciativasRoadmap) {
-  const tituloNorm = normalizarTitulo(tituloIdeia);
-  
-  // 1. Match exato normalizado
-  let match = todasIniciativasRoadmap.find(ini => 
-    normalizarTitulo(ini.titulo) === tituloNorm
-  );
-  
-  // 2. Match por similaridade (um contém o outro)
-  if (!match) {
-    match = todasIniciativasRoadmap.find(ini => {
-      const roadmapNorm = normalizarTitulo(ini.titulo);
-      // Roadmap contém o título da ideia OU vice-versa
-      return roadmapNorm.includes(tituloNorm) || tituloNorm.includes(roadmapNorm);
-    });
-  }
-  
-  // 3. Match por palavras-chave (pelo menos 60% das palavras em comum)
-  if (!match) {
-    const palavrasIdeia = tituloNorm.split(' ').filter(p => p.length > 3);
-    
-    match = todasIniciativasRoadmap.find(ini => {
-      const palavrasRoadmap = normalizarTitulo(ini.titulo).split(' ').filter(p => p.length > 3);
-      const palavrasComuns = palavrasIdeia.filter(p => palavrasRoadmap.includes(p));
-      const percentualMatch = palavrasComuns.length / Math.min(palavrasIdeia.length, palavrasRoadmap.length);
-      return percentualMatch >= 0.6; // 60% de similaridade
-    });
-  }
-  
-  return match ? match.entregaveis : [];
-}
-
-// ══════════════════════════════════════════════════════
-//  RENDER ROADMAP (GANTT)
-// ══════════════════════════════════════════════════════
-function renderRoadmap(iniciativas, habilitadorNome) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'roadmap-wrapper';
-  
-  const title = document.createElement('div');
-  title.className = 'roadmap-title';
-  title.innerHTML = `
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <line x1="16" y1="2" x2="16" y2="6"/>
-      <line x1="8" y1="2" x2="8" y2="6"/>
-      <line x1="3" y1="10" x2="21" y2="10"/>
-    </svg>
-    Roadmap — Iniciativas Viáveis
-  `;
-  wrapper.appendChild(title);
-  
-  const scrollDiv = document.createElement('div');
-  scrollDiv.className = 'gantt-scroll';
-  
-  const table = document.createElement('table');
-  table.className = 'gantt-table';
-  
-  // HEADER
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  
-  const thIniciativa = document.createElement('th');
-  thIniciativa.className = 'col-iniciativa';
-  thIniciativa.textContent = 'Iniciativa';
-  thIniciativa.rowSpan = 2;
-  headerRow.appendChild(thIniciativa);
-  
-  // HEADER - Linha 1: Trimestres
-  TRIMESTRES_COLUNAS.forEach((tri, idx) => {
-    const thTri = document.createElement('th');
-    thTri.colSpan = tri.meses.length;
-    thTri.textContent = tri.nome;
-    thTri.style.background = 'var(--c-900)';
-    thTri.style.fontSize = '13px';
-    thTri.style.fontWeight = '800';
-    if (idx > 0) {
-      thTri.style.borderLeft = '1px dotted rgba(5, 107, 40, 0.3)';
-    }
-    headerRow.appendChild(thTri);
-  });
-  
-  thead.appendChild(headerRow);
-  
-  // HEADER - Linha 2: Meses
-  const mesesRow = document.createElement('tr');
-  TRIMESTRES_COLUNAS.forEach(tri => {
-    tri.meses.forEach((mes, mesIdx) => {
-      const th = document.createElement('th');
-      th.textContent = MESES_DISPLAY[mes] || mes;
-      th.style.fontSize = '10px';
-      if (mesIdx === 0) th.classList.add('tri-start');
-      mesesRow.appendChild(th);
-    });
-  });
-  
-  thead.appendChild(mesesRow);
-  table.appendChild(thead);
-  
-// BODY
-const tbody = document.createElement('tbody');
-
-iniciativas.forEach(iniciativa => {
-  const entregaveis = iniciativa.entregaveis || [];
-  if (!entregaveis.length) return;
-
-  // 1) Mapeia cada entregável para seu TRIMESTRE
-  const entregaveisComTri = entregaveis
-    .filter(ent => ent.mes) // ignora entregáveis sem mês
-    .map(ent => {
-      const mes = ent.mes.toLowerCase().trim();
-      const triObj = TRIMESTRES_COLUNAS.find(t => t.meses.includes(mes));
-      return {
-        nome: ent.nome,
-        tri: triObj ? triObj.nome : null
-      };
-    })
-    .filter(ent => ent.tri); // ignora se não achar tri
-
-  if (!entregaveisComTri.length) return;
-
-  // (Opcional) Ordena por ordem dos trimestres
-  const ordemTri = TRIMESTRES_COLUNAS.map(t => t.nome);
-  entregaveisComTri.sort((a, b) => ordemTri.indexOf(a.tri) - ordemTri.indexOf(b.tri));
-
-  const totalLinhas = entregaveisComTri.length;
-
-  entregaveisComTri.forEach((ent, index) => {
-    const tr = document.createElement('tr');
-    tr.onclick = () => openModal(iniciativa);
-
-    // Coluna da iniciativa só na primeira linha (rowSpan)
-    if (index === 0) {
-      const tdIniciativa = document.createElement('td');
-      tdIniciativa.className = 'iniciativa-cell';
-      tdIniciativa.textContent = iniciativa.titulo;
-      tdIniciativa.rowSpan = totalLinhas;
-      tr.appendChild(tdIniciativa);
-    }
-
-    // Para cada trimestre, criamos um TD mesclado e colocamos
-    // o entregável SOMENTE no trimestre correspondente
-    TRIMESTRES_COLUNAS.forEach(tri => {
-      const td = document.createElement('td');
-      td.className = 'mes-cell tri-cell';
-      td.colSpan = tri.meses.length;
-
-      if (ent.tri === tri.nome) {
-        const pill = document.createElement('div');
-        pill.className = 'entregavel-pill';
-        pill.textContent = ent.nome;
-        pill.title = ent.nome;
-        td.appendChild(pill);
+    function renderAll() {
+      if (!DATA) return;
+      if (!Array.isArray(DATA.habilitadores) || DATA.habilitadores.length === 0) {
+        showToast('Nenhum habilitador encontrado nos dados.');
+        return;
       }
 
-      tr.appendChild(td);
-    });
+      const hab = DATA.habilitadores[0];
 
-    tbody.appendChild(tr);
-  });
-});
+      // Atualizar total
 
-table.appendChild(tbody);
-  scrollDiv.appendChild(table);
-  wrapper.appendChild(scrollDiv);
-  
-  return wrapper;
-}
+       const metricTotalEl      = document.getElementById('metricTotal');
+// Inserir métricas1 aqui 
 
-// ══════════════════════════════════════════════════════
-//  RENDER LISTA (A ESTUDAR / INVIÁVEIS)
-// ══════════════════════════════════════════════════════
-function renderLista(iniciativas, tipo, tituloLista) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'lista-wrapper';
-  
-  const title = document.createElement('div');
-  title.className = `lista-title ${tipo}`;
-  title.textContent = tituloLista;
-  wrapper.appendChild(title);
-  
-  const items = document.createElement('div');
-  items.className = 'lista-items';
-  
-  iniciativas.forEach(iniciativa => {
-    const item = document.createElement('div');
-    item.className = 'lista-item';
-    item.onclick = () => openModal(iniciativa);
-    
-    const tituloEl = document.createElement('div');
-    tituloEl.className = 'lista-item-titulo';
-    tituloEl.textContent = iniciativa.titulo;
-    
-    // Sempre adiciona o título
-    item.appendChild(tituloEl);
+      // total está diretamente em hab (não em hab.metricas)
+      if (metricTotalEl) metricTotalEl.textContent = hab.total ?? (hab.ideias ? hab.ideias.length : 0);
+// Inserir métricas2 aqui 
 
-    // 🔹 FASE 1: não exibe badge de status (fica só o título)
-    // 🔹 FASE 2 e 3: exibe o badge normalmente
-if (window.faseAtual !== 1) {
-  const badge = document.createElement('span');
-  badge.className = `lista-item-badge ${tipo}`;
-  
-  if (tipo === 'estudar') {
-    badge.textContent = 'A Estudar';
-  } else if (tipo === 'viavel') {
-    badge.textContent = 'Viável';
-  } else {
-    // inviavel
-    badge.textContent = 'Inviável';
-  }
+      // Atualizar textos de habilitador (splash e hero)
+      const splashEyebrow = document.querySelector('.splash-eyebrow');
+      if (splashEyebrow) splashEyebrow.textContent = 'Habilitador: ' + (hab.nome || '');
 
-  item.appendChild(badge);
-}
+      const heroP = document.querySelector('.hero-left p');
+      if (heroP) heroP.textContent = `Explore e acompanhe as ideias enviadas para a consolidação do Roadmap da Transformação 2026 para o Habilitador de ${hab.nome || ''}.`;
 
+      // Renderizar lista de ideias
+      renderHabilitadores(hab);
+    }
 
-    items.appendChild(item);
-  });
-  
-  wrapper.appendChild(items);
-  return wrapper;
-}
+    function renderHabilitadores(hab) {
+      const container = document.getElementById('mainContainer');
+      if (!container) return;
 
-// ══════════════════════════════════════════════════════
-//  MODAL
-// ══════════════════════════════════════════════════════
-function openModal(iniciativa) {
-  document.getElementById('modalTitle').textContent = iniciativa.titulo;
-  document.getElementById('modalContexto').textContent = iniciativa.contexto;
-  document.getElementById('modalProblema').textContent = iniciativa.problema;
-  document.getElementById('modalResultado').textContent = iniciativa.resultado;
-    document.getElementById('modalanaliseIA').textContent = iniciativa.analise;
-  
-  // Entregáveis (se houver)
+      container.innerHTML = '';
+
+      const section = document.createElement('div');
+      section.className = 'habilitador-section';
+      section.dataset.habilitador = hab.nome;
+
+      const title = document.createElement('h2');
+      title.className = 'section-title';
+      title.textContent = hab.nome || 'Habilitador';
+      section.appendChild(title);
+
+//Inserir bloco separar ideias por status
+
+  // ===== Função auxiliar para criar listas =====
+      criarLista('Ideias recebidas', hab.ideias || [], section, hab);
+
+      container.appendChild(section);
+    }
+
+    function criarLista(titulo, lista, section, hab) {
+      if (!lista || lista.length === 0) return;
+
+      const listaWrapper = document.createElement('div');
+      listaWrapper.className = 'lista-wrapper';
+
+      const listaTitle = document.createElement('div');
+      listaTitle.className = 'lista-title';
+      listaTitle.textContent = titulo;
+      listaWrapper.appendChild(listaTitle);
+
+      const listaItems = document.createElement('div');
+      listaItems.className = 'lista-items';
+
+      lista.forEach(ideia => {
+        const item = document.createElement('div');
+        item.className = 'lista-item';
+        item.onclick = () => openModal(ideia);
+
+        const tituloEl = document.createElement('div');
+        tituloEl.className = 'lista-item-titulo';
+        tituloEl.textContent = ideia.titulo || '(Sem título)';
+
+        item.appendChild(tituloEl);
+        listaItems.appendChild(item);
+      });
+
+      listaWrapper.appendChild(listaItems);
+      section.appendChild(listaWrapper);
+    }
+
+function openModal(ideia) {
+  document.getElementById('modalTitle').textContent = ideia.titulo || '';
+  document.getElementById('modalContexto').textContent = ideia.contexto || '';
+  document.getElementById('modalProblema').textContent = ideia.problema || '';
+  document.getElementById('modalResultado').textContent = ideia.resultado || '';
+  document.getElementById('modalAnaliseIA').textContent = ideia.analiseIA || '';
+
+  // ─────────────────────────────────────────────
+  //   ENTREGÁVEIS (opcionais)
+  // ─────────────────────────────────────────────
   const wrapper = document.getElementById('modalEntregaveisWrapper');
-  wrapper.innerHTML = '';
-  
-  if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-    const entregDiv = document.createElement('div');
-    entregDiv.className = 'modal-entregaveis';
-    
-    const entregTitle = document.createElement('div');
-    entregTitle.className = 'modal-entregaveis-title';
-    entregTitle.textContent = 'Entregáveis Previstos';
-    entregDiv.appendChild(entregTitle);
-    
-    const ul = document.createElement('ul');
-    ul.className = 'modal-entregaveis-list';
-    
-    iniciativa.entregaveis.forEach(ent => {
-      const li = document.createElement('li');
-      li.textContent = `${ent.nome} (${MESES_DISPLAY[ent.mes] || ent.mes})`;
-      ul.appendChild(li);
-    });
-    
-    entregDiv.appendChild(ul);
-    wrapper.appendChild(entregDiv);
+  if (wrapper) {
+    wrapper.innerHTML = '';
+
+    if (ideia.entregaveis && Array.isArray(ideia.entregaveis) && ideia.entregaveis.length > 0) {
+      const entregDiv = document.createElement('div');
+      entregDiv.className = 'modal-entregaveis';
+
+      const entregTitle = document.createElement('div');
+      entregTitle.className = 'modal-entregaveis-title';
+      entregTitle.textContent = 'Entregáveis previstos';
+      entregDiv.appendChild(entregTitle);
+
+      const ul = document.createElement('ul');
+      ul.className = 'modal-entregaveis-list';
+
+      ideia.entregaveis.forEach(ent => {
+        const li = document.createElement('li');
+        li.textContent = ent.nome || '';
+        ul.appendChild(li);
+      });
+
+      entregDiv.appendChild(ul);
+      wrapper.appendChild(entregDiv);
+    }
   }
-  
+
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
-
-
-// ══════════════════════════════════════════════════════
-//  SPLASH
-// ══════════════════════════════════════════════════════
-function initSplash() {
-  const splash = document.getElementById('splash');
-  const splashLogo = document.getElementById('splashLogo');
-  if (!splash) return;
-  
-  if (LOGO_RAMPUP) {
-    const img = document.createElement('img');
-    img.src = LOGO_RAMPUP;
-    img.alt = 'Logo';
-    img.onerror = () => splashLogo.textContent = 'ER';
-    splashLogo.innerHTML = '';
-    splashLogo.appendChild(img);
-  } else {
-    splashLogo.textContent = 'ER';
-  }
-  
-  setTimeout(() => {
-    splash.classList.add('hide');
-    splash.addEventListener('animationend', () => {
-      splash.remove();
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
       document.body.style.overflow = '';
-    }, { once: true });
-  }, 2500);
-  
-  document.body.style.overflow = 'hidden';
-}
-
-function initLogo() {
-  if (!LOGO_URL) return;
-  const container = document.getElementById('logoContainer');
-  if (!container) return;
-  
-  const img = document.createElement('img');
-  img.src = LOGO_URL;
-  img.className = 'logo-img';
-  img.alt = 'Logo';
-  container.appendChild(img);
-}
-
-// ══════════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════════
-let _tt;
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  if (!el) return;
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 3000);
-}
-
-// ══════════════════════════════════════════════════════
-//  INTEGRAÇÃO COPILOT STUDIO
-// ══════════════════════════════════════════════════════
-window.addEventListener('message', e => {
-  if (e.data?.type === 'IDEIAS_DATA') window.injectData(e.data.payload);
-});
-
-// ══════════════════════════════════════════════════════
-//  INICIALIZAÇÃO
-// ══════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  initLogo();
-  initSplash();
-  
-  if (window.COPILOT_PAYLOAD) {
-    window.injectData(window.COPILOT_PAYLOAD);
-  }
-  // Se não houver dados, aguarda injeção via window.injectData()
-});
-
-window.COPILOT_PAYLOAD=
-{
-  "fase": 3,
-  "metricas": {
-    "total": 6,
-    "viaveis": 4,
-    "a_estudar": 1,
-    "inviaveis": 1
-  },
-  "habilitadores": [
-    {
-      "nome": "Tecnologia",
-      "viaveis": [{"id":"12","titulo":"ID: 12 | Ideia: ","contexto":"A transformação digital avança, mas de forma desigual entre áreas e concessões; ainda há dependência excessiva da TI e pouca escala entre boas práticas.","problema":"Centraliza ideias, reduz controles manuais, acelera entregas de baixo custo e facilita reutilização de soluções entre concessões.","resultado":"Mais eficiência operacional, mais autonomia das áreas, redução de retrabalho, processos digitalizados e ganhos mensuráveis conectados ao MGP.","analise":"Esta ideia resolve a falta de padronização e agilidade na implementação de soluções digitais, centralizando iniciativas e reduzindo a dependência da TI. Pode gerar impacto em eficiência operacional, autonomia das áreas, redução de retrabalho, digitalização de processos e ganhos mensuráveis conectados ao MGP [1].","entregaveis":"[{\"nome\":\"ID: 12.1 | Entregável: MVP do EcoHub lançado (workflow+catálogo; 30 ideias cadastradas)\",\"mes\":\"jun\",\"tri\":\"2Tri/26\"},{\"nome\":\"ID: 12.2 | Entregável: Padrões e governança publicados (SLA de aprovação ≤10 dias)\",\"mes\":\"set\",\"tri\":\"3Tri/26\"},{\"nome\":\"ID: 12.3 | Entregável: Integração ao MGP e dashboard de ganhos ativo (≥80% iniciativas com KPIs)\",\"mes\":\"nov\",\"tri\":\"4Tri/26\"},{\"nome\":\"ID: 12.4 | Entregável: Rollout e capacitação concluídos (60 usuários; 25 soluções; ciclo médio ≤30 dias)\",\"mes\":\"mar\",\"tri\":\"1Tri/26\"}]"},{"id":"13","titulo":"ID: 13 | Ideia: ","contexto":"O usuário precisa acessar o site para efetuar o pagamento","problema":"Inadimplência, Fraude entre sites, Aumento de receita, Esquecimento","resultado":"Melhora nos indices de inadimplência, melhora a experiência do usuário, garantia da receitas","analise":"Esta ideia resolve a dor de inadimplência e fraudes, facilitando o pagamento imediato do pedágio digital. Pode gerar impacto em aumento de receita, eficiência operacional, redução de inadimplência e melhora da experiência do usuário. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital, Eficiência administrativa para habilitar crescimento, Garantir liderança como sponsor. Árvore de valor: Eixos de eficiência operacional, experiência do cliente e crescimento do negócio [1].","entregaveis":"[{\"nome\":\"ID: 13.5 | Entregável: MVP SMS Free Flow em 1 praça (taxa de entrega ≥95%, latência <60s)\",\"mes\":\"mai\",\"tri\":\"2Tri/26\"},{\"nome\":\"ID: 13.6 | Entregável: Modelo IA v1 para priorização de envios (AUC ≥0,75; inferência <500ms)\",\"mes\":\"ago\",\"tri\":\"3Tri/26\"},{\"nome\":\"ID: 13.7 | Entregável: Escala para 100% das praças Free Flow + reenvio D+1 (inadimplência -10% vs baseline)\",\"mes\":\"nov\",\"tri\":\"4Tri/26\"},{\"nome\":\"ID: 13.8 | Entregável: Painel de indicadores e OKRs (inadimplência, fraude, receita; atualização diária)\",\"mes\":\"fev\",\"tri\":\"1Tri/26\"}]"},{"id":"16","titulo":"ID: 16 | Ideia: ","contexto":"Escala crescente de demandas operacionais que exigem maior agilidade, redução de retrabalho e processos mais previsíveis.","problema":"Baixa padronização e execução manual de atividades críticas, causando ineficiência, erros e dependência excessiva de esforço humano.","resultado":"Aumento de eficiência por meio de automações, redução de variabilidade dos processos, maior confiabilidade operacional e ganhos de escala.","analise":"Esta ideia resolve a necessidade de aumentar a eficiência operacional ao automatizar tarefas e padronizar processos, reduzindo retrabalho e variabilidade.\nPode gerar impacto em eficiência operacional, governança, qualidade das entregas e redução de custos.","entregaveis":"[{\"nome\":\"ID: 16.9 | Entregável: Catálogo de 20 processos mapeados e 10 padronizados (SOP+KPIs)\",\"mes\":\"jun\",\"tri\":\"2Tri/26\"},{\"nome\":\"ID: 16.10 | Entregável: Implantação de 5 automações IA/RPA piloto com SLAs e monitoramento\",\"mes\":\"set\",\"tri\":\"3Tri/26\"},{\"nome\":\"ID: 16.11 | Entregável: Torre de automação operante c/ painel cobrindo 100% das 5 automações\",\"mes\":\"nov\",\"tri\":\"4Tri/26\"},{\"nome\":\"ID: 16.12 | Entregável: Relatório de ganhos (baseline vs pós) e plano de escala 2027 com 10 oportunidades\",\"mes\":\"mar\",\"tri\":\"1Tri/26\"}]"},{"id":"21","titulo":"ID: 21 | Ideia: ","contexto":"o dia a dia da área de tecnologia em interação com demais áreas","problema":"promove a melhoria da infraestrutura e por conseguencia promove maior facilidade de manutenção, escalabilidade e elasticidade","resultado":"Redução de FTE/otimização de horas de trabalho, redução de apontamentos de auditoria, etc","analise":"Esta ideia resolve a dor de processos manuais e complexidade tecnológica, promovendo uma infraestrutura mais eficiente e fácil de manter. Pode gerar impacto em eficiência operacional, redução de custos, otimização de horas de trabalho, governança e experiência do usuário. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento, Fortalecer cultura digital [1]. Árvore de valor: Eficiência de Investimento/Custo, OPEX (redução ou transformação de horas trabalhadas), Sistemas/Eficiência de sistemas [2].","entregaveis":"[{\"nome\":\"ID: 21.13 | Entregável: Inventário e plano de racionalização do parque concluído (100% mapeado; 20% redundâncias identificadas)\",\"mes\":\"jun\",\"tri\":\"2Tri/26\"},{\"nome\":\"ID: 21.14 | Entregável: Automação de 10 processos críticos (redução estimada de 4.000 h/ano)\",\"mes\":\"set\",\"tri\":\"3Tri/26\"},{\"nome\":\"ID: 21.15 | Entregável: Descomissionamento de 8 sistemas legados e consolidação em 3 plataformas (−12% OPEX TI)\",\"mes\":\"nov\",\"tri\":\"4Tri/26\"},{\"nome\":\"ID: 21.16 | Entregável: Governança e monitoramento de automações ativos (KPIs implantados; −30% apontamentos de auditoria; SLO ≥98%)\",\"mes\":\"mar\",\"tri\":\"1Tri/26\"}]"}],
-      "a_estudar":  [{"id":"15","titulo":"ID: 15 | Ideia: ","contexto":"Estruturação necessária para escalar iniciativas\n","problema":"Ausência de modelo de arquitetura estruturado para IA\n","resultado":"Base sólida para expansão e sustentabilidade da IA\n","analise":"Esta ideia resolve a falta de um modelo de arquitetura estruturado para IA, criando uma base sólida para expansão e sustentabilidade. Pode gerar impacto em eficiência operacional, governança e aceleração da captura de valor. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital, Eficiência administrativa para habilitar crescimento, Garantir liderança como sponsor [1]. Árvore de valor: Eficiência operacional, Governança, Expansão sustentável [1].","entregaveis":"[]"}],
-      "inviaveis":  [{"id":"14","titulo":"ID: 14 | Ideia: ","contexto":"Cada área aciona a equipe com demandas espeficicas sobre suas áreas, mas por vezes essas iniciativas estão desconectadas das necessidades reais entre áreas e intra área","problema":"facilicitação de acesso a informações e ou tratativas de chamados simples","resultado":"redução de horas dedicadas a tirar duvidas de outras equipes","analise":"Esta ideia resolve a desconexão entre demandas das áreas e facilita o acesso à informação e tratativas de chamados simples. Pode gerar impacto em eficiência operacional, experiência do usuário e redução de horas dedicadas a tirar dúvidas de outras equipes. OKR: 1, 4. Árvore de valor: eficiência operacional, experiência do usuário [1].","entregaveis":"[]"}]
     }
-  ]
-}
 
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
 
-</script>
+    let _tt;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(_tt);
+      _tt = setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    function initSplash() {
+      const splash = document.getElementById('splash');
+      const splashLogo = document.getElementById('splashLogo');
+      if (!splash) return;
+
+      if (LOGO_RAMPUP) {
+        const img = document.createElement('img');
+        img.src = LOGO_RAMPUP;
+        img.alt = 'Logo Ramp Up 2026';
+        img.onerror = () => splashLogo.textContent = 'ER';
+        splashLogo.innerHTML = '';
+        splashLogo.appendChild(img);
+      } else {
+        splashLogo.textContent = 'ER';
+      }
+
+      setTimeout(() => {
+        splash.classList.add('hide');
+        // Fallback: remove o splash mesmo se animationend não disparar
+        const removeSplash = () => {
+          if (splash.parentNode) {
+            splash.remove();
+            document.body.style.overflow = '';
+          }
+        };
+        splash.addEventListener('animationend', removeSplash, { once: true });
+        setTimeout(removeSplash, 1000); // garante remoção após no máximo 1s
+      }, 2500);
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    function initLogo() {
+      const container = document.getElementById('logoContainer');
+      if (!container || !LOGO_URL) return;
+
+      const img = document.createElement('img');
+      img.src = LOGO_URL;
+      img.className = 'logo-img';
+      img.alt = 'Logo EcoRodovias';
+      container.appendChild(img);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLogo();
+      initSplash();
+      if (window.COPILOT_PAYLOAD) {
+        window.injectData(window.COPILOT_PAYLOAD);
+      }
+    });
+  </script>
 </body>
 </html>
