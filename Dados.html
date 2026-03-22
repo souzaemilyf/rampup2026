@@ -473,6 +473,59 @@
       .modal-box { padding: 20px; }
       .info-grid { grid-template-columns: 1fr; }
     }
+
+/* INSIGHTS GERAIS */
+
+.insights-section {
+  margin-top: 60px;
+}
+
+.insights-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.insight-card {
+  background: #ffffff;
+  border: 1px solid var(--ink-200);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.insight-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-900);
+  margin-bottom: 12px;
+}
+
+.insight-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insight-card ul li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--ink-900);
+  line-height: 1.5;
+}
+
+.insight-card ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--c-700);
+  font-weight: 900;
+}
+
   </style>
 </head>
 <body>
@@ -561,6 +614,13 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+
+<section id="insights-gerais" class="insights-section">
+  <h2 class="section-title">Insights Gerais</h2>
+  <div id="insightsContainer" class="insights-container"></div>
+</section>
+
 
 <script>
 /* ══════════════ CONFIG ══════════════ */
@@ -887,8 +947,29 @@ window.COPILOT_PAYLOAD=
       "a_estudar":  [],
       "inviaveis":  []
     }
-  ]
+  ],
+{
+  "insights_gerais": {
+    "principais_dores": [
+      "Dependência atual entre áreas para acesso a dados gera atrasos significativos na geração de insights, impactando a agilidade operacional.",
+      "Falta de visibilidade clara sobre entregas de valor e recuperação de receita dificulta o alinhamento estratégico e a priorização de iniciativas."
+    ],
+    "oportunidades": [
+      "Implementação da arquitetura Data Mesh pode reduzir o tempo de geração de insights em até 50%, aumentando a autonomia dos analistas e acelerando a captura de valor.",
+      "Atualização do roadmap plurianual de dados oferece oportunidade para alinhar dados à estratégia de transformação, fortalecendo governança e potencializando ganhos de receita."
+    ],
+    "riscos": [
+      "Dependência da aprovação e adoção dos blueprints e governança para garantir a efetividade das iniciativas pode atrasar entregas e comprometer resultados esperados."
+    ],
+    "destaques": [
+      "Iniciativas viáveis focam em eficiência operacional, governança e aceleração da captura de valor, com entregas estruturadas até o primeiro trimestre de 2025.",
+      "Roadmap contempla entregas concretas como piloto de data products, plataforma self-service e contratos padronizados, evidenciando maturidade e foco em escalabilidade.",
+      "A estratégia inclui metas claras de onboard de analistas e redução do Time-to-Insight, indicando foco em capacitação e autonomia para áreas de negócio."
+    ]
+  }
 }
+}
+
 
 
 </script>
