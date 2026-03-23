@@ -731,6 +731,10 @@ function renderAll() {
   });
 }
 
+//Insights Gerais
+
+renderInsightsGerais();
+
 /* ══════════════ BUILD GANTT ══════════════ */
 function buildGantt(iniciativas) {
   const wrapper = document.createElement('div');
@@ -928,11 +932,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.COPILOT_PAYLOAD) window.injectData(window.COPILOT_PAYLOAD);
 });
 
-/* ══════════════ PAYLOAD DE EXEMPLO ══════════════ */
+function renderInsightsGerais() {
+  if (!DATA || !DATA.insights_gerais) return;
+
+  const container = document.getElementById("insightsContainer");
+  container.innerHTML = "";
+
+  const grupos = {
+    principais_dores: "Principais Dores",
+    oportunidades: "Oportunidades",
+    riscos: "Riscos",
+    destaques: "Destaques"
+  };
+
+  Object.keys(grupos).forEach(key => {
+    const lista = DATA.insights_gerais[key];
+    if (!lista || lista.length === 0) return;
+
+    const card = document.createElement("div");
+    card.className = "insight-card";
+
+    const title = document.createElement("h3");
+    title.textContent = grupos[key];
+    card.appendChild(title);
+
+    const ul = document.createElement("ul");
+    lista.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+
+    card.appendChild(ul);
+    container.appendChild(card);
+  });
+}
 
 
-window.COPILOT_PAYLOAD=
-{
   "fase": 3,
   "metricas": {
     "total": 2,
@@ -951,25 +987,23 @@ window.COPILOT_PAYLOAD=
 {
   "insights_gerais": {
     "principais_dores": [
-      "Dependência atual entre áreas para acesso a dados gera atrasos significativos na geração de insights, impactando a agilidade operacional.",
-      "Falta de visibilidade clara sobre entregas de valor e recuperação de receita dificulta o alinhamento estratégico e a priorização de iniciativas."
+      "A dependência do time de TI para acesso e manipulação de dados limita a agilidade na geração de insights, impactando diretamente a eficiência operacional e a tomada de decisão.",
+      "A falta de alinhamento claro entre a estratégia de transformação e o roadmap de dados dificulta a visibilidade sobre entregas de valor e recuperação de receita."
     ],
     "oportunidades": [
-      "Implementação da arquitetura Data Mesh pode reduzir o tempo de geração de insights em até 50%, aumentando a autonomia dos analistas e acelerando a captura de valor.",
-      "Atualização do roadmap plurianual de dados oferece oportunidade para alinhar dados à estratégia de transformação, fortalecendo governança e potencializando ganhos de receita."
+      "Implementar uma arquitetura de Data Mesh pode descentralizar a gestão de dados, promovendo autonomia dos analistas e reduzindo o tempo de acesso a informações críticas em até 50%.",
+      "Atualizar e estruturar o roadmap plurianual de dados alinhado à transformação possibilita maior governança e monitoramento de KPIs financeiros, ampliando a capacidade de captura de valor e eficiência administrativa."
     ],
     "riscos": [
-      "Dependência da aprovação e adoção dos blueprints e governança para garantir a efetividade das iniciativas pode atrasar entregas e comprometer resultados esperados."
+      "A complexidade na padronização e governança dos contratos de dados entre múltiplas unidades de negócio pode atrasar a escalabilidade da plataforma self-service e comprometer a qualidade dos dados."
     ],
     "destaques": [
-      "Iniciativas viáveis focam em eficiência operacional, governança e aceleração da captura de valor, com entregas estruturadas até o primeiro trimestre de 2025.",
-      "Roadmap contempla entregas concretas como piloto de data products, plataforma self-service e contratos padronizados, evidenciando maturidade e foco em escalabilidade.",
-      "A estratégia inclui metas claras de onboard de analistas e redução do Time-to-Insight, indicando foco em capacitação e autonomia para áreas de negócio."
+      "O roadmap contempla entregas claras e mensuráveis, como blueprint aprovado, piloto com data products e plataforma self-service com onboarding de analistas, garantindo avanço progressivo e controle de resultados.",
+      "A iniciativa de Data Mesh foca em múltiplos eixos de valor simultaneamente: eficiência operacional, experiência do usuário, governança e aceleração da captura de valor, evidenciando um impacto estratégico abrangente.",
+      "O alinhamento do roadmap plurianual com KPIs definidos para 2027-2029 reforça o compromisso com a sustentabilidade e evolução contínua da gestão de dados na organização."
     ]
   }
 }
-}
-
 
 
 </script>
