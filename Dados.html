@@ -171,12 +171,27 @@
 
     .roadmap-label {
       display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600;
+      font-size: 16px; font-weight: 600;
       color: var(--c-700);
       text-transform: uppercase; letter-spacing: .8px;
       margin-bottom: 14px;
     }
     .roadmap-label svg { opacity: .7; }
+    
+    .how-to-nav {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-left: 3px solid var(--c-500);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      font-size: 12px; font-weight: 400;
+      color: var(--ink-600);
+      line-height: 1.5;
+    }
+    .how-to-nav svg { flex-shrink: 0; color: var(--c-700); opacity: .8; }
+    .how-to-nav strong { font-weight: 700; color: var(--ink-900); }
 
     /* contêiner geral do Gantt */
     .gantt {
@@ -476,8 +491,10 @@
 
 /* INSIGHTS GERAIS */
 
-.insights-section {
-  margin-top: 60px;
+.insights-section {      max-width: 1400px; margin: 0 auto;
+      padding: 44px 48px 32px;
+      display: grid;
+  margin-top: 30px;
 }
 
 .insights-container {
@@ -496,7 +513,7 @@
 }
 
 .insight-card h3 {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--c-900);
   margin-bottom: 12px;
@@ -512,7 +529,7 @@
   position: relative;
   padding-left: 16px;
   margin-bottom: 8px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ink-900);
   line-height: 1.5;
 }
@@ -526,6 +543,24 @@
   font-weight: 900;
 }
 
+
+.insights-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--c-700);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 14px;
+}
+
+.insights-label svg {
+  opacity: .7;
+}
+
+
   </style>
 </head>
 <body>
@@ -535,7 +570,7 @@
 <div class="splash-text">
     <div class="splash-eyebrow">Bem-vindo(a) ao</div>
   <div class="splash-logo"><img id="splashImg" src="" alt="Logo" /></div>
-    <div class="splash-title">Habilitador:  Dados</div>
+    <div class="splash-title">Habilitador:   Dados</div>
   </div>
   <div class="splash-bar"></div>
 </div>
@@ -549,7 +584,7 @@
 <section class="hero">
   <div class="hero-left">
     <h1>Ramp Up <span>2026</span></h1>
-    <p>Explore abaixo o Roadmap de Transformação 2026 para   Dados, com todas as iniciativas organizadas por status e entregas previstas.</p>
+    <p>Explore abaixo o Roadmap de Transformação 2026 para  Dados, com todas as iniciativas organizadas por status e entregas previstas.</p>
   </div>
   <div class="hero-right">
     <div class="metrics-card">
@@ -574,6 +609,21 @@
       </div>
     </div>
   </div>
+</section>
+
+<section id="insights-gerais" class="insights-section">
+  <h2 class="section-title">Habilitador: Dados</h2>
+  
+<div class="insights-label">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <circle cx="12" cy="16" r="1"></circle>
+  </svg>
+  INSIGHTS GERAIS
+</div>
+
+  <div id="insightsContainer" class="insights-container"></div>
 </section>
 
 <!-- MAIN -->
@@ -614,12 +664,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
-
-<section id="insights-gerais" class="insights-section">
-  <h2 class="section-title">Insights Gerais</h2>
-  <div id="insightsContainer" class="insights-container"></div>
-</section>
 
 
 <script>
@@ -705,10 +749,6 @@ function renderAll() {
     const section = document.createElement('div');
     section.className = 'habilitador-section';
 
-    const title = document.createElement('h2');
-    title.className = 'section-title';
-    title.textContent = hab.nome;
-    section.appendChild(title);
 
     // GANTT — só fase 3
     if (window.faseAtual === 3 && hab.viaveis?.length) {
@@ -729,11 +769,14 @@ function renderAll() {
 
     container.appendChild(section);
   });
-}
-
+  
 //Insights Gerais
 
 renderInsightsGerais();
+    
+}
+
+
 
 /* ══════════════ BUILD GANTT ══════════════ */
 function buildGantt(iniciativas) {
@@ -750,6 +793,14 @@ function buildGantt(iniciativas) {
         <line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
       Roadmap · Iniciativas Viáveis
+    </div>
+    <div class="how-to-nav">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span><strong>Como navegar:</strong> Clique em qualquer iniciativa para ver contexto, problema, resultado esperado e entregáveis detalhados.</span>
     </div>`;
 
   const gantt = document.createElement('div');
@@ -981,19 +1032,18 @@ window.COPILOT_PAYLOAD=
   "habilitadores": [
     {
       "nome": "Dados",
-      "viaveis": [{"id":"1","titulo":"Implementar uma arquitetura de \"Data Mesh\" (Malha de Dados)\n","contexto":"Descentralizar a gestão de dados, tratando-os como um produto de cada unidade de negócio (Ecovias, Ecoponte, Eco101, etc.), sob uma governança central\n","problema":"Atualmente, o time de Operações da EcoRodovias pode ter dados valiosos sobre o Free Flow que o time de Marketing ou Financeiro demora semanas para acessar ou entender.\n","resultado":"Redução drástica no tempo de geração de insights (Time-to-Insight) e maior autonomia para analistas criarem dashboards sem depender do TI central\n","analise":"Esta ideia resolve a dor de acesso lento e dependente de dados entre áreas, promovendo autonomia e agilidade para os analistas. Pode gerar impacto em eficiência operacional, experiência do usuário, governança e aceleração de captura de valor. OKR: Maximizar resultados do negócio core (redução de tempo operacional), Acelerar captura de valor (iniciativas entregues no prazo, KPIs financeiros), Fortalecer cultura digital (treinamento focado em digital/IA, squads com ganho de velocidade), Eficiência administrativa para habilitar crescimento (redução de tempo administrativo) e Garantir liderança como sponsor (mindset de transformação, evidências de comportamento sponsor) [1]. Árvore de valor: Eficiência operacional, experiência do usuário, governança e aceleração de captura de valor [1].","entregaveis":"[{\"nome\":\"Blueprint e governança aprovados (100% domínios críticos mapeados; 10 contratos de dados publicados)\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Piloto com 2 data products (>=99% disponibilidade; Time-to-Insight -30%)\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Plataforma self-service ativa (80 analistas onboard; 30 dashboards sem TI)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Escala do Mesh: 6 data products produtivos; 20 contratos padronizados; Time-to-Insight -50%\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"},{"id":"2","titulo":"Atualizar roadmap plurianual de dados para report da Transformação\n","contexto":"Necessidade de alinhamento entre dados e estratégia de transformação\n","problema":"Falta de visibilidade sobre entregas de valor e recuperação de receita\n","resultado":"Roadmap claro e estruturado para alinhamento anual","analise":"Esta ideia resolve a falta de visibilidade sobre entregas de valor e recuperação de receita, alinhando dados à estratégia de transformação. Pode gerar impacto em eficiência operacional, governança e receita. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital e Eficiência administrativa para habilitar crescimento. Árvore de valor: Eixos de eficiência operacional, governança e geração de receita [1].","entregaveis":"[{\"nome\":\"Blueprint e governança aprovados (100% domínios críticos mapeados; 10 contratos de dados publicados)\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Piloto com 2 data products (>=99% disponibilidade; Time-to-Insight -30%)\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Plataforma self-service ativa (80 analistas onboard; 30 dashboards sem TI)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Escala do Mesh: 6 data products produtivos; 20 contratos padronizados; Time-to-Insight -50%\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Inventário de dados e lacunas (100% domínios) aprovado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Roadmap plurianual de dados v1.0 priorizado e aprovado em comitê\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"KPIs e baseline de valor (eficiência, governança, receita) definidos 2027–2029\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Roadmap 2.0 e calendário de releases 2027 publicado\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
+      "viaveis": [{"id":"1","titulo":"Implementar uma arquitetura de \"Data Mesh\" (Malha de Dados)\n","contexto":"Descentralizar a gestão de dados, tratando-os como um produto de cada unidade de negócio (Ecovias, Ecoponte, Eco101, etc.), sob uma governança central\n","problema":"Atualmente, o time de Operações da EcoRodovias pode ter dados valiosos sobre o Free Flow que o time de Marketing ou Financeiro demora semanas para acessar ou entender.\n","resultado":"Redução drástica no tempo de geração de insights (Time-to-Insight) e maior autonomia para analistas criarem dashboards sem depender do TI central\n","analise":"Esta ideia resolve a dor de acesso lento e dependente de dados entre áreas, promovendo autonomia e agilidade para os analistas. Pode gerar impacto em eficiência operacional, experiência do usuário, governança e aceleração de captura de valor. OKR: Maximizar resultados do negócio core (redução de tempo operacional), Acelerar captura de valor (iniciativas entregues no prazo, KPIs financeiros), Fortalecer cultura digital (treinamento focado em digital/IA, squads com ganho de velocidade), Eficiência administrativa para habilitar crescimento (redução de tempo administrativo) e Garantir liderança como sponsor (mindset de transformação, evidências de comportamento sponsor) [1]. Árvore de valor: Eficiência operacional, experiência do usuário, governança e aceleração de captura de valor [1].","entregaveis":"[{\"nome\":\"Verificando a funcionalidade Ajustar o título de um Entregável\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Publicação de 3 data products com SLOs (≥95% qualidade, ≥99% disponibilidade) e contratos de dados\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Self-service analytics ativo (80% analistas habilitados, 2 camadas semânticas, 10 dashboards sem TI)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Redução de 40% no Time-to-Insight e 70% dos novos dashboards criados pelas áreas\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Testando a funcionalidade Adicionar um novo entregável\",\"mes\":\"mai\",\"tri\":\"2 Tri\"}]"},{"id":"2","titulo":"Atualizar roadmap plurianual de dados para report da Transformação\n","contexto":"Necessidade de alinhamento entre dados e estratégia de transformação\n","problema":"Falta de visibilidade sobre entregas de valor e recuperação de receita\n","resultado":"Roadmap claro e estruturado para alinhamento anual","analise":"Esta ideia resolve a falta de visibilidade sobre entregas de valor e recuperação de receita, alinhando dados à estratégia de transformação. Pode gerar impacto em eficiência operacional, governança e receita. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital e Eficiência administrativa para habilitar crescimento. Árvore de valor: Eixos de eficiência operacional, governança e geração de receita [1].","entregaveis":"[{\"nome\":\"Verificando a funcionalidade Ajustar o título de um Entregável\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Publicação de 3 data products com SLOs (≥95% qualidade, ≥99% disponibilidade) e contratos de dados\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Self-service analytics ativo (80% analistas habilitados, 2 camadas semânticas, 10 dashboards sem TI)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Redução de 40% no Time-to-Insight e 70% dos novos dashboards criados pelas áreas\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Testando a funcionalidade Adicionar um novo entregável\",\"mes\":\"mai\",\"tri\":\"2 Tri\"},{\"nome\":\"Diagnóstico e inventário de dados\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Roadmap plurianual v0.9 priorizado\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Governança e dashboard de valor (piloto)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Roadmap v1.0 e plano de execução 12 meses\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
       "a_estudar": [],
       "inviaveis": []
     }
   ],
   "insights_gerais": {
-    "principais_dores": ["A dependência do TI central para acesso e manipulação de dados gera atrasos significativos no time-to-insight, impactando a agilidade das áreas de Marketing e Financeiro.","A falta de alinhamento claro entre a estratégia de transformação e o roadmap de dados dificulta a visibilidade sobre entregas de valor e recuperação de receita."],
-    "oportunidades": ["Implementar a arquitetura de Data Mesh pode descentralizar a gestão de dados, promovendo autonomia dos analistas e acelerando a geração de insights em até 50%.","Atualizar e estruturar o roadmap plurianual de dados possibilita maior governança e alinhamento estratégico, facilitando o acompanhamento de KPIs financeiros e operacionais.","A criação de uma plataforma self-service para analistas pode reduzir a dependência do TI e aumentar a produtividade, com potencial para onboard de 80 analistas e criação de 30 dashboards independentes."],
-    "riscos": ["A complexidade na padronização e governança dos contratos de dados entre múltiplas unidades de negócio pode atrasar a escalabilidade do Data Mesh e comprometer a qualidade dos dados."],
-    "destaques": ["O roadmap prioriza iniciativas que impactam diretamente eficiência operacional, governança e aceleração da captura de valor, com entregas planejadas para curto e médio prazo (2023-2024).","A estratégia contempla a mensuração clara de resultados por meio de KPIs definidos para eficiência, governança e receita, garantindo acompanhamento estruturado do progresso.","A abordagem de tratar dados como produtos por unidade de negócio reforça a cultura digital e promove maior autonomia, alinhada ao objetivo de fortalecer squads e mindset de transformação."]
+    "principais_dores": ["A dependência do time de TI para acesso e manipulação de dados limita a agilidade na geração de insights, impactando diretamente a eficiência operacional e a tomada de decisão.","A falta de alinhamento claro entre a estratégia de transformação e o roadmap de dados dificulta a visibilidade sobre entregas de valor e recuperação de receita."],
+    "oportunidades": ["Implementar uma arquitetura de Data Mesh pode descentralizar a gestão de dados, promovendo autonomia dos analistas e acelerando o time-to-insight em até 40%, com impacto direto na eficiência operacional e governança.","Atualizar e estruturar o roadmap plurianual de dados alinhado à transformação possibilita maior governança e potencializa a geração de receita ao garantir entregas de valor mais visíveis e priorizadas."],
+    "riscos": ["A centralização atual dos dados e a dependência do TI podem gerar atrasos e gargalos que comprometem a agilidade necessária para capturar valor rapidamente."],
+    "destaques": ["O roadmap contempla entregas concretas com metas claras, como publicação de data products com altos níveis de qualidade e disponibilidade, e habilitação de self-service analytics para 80% dos analistas.","As iniciativas priorizam a redução do tempo para geração de insights e a criação de dashboards independentes do TI, fortalecendo a cultura digital e a eficiência administrativa.","O foco em governança e contratos de dados reforça a sustentabilidade e confiabilidade das soluções propostas, alinhando-se aos objetivos estratégicos de maximizar resultados e acelerar captura de valor."]
   }
 }
-
 
 </script>
 </body>
