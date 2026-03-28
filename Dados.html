@@ -633,70 +633,6 @@
 <!-- MAIN -->
 <main class="container" id="mainContainer"></main>
 
-
-<section class="container" id="notesSection">
-  <h2 class="section-title">Observações e Anotações</h2>
-
-  <div style="display:flex; flex-direction:column; gap:12px; max-width:800px;">
-    <p style="font-size:13px; color:#374a3c;">
-      Use este espaço para anotar ideias, melhorias e pontos importantes durante a apresentação.
-      Ao final, você pode enviar tudo para o chat do Copilot para apoiar nos ajustes.
-    </p>
-
-    <textarea
-      id="notesTextarea"
-      placeholder="Escreva aqui suas observações..."
-      style="
-        min-height: 140px;
-        padding: 12px 14px;
-        border-radius: 8px;
-        border: 1px solid #c4d1c6;
-        font-family: 'Lexend', sans-serif;
-        font-size: 13px;
-        resize: vertical;
-      "
-    ></textarea>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button
-        type="button"
-        onclick="sendNotesToFlow()"
-        style="
-          background: #056b28;
-          color: #ffffff;
-          border: none;
-          padding: 9px 18px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
-          display:flex;
-          align-items:center;
-          gap:6px;
-        "
-      >
-        <span>Enviar anotações</span>
-      </button>
-
-      <button
-        type="button"
-        onclick="clearNotes()"
-        style="
-          background: #f4f6f4;
-          color: #374a3c;
-          border: 1px solid #c4d1c6;
-          padding: 9px 16px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-        "
-      >
-        Limpar anotações
-      </button>
-</section>
-
-
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-backdrop" onclick="closeModal()"></div>
@@ -1106,75 +1042,18 @@ window.COPILOT_PAYLOAD=
   "habilitadores": [
     {
       "nome": "Dados",
-      "viaveis": [{"id":"1","titulo":"Implementar uma arquitetura de \"Data Mesh\" (Malha de Dados)\n","contexto":"Descentralizar a gestão de dados, tratando-os como um produto de cada unidade de negócio (Ecovias, Ecoponte, Eco101, etc.), sob uma governança central\n","problema":"Atualmente, o time de Operações da EcoRodovias pode ter dados valiosos sobre o Free Flow que o time de Marketing ou Financeiro demora semanas para acessar ou entender.\n","resultado":"Redução drástica no tempo de geração de insights (Time-to-Insight) e maior autonomia para analistas criarem dashboards sem depender do TI central\n","analise":"Esta ideia resolve a dor de acesso lento e dependente de dados entre áreas, promovendo autonomia e agilidade para os analistas. Pode gerar impacto em eficiência operacional, experiência do usuário, governança e aceleração de captura de valor. OKR: Maximizar resultados do negócio core (redução de tempo operacional), Acelerar captura de valor (iniciativas entregues no prazo, KPIs financeiros), Fortalecer cultura digital (treinamento focado em digital/IA, squads com ganho de velocidade), Eficiência administrativa para habilitar crescimento (redução de tempo administrativo) e Garantir liderança como sponsor (mindset de transformação, evidências de comportamento sponsor) [1]. Árvore de valor: Eficiência operacional, experiência do usuário, governança e aceleração de captura de valor [1].","entregaveis":"[{\"nome\":\"MVP de governança Data Mesh: 6 domínios definidos, 10 contratos publicados e catálogo com 100% metadados críticos\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Lançamento de 3 data products com SLA ≥99% disponibilidade e latência ≤24h, com lineage e qualidade monitorada\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"Plataforma self-service BI habilitada: 50 analistas treinados, 80% de satisfação e acesso governado ativo\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Redução de 40% no Time-to-Insight e 30 dashboards criados sem dependência do TI central\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Blueprint (teste ajustar titulo)\",\"mes\":\"mai\",\"tri\":\"2 Tri\"},{\"nome\":\"MVP com 4 data products (2 por domínio piloto) publicados com contratos de dados, SLAs ≥99% e lineage\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Portal self-service ativo + 20 analistas habilitados + 15 dashboards criados sem TI + TTI -25% nos pilotos\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Escala: +3 domínios e +6 data products; 80 analistas treinados (cumulativo) e 40 dashboards; TTI -40% vs baseline\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Entregavel de projeto teste\",\"mes\":\"set\",\"tri\":\"3 Tri\"}]"}],
-      "a_estudar": [{"id":"24","titulo":"Enviar link para os usuários do Free-Flow automaticamente quando eles passarem pelo pórtico","contexto":"Os usuários precisam pesquisar e acessar o pedágio digital","problema":"inadimplência e esquecimento de pagamento","resultado":"redução do índice de inadimplência, aumento de receita, melhor experiência do  usuário","analise":"Esta ideia resolve o problema de inadimplência e esquecimento de pagamento ao facilitar o acesso ao pedágio digital para os usuários do Free-Flow. Pode gerar impacto em aumento de receita, redução de inadimplência e melhor experiência do usuário. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Aumento da Receita, Cobrança correta e no tempo correto, Novo modelo de cobrança, Eficiência de Investimento/Custo [2].","entregaveis":"[{\"nome\":\"Especificação e arquitetura aprovadas (inclui parecer LGPD)\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"MVP homologado com taxa de entrega de links >=90% em homologação\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Piloto em 1 praça com redução de inadimplência >=10% vs baseline\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Rollout 100% das praças Free-Flow com SLA de entrega >=95%\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
-      "inviaveis": [{"id":"2","titulo":"Atualizar roadmap plurianual de dados para report da Transformação\n","contexto":"Necessidade de alinhamento entre dados e estratégia de transformação\n","problema":"Falta de visibilidade sobre entregas de valor e recuperação de receita\n","resultado":"Roadmap claro e estruturado para alinhamento anual","analise":"Esta ideia resolve a falta de visibilidade sobre entregas de valor e recuperação de receita, alinhando dados à estratégia de transformação. Pode gerar impacto em eficiência operacional, governança e receita. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital e Eficiência administrativa para habilitar crescimento. Árvore de valor: Eixos de eficiência operacional, governança e geração de receita [1].","entregaveis":"[{\"nome\":\"Diagnóstico e priorização concluídos (100% dos domínios críticos mapeados e matriz de valor publicada)\",\"mes\":\"mai\",\"tri\":\"2 Tri\"},{\"nome\":\"Roadmap plurianual de dados v1 (2026–2028) aprovado e OKRs anuais definidos\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"Plano de execução 2026–2027 detalhado (≥90% das frentes com cronograma, KPIs e responsáveis)\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Governança e cadência de reporte implementadas (dashboard e rituais trimestrais ativos)\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Novo Entregável de Projeto\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}]
+      "viaveis": [{"id":"1","titulo":"Implementar uma arquitetura de \"Data Mesh\" (Malha de Dados)\n","contexto":"Descentralizar a gestão de dados, tratando-os como um produto de cada unidade de negócio (Ecovias, Ecoponte, Eco101, etc.), sob uma governança central\n","problema":"Atualmente, o time de Operações da EcoRodovias pode ter dados valiosos sobre o Free Flow que o time de Marketing ou Financeiro demora semanas para acessar ou entender.\n","resultado":"Redução drástica no tempo de geração de insights (Time-to-Insight) e maior autonomia para analistas criarem dashboards sem depender do TI central\n","analise":"Esta ideia resolve a dor de acesso lento e dependente de dados entre áreas, promovendo autonomia e agilidade para os analistas. Pode gerar impacto em eficiência operacional, experiência do usuário, governança e aceleração de captura de valor. OKR: Maximizar resultados do negócio core (redução de tempo operacional), Acelerar captura de valor (iniciativas entregues no prazo, KPIs financeiros), Fortalecer cultura digital (treinamento focado em digital/IA, squads com ganho de velocidade), Eficiência administrativa para habilitar crescimento (redução de tempo administrativo) e Garantir liderança como sponsor (mindset de transformação, evidências de comportamento sponsor) [1]. Árvore de valor: Eficiência operacional, experiência do usuário, governança e aceleração de captura de valor [1].","entregaveis":"[{\"nome\":\"Blueprint de Data Mesh e governança publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Plataforma self-service habilitada (RBAC, catálogo, pipelines)\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Data products piloto publicados com contratos e SLOs monitorados\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Medição de Time-to-Insight e autonomia dos analistas operacionalizadas\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
+      "a_estudar": [{"id":"24","titulo":"Enviar link para os usuários do Free-Flow automaticamente quando eles passarem pelo pórtico","contexto":"Os usuários precisam pesquisar e acessar o pedágio digital","problema":"inadimplência e esquecimento de pagamento","resultado":"redução do índice de inadimplência, aumento de receita, melhor experiência do  usuário","analise":"Esta ideia resolve o problema de inadimplência e esquecimento de pagamento ao facilitar o acesso ao pedágio digital para os usuários do Free-Flow. Pode gerar impacto em aumento de receita, redução de inadimplência e melhor experiência do usuário. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Aumento da Receita, Cobrança correta e no tempo correto, Novo modelo de cobrança, Eficiência de Investimento/Custo [2].","entregaveis":"[{\"nome\":\"MVP de disparo automático de link pós-pórtico com monitoramento de entrega e clique\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Piloto operacional com métricas de conversão em pagamento e redução de inadimplência\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Escalação para toda a malha Free-Flow com orquestração de canais e conformidade LGPD\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Otimização com IA do timing e conteúdo do link e dashboards criados para acompanhamento\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
+      "inviaveis": [{"id":"2","titulo":"Atualizar roadmap plurianual de dados para report da Transformação\n","contexto":"Necessidade de alinhamento entre dados e estratégia de transformação\n","problema":"Falta de visibilidade sobre entregas de valor e recuperação de receita\n","resultado":"Roadmap claro e estruturado para alinhamento anual","analise":"Esta ideia resolve a falta de visibilidade sobre entregas de valor e recuperação de receita, alinhando dados à estratégia de transformação. Pode gerar impacto em eficiência operacional, governança e receita. OKR: Maximizar resultados do negócio core, Acelerar captura de valor, Fortalecer cultura digital e Eficiência administrativa para habilitar crescimento. Árvore de valor: Eixos de eficiência operacional, governança e geração de receita [1].","entregaveis":"[{\"nome\":\"Diagnóstico e priorização alinhados à árvore de valor\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Roadmap plurianual de dados v1.0 validado e publicado\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Painel de acompanhamento de valor integrado ao report da Transformação\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Governança do roadmap operacionalizada com ritos e indicadores\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}]
     }
   ],
   "insights_gerais": {
-    "principais_dores": ["Dependência excessiva do TI central para acesso e manipulação de dados, causando atrasos significativos no time-to-insight entre áreas como Operações, Marketing e Financeiro.","Falta de visibilidade clara e estruturada sobre entregas de valor e recuperação de receita, dificultando o alinhamento entre dados e a estratégia de transformação."],
-    "oportunidades": ["Implementação da arquitetura Data Mesh pode descentralizar a gestão de dados, promovendo autonomia dos analistas e acelerando a geração de insights com impacto direto em eficiência operacional e governança.","Desenvolvimento de roadmap plurianual de dados alinhado à transformação oferece oportunidade para melhorar governança, eficiência e geração de receita com entregas mais transparentes e monitoradas."],
-    "riscos": ["A ausência de priorização e maturação das iniciativas a estudar, como o envio automático de links para usuários do Free-Flow, pode atrasar ganhos potenciais em receita e redução de inadimplência."],
-    "destaques": ["A iniciativa Data Mesh apresenta entregas claras e mensuráveis, como redução de 40% no time-to-insight e capacitação de analistas para criação de dashboards sem dependência do TI, evidenciando foco em autonomia e agilidade.","A iniciativa de atualização do roadmap plurianual, embora inviável no momento, destaca a necessidade crítica de governança e alinhamento estratégico para maximizar resultados e acelerar captura de valor.","A existência de iniciativas a estudar com potencial impacto financeiro e operacional indica espaço para expansão do roadmap, especialmente em modelos de cobrança digital e experiência do usuário."]
+    "principais_dores": ["Dependência excessiva do TI central para acesso e manipulação de dados, causando atrasos significativos na geração de insights entre áreas como Operações, Marketing e Financeiro.","Falta de visibilidade clara e estruturada sobre entregas de valor e alinhamento do roadmap de dados com a estratégia de transformação, dificultando a recuperação de receita e a governança eficaz."],
+    "oportunidades": ["Implementação da arquitetura Data Mesh pode descentralizar a gestão de dados, promovendo autonomia dos analistas e acelerando o time-to-insight, impactando diretamente a eficiência operacional e governança.","Desenvolvimento de um roadmap plurianual de dados alinhado à estratégia de transformação pode fortalecer a governança e maximizar resultados financeiros por meio de entregas mais transparentes e monitoradas.","Automatização do envio de links para usuários do Free-Flow pode reduzir inadimplência e aumentar receita, além de melhorar a experiência do usuário com o pedágio digital."],
+    "riscos": ["Dependência de múltiplas unidades de negócio para adoção da arquitetura Data Mesh pode gerar desafios de governança e padronização, impactando a consistência dos dados e a efetividade da descentralização."],
+    "destaques": ["O roadmap prioriza iniciativas que promovem autonomia analítica e governança centralizada, equilibrando descentralização com controle estratégico.","Há um foco claro em acelerar a captura de valor por meio da redução do tempo operacional e melhoria da experiência do usuário, especialmente em dados de fluxo e cobrança digital.","Iniciativas viáveis estão alinhadas a múltiplos eixos de valor, incluindo eficiência operacional, governança, experiência do usuário e geração de receita, demonstrando uma abordagem integrada."]
   }
 }
-
-
-async function sendNotesToFlow() {
-  const textarea = document.getElementById('notesTextarea');
-  if (!textarea) {
-    showToast('❌ Campo de anotações não encontrado.');
-    return;
-  }
-
-  const texto = textarea.value.trim();
-  if (!texto) {
-    showToast('⚠️ Escreva alguma anotação antes de enviar.');
-    return;
-  }
-
-  // pega o nome do habilitador a partir do payload já carregado
-  let habilitador = 'Desconhecido';
-  try {
-    if (DATA?.habilitadores?.[0]?.nome) {
-      habilitador = DATA.habilitadores[0].nome;
-    } else if (window.COPILOT_PAYLOAD?.habilitadores?.[0]?.nome) {
-      // fallback, caso DATA não esteja populado por algum motivo
-      habilitador = window.COPILOT_PAYLOAD.habilitadores[0].nome;
-    }
-  } catch (e) {
-    console.warn('Não foi possível obter o habilitador, usando valor padrão.', e);
-  }
-
-  // monta EXACTAMENTE o objeto pedido
-  const body = {
-    anotacoes: texto,
-    habilitador: habilitador
-  };
-
-  try {
-    const response = await fetch(FLOW_URL_NOTAS, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Erro na resposta do fluxo:', errorText);
-      showToast('❌ Erro ao enviar anotações para o fluxo.');
-      return;
-    }
-
-    showToast('✅ Anotações enviadas com sucesso!');
-  } catch (e) {
-    console.error(e);
-    showToast('❌ Erro ao conectar com o fluxo HTTP.');
-  }
-}
-
 
 </script>
 </body>
