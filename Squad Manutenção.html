@@ -1,1 +1,1060 @@
-Agurdando dados
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ramp Up da Transformação 2026</title>
+  <link rel="shortcut icon" href="https://www.ecorodovias.com.br/wp-content/uploads/2025/03/favicon.svg" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --c-900: #056b28;
+      --c-700: #1da013;
+      --c-500: #72d216;
+      --c-50:  #edf7ee;
+      --white: #ffffff;
+      --bg:    #f4f6f4;
+
+      --ink-900: #111714;
+      --ink-600: #374a3c;
+      --ink-400: #6b826f;
+      --ink-200: #c4d1c6;
+      --ink-100: #e8ede9;
+
+      --radius:    12px;
+      --radius-sm: 6px;
+      --shadow:    0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.05);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,.10), 0 16px 48px rgba(0,0,0,.12);
+
+      /* Trimestres — header e barras compartilham a mesma paleta */
+      --tri-A: #056b28;   /* 2TRI/26 */
+      --tri-B: #1da013;   /* 3TRI/26 */
+      --tri-C: #2e8b1a;   /* 4TRI/26 */
+      --tri-D: #4caf3f;   /* 1TRI/27 */
+
+      --tri-A-bg: rgba(5,107,40,.06);
+      --tri-B-bg: rgba(29,160,19,.04);
+      --tri-C-bg: rgba(46,139,26,.06);
+      --tri-D-bg: rgba(76,175,63,.04);
+
+      /* Larguras da grade */
+      --col-tri:   1fr;     /* cada trimestre = mesma fração */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lexend', sans-serif;
+      background: var(--bg);
+      color: var(--ink-900);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════ HEADER ═══════════════════ */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--c-900);
+      height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .logo-img { height: 34px; object-fit: contain; }
+
+    /* ═══════════════════ SPLASH ═══════════════════ */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--c-900);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 24px;
+      animation: splashDown .7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes splashDown {
+      from { transform: translateY(-100%); }
+      to   { transform: translateY(0); }
+    }
+    #splash.hide { animation: splashUp .7s cubic-bezier(.55,0,1,.45) forwards; }
+    @keyframes splashUp {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-100%); }
+    }
+    .splash-logo { opacity: 0; animation: fadeUp .5s ease .4s forwards; }
+    .splash-logo img { height: 260px; object-fit: contain; }
+    .splash-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--c-500);
+      opacity: 0; animation: fadeUp .5s ease .7s forwards;
+      text-align: center;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    
+    .splash-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.2;
+      max-width: 560px;
+      text-align: center;
+    }
+    
+
+    /* ═══════════════════ HERO ═══════════════════ */
+    .hero {
+      max-width: 1400px; margin: 0 auto;
+      padding: 44px 48px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .hero-left h1 {
+      font-weight: 800;
+      font-size: clamp(26px, 3vw, 42px);
+      color: var(--c-900);
+      line-height: 1.1;
+      letter-spacing: -.4px;
+    }
+    .hero-left h1 span { color: var(--c-500); }
+    .hero-left p {
+      margin-top: 10px;
+      font-size: 14px; font-weight: 400;
+      color: var(--ink-600); line-height: 1.65;
+      max-width: 440px;
+    }
+
+    /* métricas */
+    .metrics-card {
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      min-width: 260px;
+      box-shadow: var(--shadow);
+    }
+    .metrics-title {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .9px; text-transform: uppercase;
+      color: var(--ink-400); margin-bottom: 14px;
+    }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .metric-item { display: flex; flex-direction: column; gap: 3px; }
+    .metric-value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .metric-label { font-size: 11px; font-weight: 500; color: var(--ink-600); }
+    .metric-item.total    .metric-value { color: var(--ink-900); }
+    .metric-item.viaveis  .metric-value { color: var(--c-700); }
+    .metric-item.estudar  .metric-value { color: #d97706; }
+    .metric-item.inviaveis .metric-value { color: var(--ink-400); }
+
+    /* ═══════════════════ CONTAINER ═══════════════════ */
+    .container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 36px 48px 80px;
+    }
+
+    .habilitador-section { margin-bottom: 56px; }
+
+    .section-title {
+      font-weight: 800; font-size: 22px;
+      color: var(--c-900);
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--c-700);
+      margin-bottom: 28px;
+    }
+
+    /* ═══════════════════ GANTT ═══════════════════ */
+    .roadmap-wrapper { margin-bottom: 32px; }
+
+    .roadmap-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 16px; font-weight: 600;
+      color: var(--c-700);
+      text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 14px;
+    }
+    .roadmap-label svg { opacity: .7; }
+    
+    .how-to-nav {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-left: 3px solid var(--c-500);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      font-size: 12px; font-weight: 400;
+      color: var(--ink-600);
+      line-height: 1.5;
+    }
+    .how-to-nav svg { flex-shrink: 0; color: var(--c-700); opacity: .8; }
+    .how-to-nav strong { font-weight: 700; color: var(--ink-900); }
+
+    /* contêiner geral do Gantt */
+    .gantt {
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── grade interna: col-label + 4 trimestres ── */
+    .gantt-grid {
+      display: grid;
+      grid-template-columns: repeat(4, var(--col-tri));
+    }
+
+    /* ── CABEÇALHO: trimestres ── */
+    .gantt-head {
+      display: contents;
+    }
+    .gh-tri {
+      padding: 12px 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      border-right: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .gh-tri:last-child { border-right: none; }
+    .gh-tri-name {
+      font-size: 12px; font-weight: 800;
+      color: var(--white);
+      letter-spacing: .3px;
+    }
+    .gh-tri-months {
+      font-size: 9px; font-weight: 400;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .5px;
+    }
+    .gh-tri.A { background: rgba(5,107,40); }
+    .gh-tri.B { background: rgba(29,160,19); }
+    .gh-tri.C { background: rgba(5,107,40); }
+    .gh-tri.D { background: rgba(29,160,19); }
+
+    /* ── SEPARADOR DE INICIATIVA ── */
+    .gantt-initiative-row {
+      display: contents;
+    }
+    .gi-label {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 16px;
+      background: var(--c-50);
+      border-top: 1px solid var(--ink-100);
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .gi-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--c-700); flex-shrink: 0;
+    }
+    .gi-title {
+      font-size: 12px; font-weight: 700;
+      color: var(--c-900);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .gi-badge {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .6px;
+      padding: 2px 8px; border-radius: 4px;
+      background: #d1fae5; color: #065f46;
+    }
+
+    /* ── LINHA DE BARRAS (entregáveis) ── */
+    .gantt-bars-row {
+      display: contents;
+    }
+    .gb-tri-cell {
+      position: relative;
+      padding: 8px 6px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .gb-tri-cell:last-child { border-right: none; }
+    .gb-tri-cell.A;
+    .gb-tri-cell.B;
+    .gb-tri-cell.C;
+    .gb-tri-cell.D { background: var(--tri-D-bg); }
+
+    /* ── BARRA GANTT ── */
+    .gantt-bar {
+      display: flex; align-items: center;
+      width: 100%; min-height: 26px;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 10px; font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+      white-space: normal;
+      word-break: break-word;
+      cursor: pointer;
+      transition: filter .15s, transform .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gantt-bar::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: rgba(255,255,255,.35);
+      border-radius: 5px 0 0 5px;
+    }
+    .gantt-bar:hover { filter: brightness(1.12); transform: scaleY(1.04); }
+    .gantt-bar.A { background: rgba(5,107,40,.80); }
+    .gantt-bar.B { background: rgba(29,160,19,.80); }
+    .gantt-bar.C { background: rgba(5,107,40,.80); }
+    .gantt-bar.D { background: rgba(29,160,19,.80); }
+
+    /* marcador de mês dentro da barra */
+    .bar-month {
+      margin-left: auto; padding-left: 8px; flex-shrink: 0;
+      font-size: 9px; font-weight: 400;
+      color: rgba(255,255,255,.7);
+      text-transform: uppercase;
+    }
+
+    /* coluna vazia quando não há entregável naquele trimestre */
+    .gb-tri-cell.empty { /* já tem fundo via classe A/B/C/D */ }
+
+    /* linha zebra entre iniciativas */
+    .gantt-initiative-row + .gantt-bars-row .gb-label-cell {
+      border-top: none;
+    }
+
+    /* ── RODAPÉ / LEGENDA ── */
+    .gantt-footer {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--ink-100);
+      background: var(--bg);
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 500; color: var(--ink-600);
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .legend-dot.A { background: rgba(5,107,40,.80); }
+    .legend-dot.B { background: rgba(29,160,19,.80); }
+    .legend-dot.C { background: rgba(5,107,40,.80); }
+    .legend-dot.D { background: rgba(29,160,19,.80); }
+    
+    
+
+    /* ═══════════════════ LISTAS ═══════════════════ */
+    .lista-wrapper { margin: 24px 0; }
+    .lista-title {
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .7px;
+      padding-left: 10px;
+      border-left: 3px solid var(--ink-400);
+      color: var(--ink-600); margin-bottom: 10px;
+    }
+    
+    
+    .lista-title.estudar { border-left-color: #d97706; color: #92400e; }
+    .lista-title.inviavel { border-left-color: var(--ink-400); }
+    .lista-title.viavel { border-left-color: var(--c-700); color: var(--c-700); }
+    .lista-items { display: flex; flex-direction: column; gap: 6px; }
+    .lista-item {
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .lista-item:hover { border-color: var(--c-500); box-shadow: var(--shadow); }
+    .lista-item-titulo { font-size: 13px; font-weight: 500; color: var(--ink-900); flex: 1; min-width: 0; }
+    .lista-item-badge {
+      font-size: 9px; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: .5px; flex-shrink: 0;
+    }
+    .lista-item-badge.estudar { background: #fef3c7; color: #92400e; }
+    .lista-item-badge.inviavel { background: var(--ink-100); color: var(--ink-600); }
+    .lista-item-badge.viavel { background: #d1fae5; color: #065f46; }
+
+    /* ═══════════════════ MODAL ═══════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(2,61,23,.5);
+      backdrop-filter: blur(10px);
+      animation: fadeInModal .25s ease;
+    }
+    @keyframes fadeInModal { from{opacity:0} to{opacity:1} }
+    .modal-box {
+      position: relative; z-index: 2;
+      background: var(--white);
+      border: 1px solid var(--ink-100);
+      border-radius: 16px;
+      width: 100%; max-width: 900px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      animation: modalIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes modalIn {
+      from { opacity:0; transform:scale(.96) translateY(16px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .modal-box::-webkit-scrollbar { width: 4px; }
+    .modal-box::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 99px; }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 16px; margin-bottom: 24px; padding-bottom: 20px;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .modal-title {
+      font-weight: 800; font-size: clamp(20px,2.5vw,28px);
+      color: var(--c-900); line-height: 1.2;
+    }
+    .modal-close {
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--bg); border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    .modal-close:hover { background: #fee2e2; border-color: #fca5a5; }
+    .modal-close:hover svg { stroke: #ef4444; }
+    .info-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 12px; margin-bottom: 14px;
+    }
+    .info-card {
+      background: var(--bg);
+      border: 1px solid var(--ink-100);
+      border-top: 3px solid transparent;
+      border-radius: var(--radius-sm); padding: 16px;
+    }
+    .info-card.contexto  { border-top-color: var(--c-700); }
+    .info-card.problema  { border-top-color: #d97706; }
+    .info-card.resultado { border-top-color: var(--c-500); }
+    .info-card.analiseIA { border-top-color: #005CFF; grid-column: 1 / -1; }
+    .info-label {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: .8px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .info-card.contexto  .info-label { color: var(--c-900); }
+    .info-card.problema  .info-label { color: #92400e; }
+    .info-card.resultado .info-label { color: #3a7a00; }
+    .info-card.analiseIA .info-label { color: #005CFF; }
+    .info-text { font-size: 13px; font-weight: 400; color: var(--ink-900); line-height: 1.65; }
+    .modal-entregaveis { margin-top: 18px; }
+    .modal-entregaveis-title {
+      font-size: 12px; font-weight: 700; color: var(--c-700);
+      margin-bottom: 10px; text-transform: uppercase; letter-spacing: .6px;
+    }
+    .modal-entregaveis-list { list-style: none; padding: 0; }
+    .modal-entregaveis-list li {
+      padding: 7px 0 7px 18px; position: relative;
+      font-size: 13px; color: var(--ink-900); font-weight: 400;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .modal-entregaveis-list li:last-child { border-bottom: none; }
+    .modal-entregaveis-list li::before {
+      content: '▸'; position: absolute; left: 0;
+      color: var(--c-500); font-size: 11px; top: 8px;
+    }
+
+    /* ═══════════════════ TOAST ═══════════════════ */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink-900); color: var(--white);
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 9px 20px; border-radius: var(--radius-sm);
+      box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s; z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+    @media (max-width: 768px) {
+      header, .hero, .container { padding-left: 20px; padding-right: 20px; }
+      .hero { grid-template-columns: 1fr; gap: 20px; }
+      .modal-box { padding: 20px; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+
+/* INSIGHTS GERAIS */
+
+.insights-section {      max-width: 1400px; margin: 0 auto;
+      padding: 44px 48px 32px;
+      display: grid;
+  margin-top: 30px;
+}
+
+.insights-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.insight-card {
+  background: #ffffff;
+  border: 1px solid var(--ink-200);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.insight-card h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-900);
+  margin-bottom: 12px;
+}
+
+.insight-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insight-card ul li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--ink-900);
+  line-height: 1.5;
+}
+
+.insight-card ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--c-700);
+  font-weight: 900;
+}
+
+
+.insights-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--c-700);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 14px;
+}
+
+.insights-label svg {
+  opacity: .7;
+}
+
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+<div class="splash-text">
+    <div class="splash-eyebrow">Bem-vindo(a) ao</div>
+  <div class="splash-logo"><img id="splashImg" src="" alt="Logo" /></div>
+    <div class="splash-title">Habilitador:   Squad Manutenção</div>
+  </div>
+  <div class="splash-bar"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <img id="logoImg" class="logo-img" src="" alt="Logo" />
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>Ramp Up <span>2026</span></h1>
+    <p>Explore abaixo o Roadmap de Transformação 2026 para  Squad Manutenção, com todas as iniciativas organizadas por status e entregas previstas.</p>
+  </div>
+  <div class="hero-right">
+    <div class="metrics-card">
+      <div class="metrics-title">Visão Geral das Iniciativas</div>
+      <div class="metrics-grid">
+        <div class="metric-item total">
+          <div class="metric-value" id="metricTotal">0</div>
+          <div class="metric-label">Total</div>
+        </div>
+        <div class="metric-item viaveis">
+          <div class="metric-value" id="metricViaveis">0</div>
+          <div class="metric-label">Viáveis</div>
+        </div>
+        <div class="metric-item estudar">
+          <div class="metric-value" id="metricEstudar">0</div>
+          <div class="metric-label">A Estudar</div>
+        </div>
+        <div class="metric-item inviaveis">
+          <div class="metric-value" id="metricInviaveis">0</div>
+          <div class="metric-label">Inviáveis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="insights-gerais" class="insights-section">
+  <h2 class="section-title">Habilitador: Squad Manutenção</h2>
+  
+<div class="insights-label">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <circle cx="12" cy="16" r="1"></circle>
+  </svg>
+  INSIGHTS GERAIS
+</div>
+
+  <div id="insightsContainer" class="insights-container"></div>
+</section>
+
+<!-- MAIN -->
+<main class="container" id="mainContainer"></main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="info-grid">
+      <div class="info-card contexto">
+        <div class="info-label">🔍 Contexto</div>
+        <p class="info-text" id="modalContexto"></p>
+      </div>
+      <div class="info-card problema">
+        <div class="info-label">⚠️ Problema</div>
+        <p class="info-text" id="modalProblema"></p>
+      </div>
+      <div class="info-card resultado">
+        <div class="info-label">🎯 Resultado Esperado</div>
+        <p class="info-text" id="modalResultado"></p>
+      </div>
+      <div class="info-card analiseIA">
+        <div class="info-label">✨ Análise da IA</div>
+        <p class="info-text" id="modalanaliseIA"></p>
+      </div>
+    </div>
+    <div id="modalEntregaveisWrapper"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+    
+    
+// URL do fluxo HTTP do Power Automate
+const FLOW_URL_NOTAS = 'https://32ceb0db777be3fabd8ef1734b3b91.e6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a98dbdace12344fca280fd448a196a44/triggers/manual/paths/invoke?api-version=1';
+
+    
+/* ══════════════ CONFIG ══════════════ */
+const LOGO_URL    = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
+const LOGO_RAMPUP = 'https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
+
+const MESES_DISPLAY = {
+  abr:'Abr', mai:'Mai', jun:'Jun',
+  jul:'Jul', ago:'Ago', set:'Set',
+  out:'Out', nov:'Nov', dez:'Dez',
+  jan:'Jan', fev:'Fev', mar:'Mar'
+};
+
+// Trimestres — ordem importa (índice = classe CSS A/B/C/D)
+const TRIMESTRES = [
+  { nome: '2TRI/26', cls: 'A', meses: ['abr','mai','jun'], label: 'Abr · Mai · Jun' },
+  { nome: '3TRI/26', cls: 'B', meses: ['jul','ago','set'], label: 'Jul · Ago · Set' },
+  { nome: '4TRI/26', cls: 'C', meses: ['out','nov','dez'], label: 'Out · Nov · Dez' },
+  { nome: '1TRI/27', cls: 'D', meses: ['jan','fev','mar'], label: 'Jan · Fev · Mar' },
+];
+
+function triPorMes(mes) {
+  return TRIMESTRES.find(t => t.meses.includes(mes?.toLowerCase().trim())) || null;
+}
+
+/* ══════════════ DADOS ══════════════ */
+let DATA = null;
+
+window.injectData = function(payload) {
+  try {
+    DATA = typeof payload === 'string' ? JSON.parse(payload) : payload;
+    window.faseAtual = DATA.fase || 3;
+    normalizeDataByPhase();
+    renderAll();
+    showToast('✅ Dados carregados!');
+  } catch(e) { showToast('❌ Erro: ' + e.message); console.error(e); }
+};
+
+/* ══════════════ NORMALIZAÇÃO ══════════════ */
+function normalizeDataByPhase() {
+  if (!DATA?.habilitadores) return;
+  DATA.habilitadores.forEach(hab => {
+    if (window.faseAtual === 1) {
+      const all = [...(hab.viaveis||[]), ...(hab.a_estudar||[]), ...(hab.inviaveis||[])];
+      hab.a_estudar = all; hab.viaveis = []; hab.inviaveis = [];
+    }
+    ['viaveis','a_estudar','inviaveis'].forEach(k => {
+      hab[k] = hab[k] || [];
+      if (window.faseAtual === 3) {
+        hab[k].forEach(ini => {
+          if (!ini.entregaveis) { ini.entregaveis = []; return; }
+          if (typeof ini.entregaveis === 'string') {
+            try { const p = JSON.parse(ini.entregaveis); ini.entregaveis = Array.isArray(p) ? p : []; }
+            catch { ini.entregaveis = []; }
+          }
+          if (!Array.isArray(ini.entregaveis)) ini.entregaveis = [];
+        });
+      }
+    });
+  });
+}
+
+/* ══════════════ RENDER PRINCIPAL ══════════════ */
+function renderAll() {
+  if (!DATA) return;
+
+  document.getElementById('metricTotal').textContent     = DATA.metricas?.total     ?? 0;
+  document.getElementById('metricViaveis').textContent   = DATA.metricas?.viaveis   ?? 0;
+  document.getElementById('metricEstudar').textContent   = DATA.metricas?.a_estudar ?? 0;
+  document.getElementById('metricInviaveis').textContent = DATA.metricas?.inviaveis ?? 0;
+
+  // métricas visibilidade por fase
+  const show = (id, v) => { const el = document.getElementById(id)?.closest('.metric-item'); if(el) el.style.display = v ? '' : 'none'; };
+  if (window.faseAtual === 1) {
+    show('metricViaveis', false); show('metricEstudar', false); show('metricInviaveis', false);
+  }
+
+  const container = document.getElementById('mainContainer');
+  container.innerHTML = '';
+
+  DATA.habilitadores.forEach(hab => {
+    const section = document.createElement('div');
+    section.className = 'habilitador-section';
+
+
+    // GANTT — só fase 3
+    if (window.faseAtual === 3 && hab.viaveis?.length) {
+      section.appendChild(buildGantt(hab.viaveis));
+    }
+
+    // Lista viáveis — fase 2
+    if (window.faseAtual === 2 && hab.viaveis?.length)
+      section.appendChild(buildLista(hab.viaveis, 'viavel', 'Viáveis'));
+
+    // A Estudar / Ideias
+    if (hab.a_estudar?.length)
+      section.appendChild(buildLista(hab.a_estudar, 'estudar', window.faseAtual === 1 ? 'Ideias Recebidas' : 'A Estudar'));
+
+    // Inviáveis
+    if (hab.inviaveis?.length)
+      section.appendChild(buildLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
+
+    container.appendChild(section);
+  });
+  
+//Insights Gerais
+
+renderInsightsGerais();
+    
+}
+
+
+
+/* ══════════════ BUILD GANTT ══════════════ */
+function buildGantt(iniciativas) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'roadmap-wrapper';
+
+  // label acima
+  wrapper.innerHTML = `
+    <div class="roadmap-label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Roadmap · Iniciativas Viáveis
+    </div>
+    <div class="how-to-nav">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span><strong>Como navegar:</strong> Clique em qualquer iniciativa para ver contexto, problema, resultado esperado e entregáveis detalhados.</span>
+    </div>`;
+
+  const gantt = document.createElement('div');
+  gantt.className = 'gantt';
+
+  // ── cabeçalho ──
+  const grid = document.createElement('div');
+  grid.className = 'gantt-grid';
+
+  TRIMESTRES.forEach(t => {
+    const th = document.createElement('div');
+    th.className = `gh-tri ${t.cls}`;
+    th.innerHTML = `<span class="gh-tri-name">${t.nome}</span><span class="gh-tri-months">${t.label}</span>`;
+    grid.appendChild(th);
+  });
+
+  gantt.appendChild(grid);
+
+  // ── uma linha por iniciativa ──
+  iniciativas.forEach((ini, idx) => {
+    const entregaveis = ini.entregaveis || [];
+
+    // Cabeçalho da iniciativa (full-width)
+    const headerGrid = document.createElement('div');
+    headerGrid.className = 'gantt-grid';
+
+    const labelRow = document.createElement('div');
+    labelRow.className = 'gi-label';
+    // número + nome
+    const num = `${String(idx + 1).padStart(2,'0')}`;
+    labelRow.innerHTML = `
+      <div class="gi-dot"></div>
+      <div class="gi-title">${num}. ${ini.titulo.trim()}</div>
+      <span class="gi-badge">Viável</span>
+    `;
+    labelRow.style.gridColumn = '1 / -1';
+    labelRow.style.cursor = 'pointer';
+    labelRow.onclick = () => openModal(ini);
+    headerGrid.appendChild(labelRow);
+    gantt.appendChild(headerGrid);
+
+    // Linha de barras
+    const barsGrid = document.createElement('div');
+    barsGrid.className = 'gantt-grid';
+
+    // 4 células de trimestre
+    TRIMESTRES.forEach(tri => {
+      const cell = document.createElement('div');
+      cell.className = `gb-tri-cell ${tri.cls}`;
+
+      // filtra entregáveis deste trimestre
+      const itens = entregaveis.filter(e => {
+        const t = triPorMes(e.mes);
+        return t && t.nome === tri.nome;
+      });
+
+      itens.forEach(ent => {
+        const bar = document.createElement('div');
+        bar.className = `gantt-bar ${tri.cls}`;
+        bar.innerHTML = `
+          <span style="flex:1">${ent.nome}</span>
+          <span class="bar-month">${MESES_DISPLAY[ent.mes?.toLowerCase()] || ent.mes || ''}</span>
+        `;
+        bar.title = ent.nome;
+        bar.onclick = () => openModal(ini);
+        cell.appendChild(bar);
+      });
+
+      barsGrid.appendChild(cell);
+    });
+
+    gantt.appendChild(barsGrid);
+  });
+
+  // ── legenda ──
+  const footer = document.createElement('div');
+  footer.className = 'gantt-footer';
+  TRIMESTRES.forEach(t => {
+    footer.innerHTML += `
+      <div class="legend-item">
+        <div class="legend-dot ${t.cls}"></div>
+        <span>${t.nome} · ${t.label}</span>
+      </div>`;
+  });
+  gantt.appendChild(footer);
+
+  wrapper.appendChild(gantt);
+  return wrapper;
+}
+
+/* ══════════════ BUILD LISTA ══════════════ */
+function buildLista(iniciativas, tipo, titulo) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'lista-wrapper';
+  wrapper.innerHTML = `<div class="lista-title ${tipo}">${titulo}</div>`;
+  const items = document.createElement('div');
+  items.className = 'lista-items';
+  iniciativas.forEach(ini => {
+    const item = document.createElement('div');
+    item.className = 'lista-item';
+    item.onclick = () => openModal(ini);
+    const badgeText = tipo === 'estudar' ? 'A Estudar' : tipo === 'viavel' ? 'Viável' : 'Inviável';
+    item.innerHTML = `<div class="lista-item-titulo">${ini.titulo.trim()}</div>`;
+    if (window.faseAtual !== 1) {
+      item.innerHTML += `<span class="lista-item-badge ${tipo}">${badgeText}</span>`;
+    }
+    items.appendChild(item);
+  });
+  wrapper.appendChild(items);
+  return wrapper;
+}
+
+/* ══════════════ MODAL ══════════════ */
+function openModal(ini) {
+  document.getElementById('modalTitle').textContent     = ini.titulo.trim();
+  document.getElementById('modalContexto').textContent  = ini.contexto || '—';
+  document.getElementById('modalProblema').textContent  = ini.problema || '—';
+  document.getElementById('modalResultado').textContent = ini.resultado || '—';
+  document.getElementById('modalanaliseIA').textContent = ini.analise  || '—';
+
+  const wrap = document.getElementById('modalEntregaveisWrapper');
+  wrap.innerHTML = '';
+  if (ini.entregaveis?.length) {
+    const div = document.createElement('div');
+    div.className = 'modal-entregaveis';
+    div.innerHTML = '<div class="modal-entregaveis-title">Entregáveis Previstos</div>';
+    const ul = document.createElement('ul');
+    ul.className = 'modal-entregaveis-list';
+    ini.entregaveis.forEach(e => {
+      const li = document.createElement('li');
+      li.textContent = `${e.nome} (${MESES_DISPLAY[e.mes?.toLowerCase()] || e.mes})`;
+      ul.appendChild(li);
+    });
+    div.appendChild(ul);
+    wrap.appendChild(div);
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ══════════════ SPLASH / LOGO ══════════════ */
+function initSplash() {
+  const splash = document.getElementById('splash');
+  if (!splash) return;
+  const img = document.getElementById('splashImg');
+  if (img && LOGO_RAMPUP) { img.src = LOGO_RAMPUP; img.onerror = () => img.style.display = 'none'; }
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    splash.classList.add('hide');
+    splash.addEventListener('animationend', () => { splash.remove(); document.body.style.overflow = ''; }, { once: true });
+  }, 2500);
+}
+
+function initLogo() {
+  const img = document.getElementById('logoImg');
+  if (img && LOGO_URL) { img.src = LOGO_URL; img.onerror = () => img.style.display = 'none'; }
+}
+
+/* ══════════════ TOAST ══════════════ */
+let _tt;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+/* ══════════════ COPILOT BRIDGE ══════════════ */
+window.addEventListener('message', e => { if (e.data?.type === 'IDEIAS_DATA') window.injectData(e.data.payload); });
+
+document.addEventListener('DOMContentLoaded', () => {
+  initLogo(); initSplash();
+  if (window.COPILOT_PAYLOAD) window.injectData(window.COPILOT_PAYLOAD);
+});
+
+function renderInsightsGerais() {
+  if (!DATA || !DATA.insights_gerais) return;
+
+  const container = document.getElementById("insightsContainer");
+  container.innerHTML = "";
+
+  const grupos = {
+    principais_dores: "Principais Dores",
+    oportunidades: "Oportunidades",
+    riscos: "Riscos",
+    destaques: "Destaques"
+  };
+
+  Object.keys(grupos).forEach(key => {
+    const lista = DATA.insights_gerais[key];
+    if (!lista || lista.length === 0) return;
+
+    const card = document.createElement("div");
+    card.className = "insight-card";
+
+    const title = document.createElement("h3");
+    title.textContent = grupos[key];
+    card.appendChild(title);
+
+    const ul = document.createElement("ul");
+    lista.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+
+    card.appendChild(ul);
+    container.appendChild(card);
+  });
+}
+
+
+window.COPILOT_PAYLOAD=
+{
+  "fase": 3,
+  "metricas": {
+    "total": 1,
+    "viaveis": 0,
+    "a_estudar": 0,
+    "inviaveis": 0
+  },
+  "habilitadores": [
+    {
+      "nome": "Squad Manutenção",
+      "viaveis": [],
+      "a_estudar": [],
+      "inviaveis": []
+    }
+  ],
+  "insights_gerais": {
+    "principais_dores": [],
+    "oportunidades": [],
+    "riscos": [],
+    "destaques": []
+  }
+}
+
+</script>
+</body>
+</html>
