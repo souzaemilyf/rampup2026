@@ -8,27 +8,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* ── PALETA SÓLIDA ── */
       --c-900: #056b28;
       --c-700: #1da013;
       --c-500: #72d216;
-      --c-200: #72d216;
       --c-50:  #edf7ee;
       --white: #ffffff;
-      --bg:    #f7f8f7;
+      --bg:    #f4f6f4;
 
-      /* ── NEUTROS ── */
       --ink-900: #111714;
       --ink-600: #374a3c;
       --ink-400: #6b826f;
       --ink-200: #c4d1c6;
       --ink-100: #e8ede9;
 
-      /* ── ESPAÇAMENTO & FORMA ── */
       --radius:    12px;
-      --radius-sm: 8px;
-      --shadow:    0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+      --radius-sm: 6px;
+      --shadow:    0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.05);
       --shadow-lg: 0 2px 8px rgba(0,0,0,.10), 0 16px 48px rgba(0,0,0,.12);
+
+      /* Trimestres — header e barras compartilham a mesma paleta */
+      --tri-A: #056b28;   /* 2TRI/26 */
+      --tri-B: #1da013;   /* 3TRI/26 */
+      --tri-C: #2e8b1a;   /* 4TRI/26 */
+      --tri-D: #4caf3f;   /* 1TRI/27 */
+
+      --tri-A-bg: rgba(5,107,40,.06);
+      --tri-B-bg: rgba(29,160,19,.04);
+      --tri-C-bg: rgba(46,139,26,.06);
+      --tri-D-bg: rgba(76,175,63,.04);
+
+      /* Larguras da grade */
+      --col-tri:   1fr;     /* cada trimestre = mesma fração */
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,766 +46,549 @@
 
     body {
       font-family: 'Lexend', sans-serif;
-      font-weight: 400;
       background: var(--bg);
       color: var(--ink-900);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ══════════════════════════════
-       HEADER
-    ══════════════════════════════ */
+    /* ═══════════════════ HEADER ═══════════════════ */
     header {
       position: sticky; top: 0; z-index: 100;
       background: var(--c-900);
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      padding: 0 48px;
-      height: 64px;
+      height: 60px;
       display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
+    .logo-img { height: 34px; object-fit: contain; }
 
-    .logo-container {
-      width: 140px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .logo-img {
-      max-width: 100%; max-height: 100%;
-      object-fit: contain;
-    }
-
-    /* ══════════════════════════════
-       SPLASH SCREEN
-    ══════════════════════════════ */
+    /* ═══════════════════ SPLASH ═══════════════════ */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
       background: var(--c-900);
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 28px;
-      transform: translateY(-100%);
-      animation: splashDown 0.7s cubic-bezier(.22,1,.36,1) forwards;
+      align-items: center; justify-content: center; gap: 24px;
+      animation: splashDown .7s cubic-bezier(.22,1,.36,1) forwards;
     }
-
     @keyframes splashDown {
       from { transform: translateY(-100%); }
       to   { transform: translateY(0); }
     }
-
-    #splash.hide {
-      animation: splashUp 0.7s cubic-bezier(.55,0,1,.45) forwards;
-    }
-
+    #splash.hide { animation: splashUp .7s cubic-bezier(.55,0,1,.45) forwards; }
     @keyframes splashUp {
-      from { transform: translateY(0); opacity: 1; }
-      to   { transform: translateY(-100%); opacity: 0; }
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-100%); }
     }
-
-    .splash-logo {
-      width: 200px; height: 200px;
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0;
-      animation: fadeIn .5s ease .5s forwards;
-    }
-
-    .splash-logo img {
-      width: auto; height: 300px;
-      max-width: 300px; object-fit: contain;
-    }
-
-    .splash-text {
-      text-align: center;
-      opacity: 0;
-      animation: fadeIn .5s ease .75s forwards;
-    }
-
+    .splash-logo { opacity: 0; animation: fadeUp .5s ease .4s forwards; }
+    .splash-logo img { height: 260px; object-fit: contain; }
     .splash-eyebrow {
-      font-size: 13px; font-weight: 600;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--c-200);
-      margin-bottom: 14px;
+      font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--c-500);
+      opacity: 0; animation: fadeUp .5s ease .7s forwards;
+      text-align: center;
     }
-
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    
     .splash-title {
       font-size: 13px;
       font-weight: 600;
       color: var(--white);
       line-height: 1.2;
       max-width: 560px;
+      text-align: center;
     }
+    
 
-    .splash-title span {
-      color: var(--c-200);
-    }
-
-    .splash-bar {
-      width: 48px; height: 3px;
-      background: var(--c-500);
-      border-radius: 99px;
-      opacity: 0;
-      animation: fadeIn .4s ease 1s forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
+    /* ═══════════════════ HERO ═══════════════════ */
     .hero {
       max-width: 1400px; margin: 0 auto;
-      padding: 56px 48px 40px;
+      padding: 44px 48px 32px;
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 48px;
+      gap: 40px;
       align-items: center;
       border-bottom: 1px solid var(--ink-100);
     }
-
     .hero-left h1 {
       font-weight: 800;
-      font-size: clamp(28px, 3.5vw, 46px);
+      font-size: clamp(26px, 3vw, 42px);
       color: var(--c-900);
-      line-height: 1.12;
-      letter-spacing: -.5px;
-      max-width: 580px;
+      line-height: 1.1;
+      letter-spacing: -.4px;
     }
-
-    .hero-left h1 span {
-      color: var(--c-500);
-    }
-
+    .hero-left h1 span { color: var(--c-500); }
     .hero-left p {
-      margin-top: 14px;
-      color: var(--ink-900);
-      font-size: 16px; font-weight: 300;
-      font-weight: 400;
-      line-height: 1.65;
-      max-width: 460px;
+      margin-top: 10px;
+      font-size: 14px; font-weight: 400;
+      color: var(--ink-600); line-height: 1.65;
+      max-width: 440px;
     }
 
-    /* CARD DE MÉTRICAS */
+    /* métricas */
     .metrics-card {
       background: var(--white);
       border: 1px solid var(--ink-200);
       border-radius: var(--radius);
-      padding: 24px;
-      min-width: 280px;
+      padding: 20px 24px;
+      min-width: 260px;
       box-shadow: var(--shadow);
     }
-
     .metrics-title {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .8px; text-transform: uppercase;
-      color: var(--ink-400);
-      margin-bottom: 18px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .9px; text-transform: uppercase;
+      color: var(--ink-400); margin-bottom: 14px;
     }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .metric-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .metric-value {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--c-700);
-      line-height: 1;
-    }
-
-    .metric-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink-600);
-    }
-
-    .metric-item.total .metric-value { color: var(--ink-900); }
-    .metric-item.viaveis .metric-value { color: var(--c-700); }
-    .metric-item.estudar .metric-value { color: #d97706; }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .metric-item { display: flex; flex-direction: column; gap: 3px; }
+    .metric-value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .metric-label { font-size: 11px; font-weight: 500; color: var(--ink-600); }
+    .metric-item.total    .metric-value { color: var(--ink-900); }
+    .metric-item.viaveis  .metric-value { color: var(--c-700); }
+    .metric-item.estudar  .metric-value { color: #d97706; }
     .metric-item.inviaveis .metric-value { color: var(--ink-400); }
 
-    /* ══════════════════════════════
-       TOOLBAR (FILTROS)
-    ══════════════════════════════ */
-    .toolbar {
-      max-width: 1400px; margin: 0 auto;
-      padding: 20px 48px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid var(--ink-100);
-      position: sticky;
-      top: 64px;
-      background: var(--bg);
-      z-index: 90;
-    }
-
-    .toolbar-label {
-      font-size: 12px; font-weight: 500;
-      color: var(--ink-400);
-      margin-right: 4px;
-      text-transform: uppercase; letter-spacing: .5px;
-    }
-
-    .filter-btn {
-      background: var(--white);
-      border: 1px solid var(--ink-200);
-      color: var(--ink-600);
-      font-family: 'Lexend', sans-serif;
-      font-size: 12px; font-weight: 500;
-      padding: 5px 14px; border-radius: 6px;
-      cursor: pointer;
-      transition: background .15s, border-color .15s, color .15s;
-    }
-    .filter-btn:hover  { border-color: var(--c-500); color: var(--c-700); }
-    .filter-btn.active { background: var(--c-700); color: var(--white); border-color: var(--c-700); }
-
-    /* ══════════════════════════════
-       CONTAINER PRINCIPAL
-    ══════════════════════════════ */
+    /* ═══════════════════ CONTAINER ═══════════════════ */
     .container {
       max-width: 1400px; margin: 0 auto;
-      padding: 40px 48px 80px;
+      padding: 36px 48px 80px;
     }
 
-    .habilitador-section {
-      margin-bottom: 60px;
-    }
-
-    .habilitador-section.hidden {
-      display: none;
-    }
+    .habilitador-section { margin-bottom: 56px; }
 
     .section-title {
-      font-weight: 800;
-      font-size: 28px;
+      font-weight: 800; font-size: 22px;
       color: var(--c-900);
-      margin-bottom: 8px;
-      padding-bottom: 16px;
+      padding-bottom: 12px;
       border-bottom: 3px solid var(--c-700);
+      margin-bottom: 28px;
     }
 
-    /* ══════════════════════════════
-       ROADMAP GANTT (TABELA)
-    ══════════════════════════════ */
-    .roadmap-wrapper {
-      margin: 32px 0;
-    }
+    /* ═══════════════════ GANTT ═══════════════════ */
+    .roadmap-wrapper { margin-bottom: 32px; }
 
-    .roadmap-title {
-      font-size: 16px;
-      font-weight: 700;
+    .roadmap-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 16px; font-weight: 600;
       color: var(--c-700);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 14px;
     }
+    .roadmap-label svg { opacity: .7; }
+    
+    .how-to-nav {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--ink-200);
+      border-left: 3px solid var(--c-500);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      font-size: 12px; font-weight: 400;
+      color: var(--ink-600);
+      line-height: 1.5;
+    }
+    .how-to-nav svg { flex-shrink: 0; color: var(--c-700); opacity: .8; }
+    .how-to-nav strong { font-weight: 700; color: var(--ink-900); }
 
-    .gantt-scroll {
-      overflow-x: auto;
+    /* contêiner geral do Gantt */
+    .gantt {
       background: var(--white);
       border: 1px solid var(--ink-200);
       border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
-    .gantt-scroll::-webkit-scrollbar { height: 5px; }
-    .gantt-scroll::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 99px; }
-
-    .gantt-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-      table-layout: fixed;
+    /* ── grade interna: col-label + 4 trimestres ── */
+    .gantt-grid {
+      display: grid;
+      grid-template-columns: repeat(4, var(--col-tri));
     }
 
-    .gantt-table th {
-      font-size: 11px;
-      font-weight: 600;
+    /* ── CABEÇALHO: trimestres ── */
+    .gantt-head {
+      display: contents;
+    }
+    .gh-tri {
+      padding: 12px 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      border-right: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .gh-tri:last-child { border-right: none; }
+    .gh-tri-name {
+      font-size: 12px; font-weight: 800;
+      color: var(--white);
+      letter-spacing: .3px;
+    }
+    .gh-tri-months {
+      font-size: 9px; font-weight: 400;
+      color: rgba(255,255,255,.55);
       letter-spacing: .5px;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--c-700);
-      padding: 10px 14px;
-      border: 1px solid var(--ink-100);
-      text-align: center;
-      white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: 10;
     }
-    
-    .gantt-table thead tr:first-child th {
-      background: var(--c-900);
-      font-size: 13px;
-      font-weight: 800;
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--ink-200);
-      border-right: 2px solid var(--c-900);
-    }
-    
-    .gantt-table thead tr:first-child th:last-child {
-      border-right: 1px solid var(--c-900);
-    }
-    
-    .gantt-table thead tr:nth-child(2) th {
-      background: #f5f5f5;
-      color: #6b826f;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 6px 10px;
-    }
+    .gh-tri.A { background: rgba(5,107,40); }
+    .gh-tri.B { background: rgba(29,160,19); }
+    .gh-tri.C { background: rgba(5,107,40); }
+    .gh-tri.D { background: rgba(29,160,19); }
 
-    .gantt-table th.col-iniciativa {
-      text-align: left;
-      min-width: 200px;
-      width: 200px;
-      background: var(--c-900);
-      border-right: 1px solid rgba(0, 0, 0, 0.15);
+    /* ── SEPARADOR DE INICIATIVA ── */
+    .gantt-initiative-row {
+      display: contents;
     }
-
-    .gantt-table tbody tr {
-      cursor: pointer;
-      transition: background .15s;
-    }
-
-    .gantt-table tbody tr:hover {
+    .gi-label {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 16px;
       background: var(--c-50);
+      border-top: 1px solid var(--ink-100);
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .gi-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--c-700); flex-shrink: 0;
+    }
+    .gi-title {
+      font-size: 12px; font-weight: 700;
+      color: var(--c-900);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .gi-badge {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .6px;
+      padding: 2px 8px; border-radius: 4px;
+      background: #d1fae5; color: #065f46;
     }
 
-    .gantt-table td {
-      border: 1px solid var(--ink-100);
-      padding: 4px;
-      min-height: 50px;
-      vertical-align: top;
+    /* ── LINHA DE BARRAS (entregáveis) ── */
+    .gantt-bars-row {
+      display: contents;
     }
-
-    .gantt-table td.iniciativa-cell {
-      padding: 12px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      background: var(--white);
-      border-right: 1px solid rgba(0, 0, 0, 0.75);
-    }
-
-    .gantt-table td.mes-cell {
+    .gb-tri-cell {
       position: relative;
-      text-align: center;
-      font-size: 11px;
-      color: var(--ink-600);
-      padding: 4px;
+      padding: 8px 6px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--ink-100);
     }
+    .gb-tri-cell:last-child { border-right: none; }
+    .gb-tri-cell.A;
+    .gb-tri-cell.B;
+    .gb-tri-cell.C;
+    .gb-tri-cell.D { background: var(--tri-D-bg); }
 
-
-    .gantt-table td.tri-cell {
-      text-align: left !important;
-      vertical-align: top !important;
-    }
-
-
-    .entregavel-pill {
-      display: block;
-      background: var(--c-700);
+    /* ── BARRA GANTT ── */
+    .gantt-bar {
+      display: flex; align-items: center;
+      width: 100%; min-height: 26px;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 10px; font-weight: 600;
       color: var(--white);
-      font-size: 8px;
-      font-weight: 400;
-      padding: 4px 4px;
-      border-radius: 4px;
-      margin: 2px;
+      line-height: 1.3;
       white-space: normal;
-      overflow: visible;
-      line-height: 1.2;
-      min-height: 0;
-      
+      word-break: break-word;
+      cursor: pointer;
+      transition: filter .15s, transform .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gantt-bar::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: rgba(255,255,255,.35);
+      border-radius: 5px 0 0 5px;
+    }
+    .gantt-bar:hover { filter: brightness(1.12); transform: scaleY(1.04); }
+    .gantt-bar.A { background: rgba(5,107,40,.80); }
+    .gantt-bar.B { background: rgba(29,160,19,.80); }
+    .gantt-bar.C { background: rgba(5,107,40,.80); }
+    .gantt-bar.D { background: rgba(29,160,19,.80); }
+
+    /* marcador de mês dentro da barra */
+    .bar-month {
+      margin-left: auto; padding-left: 8px; flex-shrink: 0;
+      font-size: 9px; font-weight: 400;
+      color: rgba(255,255,255,.7);
+      text-transform: uppercase;
     }
 
+    /* coluna vazia quando não há entregável naquele trimestre */
+    .gb-tri-cell.empty { /* já tem fundo via classe A/B/C/D */ }
 
-    .tri-cell .entregavel-pill {
-      display: block !important;
-      width: 100%;
-      white-space: normal !important;
-      margin-bottom: 4px;
+    /* linha zebra entre iniciativas */
+    .gantt-initiative-row + .gantt-bars-row .gb-label-cell {
+      border-top: none;
     }
 
-
-
-    .tri-cell {
-      text-align: left !important;
-      vertical-align: top !important;
+    /* ── RODAPÉ / LEGENDA ── */
+    .gantt-footer {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--ink-100);
+      background: var(--bg);
+      flex-wrap: wrap;
     }
-
-
-
-    /* ══════════════════════════════
-       LISTAS (A ESTUDAR / INVIÁVEIS)
-    ══════════════════════════════ */
-    .lista-wrapper {
-      margin: 32px 0;
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 500; color: var(--ink-600);
     }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .legend-dot.A { background: rgba(5,107,40,.80); }
+    .legend-dot.B { background: rgba(29,160,19,.80); }
+    .legend-dot.C { background: rgba(5,107,40,.80); }
+    .legend-dot.D { background: rgba(29,160,19,.80); }
+    
+    
 
+    /* ═══════════════════ LISTAS ═══════════════════ */
+    .lista-wrapper { margin: 24px 0; }
     .lista-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--ink-600);
-      margin-bottom: 12px;
-      padding-left: 12px;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .7px;
+      padding-left: 10px;
       border-left: 3px solid var(--ink-400);
+      color: var(--ink-600); margin-bottom: 10px;
     }
-
+    
+    
     .lista-title.estudar { border-left-color: #d97706; color: #92400e; }
     .lista-title.inviavel { border-left-color: var(--ink-400); }
-
-    .lista-items {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .lista-title.viavel {
-      border-left-color: var(--c-700);
-      color: var(--c-700);
-    }
-
-    .lista-item-badge.viavel {
-      background: #dcfce7;
-      color: #166534;
-    }
-
+    .lista-title.viavel { border-left-color: var(--c-700); color: var(--c-700); }
+    .lista-items { display: flex; flex-direction: column; gap: 6px; }
     .lista-item {
       background: var(--white);
       border: 1px solid var(--ink-200);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 10px 14px;
       cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
       transition: border-color .15s, box-shadow .15s;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
-
-
-
-    .lista-item:hover {
-      border-color: var(--c-500);
-      box-shadow: var(--shadow);
-      align-items: flex-start;
-}
-
-    .lista-item-titulo {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      max-width: 700px;
-      white-space: normal !important;     /* permite quebra */
-      flex: 1 1 auto !important;          /* PERMITE encolher */
-      min-width: 0 !important;            /* LIBERA o flex para reduzir */
-}
-
+    .lista-item:hover { border-color: var(--c-500); box-shadow: var(--shadow); }
+    .lista-item-titulo { font-size: 13px; font-weight: 500; color: var(--ink-900); flex: 1; min-width: 0; }
     .lista-item-badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: .5px;
+      font-size: 9px; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: .5px; flex-shrink: 0;
     }
+    .lista-item-badge.estudar { background: #fef3c7; color: #92400e; }
+    .lista-item-badge.inviavel { background: var(--ink-100); color: var(--ink-600); }
+    .lista-item-badge.viavel { background: #d1fae5; color: #065f46; }
 
-    .lista-item-badge.estudar {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .lista-item-badge.inviavel {
-      background: var(--ink-100);
-      color: var(--ink-600);
-    }
-
-
-    /* Bordas SOMENTE na linha verde dos TRI */
-    .gantt-table thead tr:first-child th:nth-child(3),  /* antes 3TRI */
-    .gantt-table thead tr:first-child th:nth-child(4),  /* antes 4TRI */
-    .gantt-table thead tr:first-child th:nth-child(5) { /* antes 1TRI/27 */
-      border-left: 2px solid var(--c-900);
-    }
-    
-    /* Background alternado DISCRETO nos meses (header) */
-    .gantt-table thead tr:nth-child(2) th:nth-child(2),   /* Abr */
-    .gantt-table thead tr:nth-child(2) th:nth-child(3),   /* Mai */
-    .gantt-table thead tr:nth-child(2) th:nth-child(4),   /* Jun */
-    .gantt-table thead tr:nth-child(2) th:nth-child(8),   /* Out */
-    .gantt-table thead tr:nth-child(2) th:nth-child(9),   /* Nov */
-    .gantt-table thead tr:nth-child(2) th:nth-child(10) { /* Dez */
-      background: #f0f0f0;
-    }
-    
-    /* Background alternado DISCRETO nas células de dados */
-    .gantt-table tbody td:nth-child(2),   /* Abr */
-    .gantt-table tbody td:nth-child(3),   /* Mai */
-    .gantt-table tbody td:nth-child(4),   /* Jun */
-    .gantt-table tbody td:nth-child(8),   /* Out */
-    .gantt-table tbody td:nth-child(9),   /* Nov */
-    .gantt-table tbody td:nth-child(10) { /* Dez */
-      background: rgba(237, 247, 238, 0.3);
-    }
-
-    
-    /* Bordas tracejadas DEPOIS de JUN, SET, DEZ */
-    .gantt-table tbody td:nth-child(4),  /* JUN (depois dele = antes de JUL) */
-    .gantt-table tbody td:nth-child(7),  /* SET (depois dele = antes de OUT) */
-    .gantt-table tbody td:nth-child(10) { /* DEZ (depois dele = antes de JAN) */
-      border-right: 1px dotted rgba(5, 107, 40, 0.5);
-    }
-    
-    /* Mesma borda no header dos meses */
-    .gantt-table thead tr:nth-child(2) th:nth-child(4),  /* JUN */
-    .gantt-table thead tr:nth-child(2) th:nth-child(7),  /* SET */
-    .gantt-table thead tr:nth-child(2) th:nth-child(10) { /* DEZ */
-      border-right: 1px dotted rgba(5, 107, 40, 0.5);
-    }
-    /* ══════════════════════════════
-       MODAL
-    ══════════════════════════════ */
+    /* ═══════════════════ MODAL ═══════════════════ */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
+      display: none; align-items: center; justify-content: center;
       padding: 24px;
     }
-
     .modal-overlay.open { display: flex; }
-
     .modal-backdrop {
       position: absolute; inset: 0;
-      background: rgba(2, 61, 23, .50);
+      background: rgba(2,61,23,.5);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       animation: fadeInModal .25s ease;
     }
-
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
+    @keyframes fadeInModal { from{opacity:0} to{opacity:1} }
     .modal-box {
       position: relative; z-index: 2;
       background: var(--white);
       border: 1px solid var(--ink-100);
       border-radius: 16px;
-      width: 100%; max-width: 920px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 36px;
+      width: 100%; max-width: 900px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 32px;
       box-shadow: var(--shadow-lg);
       animation: modalIn .3s cubic-bezier(.22,1,.36,1);
     }
-
     @keyframes modalIn {
-      from { opacity: 0; transform: scale(.96) translateY(16px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
+      from { opacity:0; transform:scale(.96) translateY(16px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
     }
-
-    .modal-box::-webkit-scrollbar { width: 5px; }
-    .modal-box::-webkit-scrollbar-track { background: transparent; }
+    .modal-box::-webkit-scrollbar { width: 4px; }
     .modal-box::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 99px; }
-
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 16px; margin-bottom: 24px; padding-bottom: 20px;
       border-bottom: 1px solid var(--ink-100);
     }
-
     .modal-title {
-      font-weight: 800;
-      font-size: clamp(24px, 3vw, 32px);
-      color: var(--c-900);
-      line-height: 1.2;
-      letter-spacing: -0.3px;
+      font-weight: 800; font-size: clamp(20px,2.5vw,28px);
+      color: var(--c-900); line-height: 1.2;
     }
-
     .modal-close {
-      width: 36px; height: 36px;
-      flex-shrink: 0;
-      background: var(--bg);
-      border: 1px solid var(--ink-200);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .15s, border-color .15s;
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--bg); border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
     }
-
-    .modal-close:hover {
-      background: #fee2e2;
-      border-color: #fca5a5;
-    }
-
-    .modal-close:hover svg {
-      stroke: #ef4444;
-    }
-
+    .modal-close:hover { background: #fee2e2; border-color: #fca5a5; }
+    .modal-close:hover svg { stroke: #ef4444; }
     .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 16px;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 12px; margin-bottom: 14px;
     }
-
-    @media (max-width: 600px) {
-      .info-grid { grid-template-columns: 1fr; }
-    }
-
     .info-card {
-      background: var(--white);
-      border: 1px solid var(--ink-200);
+      background: var(--bg);
+      border: 1px solid var(--ink-100);
       border-top: 3px solid transparent;
-      border-radius: var(--radius-sm);
-      padding: 20px;
+      border-radius: var(--radius-sm); padding: 16px;
     }
-
     .info-card.contexto  { border-top-color: var(--c-700); }
     .info-card.problema  { border-top-color: #d97706; }
     .info-card.resultado { border-top-color: var(--c-500); }
-    .info-card.analiseIA { border-top-color: #005CFF; grid-column: 1 / -1;}
-
+    .info-card.analiseIA { border-top-color: #005CFF; grid-column: 1 / -1; }
     .info-label {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      font-size: 10px; font-weight: 800;
+      letter-spacing: .8px; text-transform: uppercase; margin-bottom: 8px;
     }
-
     .info-card.contexto  .info-label { color: var(--c-900); }
     .info-card.problema  .info-label { color: #92400e; }
-    .info-card.resultado .info-label { color: var(--c-500); }
-    .info-card.analiseIA .info-label { color: #005CFF; grid-column: 1 / -1;}
-
-    .info-text {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink-900);
-      line-height: 1.7;
-    }
-
-    /* Lista de entregáveis no modal (para a Estudar/Inviáveis) */
-    .modal-entregaveis {
-      margin-top: 20px;
-    }
-
+    .info-card.resultado .info-label { color: #3a7a00; }
+    .info-card.analiseIA .info-label { color: #005CFF; }
+    .info-text { font-size: 13px; font-weight: 400; color: var(--ink-900); line-height: 1.65; }
+    .modal-entregaveis { margin-top: 18px; }
     .modal-entregaveis-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--c-700);
-      margin-bottom: 12px;
+      font-size: 12px; font-weight: 700; color: var(--c-700);
+      margin-bottom: 10px; text-transform: uppercase; letter-spacing: .6px;
     }
-
-    .modal-entregaveis-list {
-      list-style: none;
-      padding: 0;
-    }
-
+    .modal-entregaveis-list { list-style: none; padding: 0; }
     .modal-entregaveis-list li {
-      padding: 8px 0;
-      padding-left: 20px;
-      position: relative;
-      font-size: 14px;
-      color: var(--ink-900);
-      font-weight: 400;
+      padding: 7px 0 7px 18px; position: relative;
+      font-size: 13px; color: var(--ink-900); font-weight: 400;
+      border-bottom: 1px solid var(--ink-100);
     }
-
+    .modal-entregaveis-list li:last-child { border-bottom: none; }
     .modal-entregaveis-list li::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      color: var(--c-500);
-      font-weight: 700;
+      content: '▸'; position: absolute; left: 0;
+      color: var(--c-500); font-size: 11px; top: 8px;
     }
 
-    /* ══════════════════════════════
-       TOAST
-    ══════════════════════════════ */
+    /* ═══════════════════ TOAST ═══════════════════ */
     .toast {
       position: fixed; bottom: 20px; left: 50%;
       transform: translateX(-50%);
-      background: var(--ink-900);
-      color: var(--white);
-      font-family: 'Lexend', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 10px 22px;
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s, transform .25s;
-      z-index: 9999;
-      white-space: nowrap;
+      background: var(--ink-900); color: var(--white);
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 9px 20px; border-radius: var(--radius-sm);
+      box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s; z-index: 9999;
     }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    /* ══════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════ */
     @media (max-width: 768px) {
-      header,
-      .hero,
-      .toolbar,
-      .container { padding-left: 20px; padding-right: 20px; }
-      
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .modal-box { padding: 22px; }
+      header, .hero, .container { padding-left: 20px; padding-right: 20px; }
+      .hero { grid-template-columns: 1fr; gap: 20px; }
+      .modal-box { padding: 20px; }
       .info-grid { grid-template-columns: 1fr; }
     }
+
+/* INSIGHTS GERAIS */
+
+.insights-section {      max-width: 1400px; margin: 0 auto;
+      padding: 44px 48px 32px;
+      display: grid;
+  margin-top: 30px;
+}
+
+.insights-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.insight-card {
+  background: #ffffff;
+  border: 1px solid var(--ink-200);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.insight-card h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-900);
+  margin-bottom: 12px;
+}
+
+.insight-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insight-card ul li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--ink-900);
+  line-height: 1.5;
+}
+
+.insight-card ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--c-700);
+  font-weight: 900;
+}
+
+
+.insights-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--c-700);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 14px;
+}
+
+.insights-label svg {
+  opacity: .7;
+}
+
+
+
+
   </style>
 </head>
 <body>
 
-<!-- ── SPLASH SCREEN ── -->
+<!-- SPLASH -->
 <div id="splash">
-  <div class="splash-text">
+<div class="splash-text">
     <div class="splash-eyebrow">Bem-vindo(a) ao</div>
-    <div class="splash-logo" id="splashLogo"></div>
-    <div class="splash-title">Habilitador: RH & Cultura</div>
+  <div class="splash-logo"><img id="splashImg" src="" alt="Logo" /></div>
+    <div class="splash-title">Habilitador:   RH & Cultura</div>
   </div>
   <div class="splash-bar"></div>
 </div>
 
-<!-- ── HEADER ── -->
+<!-- HEADER -->
 <header>
-  <div class="logo-container" id="logoContainer">
-    <!-- Logo será injetada aqui via LOGO_URL -->
-  </div>
+  <img id="logoImg" class="logo-img" src="" alt="Logo" />
 </header>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <h1>Ramp Up <span>2026</span></h1>
-    <p>Veja as ideias enviadas para a construção do Roadmap de Transformação 2026 para o Habilitador RH & Cultura.</p>
+    <p>Explore abaixo o Roadmap de Transformação 2026 para  RH & Cultura, com todas as iniciativas organizadas por status e entregas previstas.</p>
   </div>
   <div class="hero-right">
     <div class="metrics-card">
@@ -822,24 +615,36 @@
   </div>
 </section>
 
-<!-- ── CONTAINER PRINCIPAL ── -->
-<main class="container" id="mainContainer">
-  <!-- Seções de habilitadores serão geradas dinamicamente -->
-</main>
+<section id="insights-gerais" class="insights-section">
+  <h2 class="section-title">Habilitador: RH & Cultura</h2>
+  
+<div class="insights-label">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <circle cx="12" cy="16" r="1"></circle>
+  </svg>
+  INSIGHTS GERAIS
+</div>
 
-<!-- ── MODAL ── -->
+  <div id="insightsContainer" class="insights-container"></div>
+</section>
+
+<!-- MAIN -->
+<main class="container" id="mainContainer"></main>
+
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-backdrop" onclick="closeModal()"></div>
   <div class="modal-box">
     <div class="modal-header">
       <h2 class="modal-title" id="modalTitle"></h2>
-      <button class="modal-close" onclick="closeModal()" title="Fechar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
     </div>
-
     <div class="info-grid">
       <div class="info-card contexto">
         <div class="info-label">🔍 Contexto</div>
@@ -864,508 +669,285 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
-// ══════════════════════════════════════════════════════
-//  ⚙️ CONFIGURAÇÃO
-// ══════════════════════════════════════════════════════
-    const LOGO_URL = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
-    const LOGO_RAMPUP = 'https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
 
+<script>
+    
+    
+// URL do fluxo HTTP do Power Automate
+const FLOW_URL_NOTAS = 'https://32ceb0db777be3fabd8ef1734b3b91.e6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a98dbdace12344fca280fd448a196a44/triggers/manual/paths/invoke?api-version=1';
+
+    
+/* ══════════════ CONFIG ══════════════ */
+const LOGO_URL    = 'https://www.ecorodovias.com.br/wp-content/uploads/2025/02/Group.svg';
+const LOGO_RAMPUP = 'https://grupoecorodovias.sharepoint.com/:i:/r/sites/GernciadeTransformaoDigital/Documentos%20Compartilhados/General/Comunicação%20e%20Eventos/2026/Ramp%20up%20TD/Gestão%20do%20Evento/RampUp%202026_sem%20fundo.png?csf=1&web=1&e=muWfca';
 
 const MESES_DISPLAY = {
-  'abr': 'Abr', 'mai': 'Mai', 'jun': 'Jun',
-  'jul': 'Jul', 'ago': 'Ago', 'set': 'Set',
-  'out': 'Out', 'nov': 'Nov', 'dez': 'Dez',
-  'jan': 'Jan', 'fev': 'Fev', 'mar': 'Mar'
+  abr:'Abr', mai:'Mai', jun:'Jun',
+  jul:'Jul', ago:'Ago', set:'Set',
+  out:'Out', nov:'Nov', dez:'Dez',
+  jan:'Jan', fev:'Fev', mar:'Mar'
 };
 
-const TRIMESTRES_COLUNAS = [
-  { nome: '2TRI/26', meses: ['abr', 'mai', 'jun'] },
-  { nome: '3TRI/26', meses: ['jul', 'ago', 'set'] },
-  { nome: '4TRI/26', meses: ['out', 'nov', 'dez'] },
-  { nome: '1TRI/27', meses: ['jan', 'fev', 'mar'] }
+// Trimestres — ordem importa (índice = classe CSS A/B/C/D)
+const TRIMESTRES = [
+  { nome: '2TRI/26', cls: 'A', meses: ['abr','mai','jun'], label: 'Abr · Mai · Jun' },
+  { nome: '3TRI/26', cls: 'B', meses: ['jul','ago','set'], label: 'Jul · Ago · Set' },
+  { nome: '4TRI/26', cls: 'C', meses: ['out','nov','dez'], label: 'Out · Nov · Dez' },
+  { nome: '1TRI/27', cls: 'D', meses: ['jan','fev','mar'], label: 'Jan · Fev · Mar' },
 ];
 
-// ══════════════════════════════════════════════════════
-//  DADOS (serão substituídos pelo JSON do Copilot Studio)
-// ══════════════════════════════════════════════════════
+function triPorMes(mes) {
+  return TRIMESTRES.find(t => t.meses.includes(mes?.toLowerCase().trim())) || null;
+}
+
+/* ══════════════ DADOS ══════════════ */
 let DATA = null;
-let currentFilter = 'todos';
 
-
-// ══════════════════════════════════════════════════════
-//  PONTO DE ENTRADA
-// ══════════════════════════════════════════════════════
 window.injectData = function(payload) {
   try {
     DATA = typeof payload === 'string' ? JSON.parse(payload) : payload;
-
-    // 👉 NOVO: fase de exibição (1, 2 ou 3). Default = 3 (completo)
     window.faseAtual = DATA.fase || 3;
-
+    normalizeDataByPhase();
     renderAll();
     showToast('✅ Dados carregados!');
-  } catch(e) {
-    showToast('❌ Erro: ' + e.message);
-    console.error(e);
-  }
+  } catch(e) { showToast('❌ Erro: ' + e.message); console.error(e); }
 };
 
-// ══════════════════════════════════════════════════════
-//  RENDER PRINCIPAL
-// ══════════════════════════════════════════════════════
-function renderAll() {
-  if (!DATA) return;
-
-  // 1) Normaliza os dados conforme a fase (3.C)
-  normalizeDataByPhase();
-
-  // 2) Métricas
-  document.getElementById('metricTotal').textContent     = DATA.metricas?.total      ?? 0;
-  document.getElementById('metricViaveis').textContent   = DATA.metricas?.viaveis    ?? 0;
-  document.getElementById('metricEstudar').textContent   = DATA.metricas?.a_estudar  ?? 0;
-  document.getElementById('metricInviaveis').textContent = DATA.metricas?.inviaveis  ?? 0;
-
-  // 3) Aplica configurações visuais da fase (3.B)
-  applyPhaseConfig();
-
-
-  // 4) Habilitadores (inclui listas e roadmap)
-  renderHabilitadores();
-}
-
-// ══════════════════════════════════════════════════════
-//  NORMALIZAÇÃO POR FASE (3.C)
-// ══════════════════════════════════════════════════════
+/* ══════════════ NORMALIZAÇÃO ══════════════ */
 function normalizeDataByPhase() {
-  if (!DATA || !DATA.habilitadores) return;
-
-  // FASE 1:
-  // - Queremos UMA lista única de ideias por habilitador
-  // - Sem status explícito (viável / inviável / a estudar)
-  if (window.faseAtual === 1) {
-    DATA.habilitadores.forEach(hab => {
-      const merged = [];
-
-      if (Array.isArray(hab.viaveis))   merged.push(...hab.viaveis);
-      if (Array.isArray(hab.a_estudar)) merged.push(...hab.a_estudar);
-      if (Array.isArray(hab.inviaveis)) merged.push(...hab.inviaveis);
-
-      // Tudo vai para "a_estudar" só para reutilizar o componente de lista
-      hab.a_estudar = merged;
-      hab.viaveis   = [];
-      hab.inviaveis = [];
-    });
-  }
-
-  // FASE 2:
-  // - Mantém viáveis / a estudar / inviáveis
-  // - Não precisa de transformação especial de dados
-  // - Apenas garantimos que arrays existam
-  if (window.faseAtual === 2) {
-    DATA.habilitadores.forEach(hab => {
-      hab.viaveis   = hab.viaveis   || [];
-      hab.a_estudar = hab.a_estudar || [];
-      hab.inviaveis = hab.inviaveis || [];
-    });
-  }
-
-// FASE 3 — converter entregaveis string → array
-if (window.faseAtual === 3) {
+  if (!DATA?.habilitadores) return;
   DATA.habilitadores.forEach(hab => {
-    ['viaveis', 'a_estudar', 'inviaveis'].forEach(listaNome => {
-      const lista = hab[listaNome];
-
-      if (Array.isArray(lista)) {
-        lista.forEach(iniciativa => {
-
-          // se não existir entregaveis
-          if (!iniciativa.entregaveis) {
-            iniciativa.entregaveis = [];
-            return;
+    if (window.faseAtual === 1) {
+      const all = [...(hab.viaveis||[]), ...(hab.a_estudar||[]), ...(hab.inviaveis||[])];
+      hab.a_estudar = all; hab.viaveis = []; hab.inviaveis = [];
+    }
+    ['viaveis','a_estudar','inviaveis'].forEach(k => {
+      hab[k] = hab[k] || [];
+      if (window.faseAtual === 3) {
+        hab[k].forEach(ini => {
+          if (!ini.entregaveis) { ini.entregaveis = []; return; }
+          if (typeof ini.entregaveis === 'string') {
+            try { const p = JSON.parse(ini.entregaveis); ini.entregaveis = Array.isArray(p) ? p : []; }
+            catch { ini.entregaveis = []; }
           }
-
-          // se vier STRING JSON
-          if (typeof iniciativa.entregaveis === 'string') {
-            try {
-              const parsed = JSON.parse(iniciativa.entregaveis);
-              iniciativa.entregaveis = Array.isArray(parsed) ? parsed : [];
-            } catch {
-              iniciativa.entregaveis = [];
-            }
-            return;
-          }
-
-          // se vier qualquer outra coisa que não seja array
-          if (!Array.isArray(iniciativa.entregaveis)) {
-            iniciativa.entregaveis = [];
-          }
-
+          if (!Array.isArray(ini.entregaveis)) ini.entregaveis = [];
         });
       }
     });
   });
 }
-}
 
-// ══════════════════════════════════════════════════════
-//  APLICAÇÃO VISUAL POR FASE (3.B)
-// ══════════════════════════════════════════════════════
-function applyPhaseConfig() {
-  // --- MÉTRICAS ---
-  const miTotal     = document.getElementById('metricTotal')?.closest('.metric-item');
-  const miViaveis   = document.getElementById('metricViaveis')?.closest('.metric-item');
-  const miEstudar   = document.getElementById('metricEstudar')?.closest('.metric-item');
-  const miInviaveis = document.getElementById('metricInviaveis')?.closest('.metric-item');
+/* ══════════════ RENDER PRINCIPAL ══════════════ */
+function renderAll() {
+  if (!DATA) return;
 
+  document.getElementById('metricTotal').textContent     = DATA.metricas?.total     ?? 0;
+  document.getElementById('metricViaveis').textContent   = DATA.metricas?.viaveis   ?? 0;
+  document.getElementById('metricEstudar').textContent   = DATA.metricas?.a_estudar ?? 0;
+  document.getElementById('metricInviaveis').textContent = DATA.metricas?.inviaveis ?? 0;
+
+  // métricas visibilidade por fase
+  const show = (id, v) => { const el = document.getElementById(id)?.closest('.metric-item'); if(el) el.style.display = v ? '' : 'none'; };
   if (window.faseAtual === 1) {
-    // FASE 1: mostrar só Total
-    if (miTotal)     miTotal.style.display = '';
-    if (miViaveis)   miViaveis.style.display = 'none';
-    if (miEstudar)   miEstudar.style.display = 'none';
-    if (miInviaveis) miInviaveis.style.display = 'none';
-  } else {
-    // FASE 2 e 3: mostrar todas as métricas
-    if (miTotal)     miTotal.style.display = '';
-    if (miViaveis)   miViaveis.style.display = '';
-    if (miEstudar)   miEstudar.style.display = '';
-    if (miInviaveis) miInviaveis.style.display = '';
+    show('metricViaveis', false); show('metricEstudar', false); show('metricInviaveis', false);
   }
 
-  // --- ROADMAP ---
-  // FASE 1 e 2 não devem mostrar Roadmap (Gantt)
-  if (window.faseAtual === 1 || window.faseAtual === 2) {
-    document.querySelectorAll('.roadmap-wrapper').forEach(el => {
-      el.style.display = 'none';
-    });
-  } else {
-    // FASE 3: Roadmap pode aparecer normalmente
-    document.querySelectorAll('.roadmap-wrapper').forEach(el => {
-      el.style.display = '';
-    });
-  }
-}
-
-// ══════════════════════════════════════════════════════
-//  RENDER HABILITADORES
-// ══════════════════════════════════════════════════════
-function renderHabilitadores() {
   const container = document.getElementById('mainContainer');
   container.innerHTML = '';
-  
+
   DATA.habilitadores.forEach(hab => {
     const section = document.createElement('div');
     section.className = 'habilitador-section';
-    section.dataset.habilitador = hab.nome;
-    
-    // Título da seção
-    const title = document.createElement('h2');
-    title.className = 'section-title';
-    title.textContent = hab.nome;
-    section.appendChild(title);
-    
-    // 🔹 LISTA VIÁVEIS — somente Fase 2
-    if (window.faseAtual === 2 && hab.viaveis && hab.viaveis.length > 0) {
-    section.appendChild(renderLista(hab.viaveis, 'viavel', 'Viáveis'));
+
+
+    // GANTT — só fase 3
+    if (window.faseAtual === 3 && hab.viaveis?.length) {
+      section.appendChild(buildGantt(hab.viaveis));
     }
-    
-    // 🔹 ROADMAP (viáveis) — só na FASE 3
-    if (window.faseAtual === 3 && hab.viaveis && hab.viaveis.length > 0) {
-      section.appendChild(renderRoadmap(hab.viaveis, hab.nome));
-    }
-    
-    // 🔹 LISTA A ESTUDAR / IDEIAS RECEBIDAS NA FASE 1
-    if (hab.a_estudar && hab.a_estudar.length > 0) {
-      const tituloLista = (window.faseAtual === 1) ? 'Ideias Recebidas' : 'A Estudar';
-      section.appendChild(renderLista(hab.a_estudar, 'estudar', tituloLista));
-    }
-    
-    // 🔹 LISTA INVIÁVEIS
-    if (hab.inviaveis && hab.inviaveis.length > 0) {
-      section.appendChild(renderLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
-    }
-    
+
+    // Lista viáveis — fase 2
+    if (window.faseAtual === 2 && hab.viaveis?.length)
+      section.appendChild(buildLista(hab.viaveis, 'viavel', 'Viáveis'));
+
+    // A Estudar / Ideias
+    if (hab.a_estudar?.length)
+      section.appendChild(buildLista(hab.a_estudar, 'estudar', window.faseAtual === 1 ? 'Ideias Recebidas' : 'A Estudar'));
+
+    // Inviáveis
+    if (hab.inviaveis?.length)
+      section.appendChild(buildLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
+
     container.appendChild(section);
   });
-}
+  
+//Insights Gerais
 
-// ══════════════════════════════════════════════════════
-//  MATCHING FUZZY DE TÍTULOS (para Power Automate)
-// ══════════════════════════════════════════════════════
-function normalizarTitulo(titulo) {
-  if (!titulo) return '';
-  return titulo
-    .toLowerCase()
-    .trim()
-    .replace(/\.+$/, '')           // remove pontos finais
-    .replace(/\s+/g, ' ')          // normaliza espaços
-    .replace(/[àáâãäå]/g, 'a')
-    .replace(/[èéêë]/g, 'e')
-    .replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõö]/g, 'o')
-    .replace(/[ùúûü]/g, 'u')
-    .replace(/[ç]/g, 'c')
-    .replace(/[^a-z0-9\s]/g, '');  // remove pontuação
-}
-
-function encontrarEntregaveis(tituloIdeia, todasIniciativasRoadmap) {
-  const tituloNorm = normalizarTitulo(tituloIdeia);
-  
-  // 1. Match exato normalizado
-  let match = todasIniciativasRoadmap.find(ini => 
-    normalizarTitulo(ini.titulo) === tituloNorm
-  );
-  
-  // 2. Match por similaridade (um contém o outro)
-  if (!match) {
-    match = todasIniciativasRoadmap.find(ini => {
-      const roadmapNorm = normalizarTitulo(ini.titulo);
-      // Roadmap contém o título da ideia OU vice-versa
-      return roadmapNorm.includes(tituloNorm) || tituloNorm.includes(roadmapNorm);
-    });
-  }
-  
-  // 3. Match por palavras-chave (pelo menos 60% das palavras em comum)
-  if (!match) {
-    const palavrasIdeia = tituloNorm.split(' ').filter(p => p.length > 3);
+renderInsightsGerais();
     
-    match = todasIniciativasRoadmap.find(ini => {
-      const palavrasRoadmap = normalizarTitulo(ini.titulo).split(' ').filter(p => p.length > 3);
-      const palavrasComuns = palavrasIdeia.filter(p => palavrasRoadmap.includes(p));
-      const percentualMatch = palavrasComuns.length / Math.min(palavrasIdeia.length, palavrasRoadmap.length);
-      return percentualMatch >= 0.6; // 60% de similaridade
-    });
-  }
-  
-  return match ? match.entregaveis : [];
 }
 
-// ══════════════════════════════════════════════════════
-//  RENDER ROADMAP (GANTT)
-// ══════════════════════════════════════════════════════
-function renderRoadmap(iniciativas, habilitadorNome) {
+
+
+/* ══════════════ BUILD GANTT ══════════════ */
+function buildGantt(iniciativas) {
   const wrapper = document.createElement('div');
   wrapper.className = 'roadmap-wrapper';
-  
-  const title = document.createElement('div');
-  title.className = 'roadmap-title';
-  title.innerHTML = `
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <line x1="16" y1="2" x2="16" y2="6"/>
-      <line x1="8" y1="2" x2="8" y2="6"/>
-      <line x1="3" y1="10" x2="21" y2="10"/>
-    </svg>
-    Roadmap — Iniciativas Viáveis
-  `;
-  wrapper.appendChild(title);
-  
-  const scrollDiv = document.createElement('div');
-  scrollDiv.className = 'gantt-scroll';
-  
-  const table = document.createElement('table');
-  table.className = 'gantt-table';
-  
-  // HEADER
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  
-  const thIniciativa = document.createElement('th');
-  thIniciativa.className = 'col-iniciativa';
-  thIniciativa.textContent = 'Iniciativa';
-  thIniciativa.rowSpan = 2;
-  headerRow.appendChild(thIniciativa);
-  
-  // HEADER - Linha 1: Trimestres
-  TRIMESTRES_COLUNAS.forEach((tri, idx) => {
-    const thTri = document.createElement('th');
-    thTri.colSpan = tri.meses.length;
-    thTri.textContent = tri.nome;
-    thTri.style.background = 'var(--c-900)';
-    thTri.style.fontSize = '13px';
-    thTri.style.fontWeight = '800';
-    if (idx > 0) {
-      thTri.style.borderLeft = '1px dotted rgba(5, 107, 40, 0.3)';
-    }
-    headerRow.appendChild(thTri);
+
+  // label acima
+  wrapper.innerHTML = `
+    <div class="roadmap-label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Roadmap · Iniciativas Viáveis
+    </div>
+    <div class="how-to-nav">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span><strong>Como navegar:</strong> Clique em qualquer iniciativa para ver contexto, problema, resultado esperado e entregáveis detalhados.</span>
+    </div>`;
+
+  const gantt = document.createElement('div');
+  gantt.className = 'gantt';
+
+  // ── cabeçalho ──
+  const grid = document.createElement('div');
+  grid.className = 'gantt-grid';
+
+  TRIMESTRES.forEach(t => {
+    const th = document.createElement('div');
+    th.className = `gh-tri ${t.cls}`;
+    th.innerHTML = `<span class="gh-tri-name">${t.nome}</span><span class="gh-tri-months">${t.label}</span>`;
+    grid.appendChild(th);
   });
-  
-  thead.appendChild(headerRow);
-  
-  // HEADER - Linha 2: Meses
-  const mesesRow = document.createElement('tr');
-  TRIMESTRES_COLUNAS.forEach(tri => {
-    tri.meses.forEach((mes, mesIdx) => {
-      const th = document.createElement('th');
-      th.textContent = MESES_DISPLAY[mes] || mes;
-      th.style.fontSize = '10px';
-      if (mesIdx === 0) th.classList.add('tri-start');
-      mesesRow.appendChild(th);
-    });
-  });
-  
-  thead.appendChild(mesesRow);
-  table.appendChild(thead);
-  
-// BODY
-const tbody = document.createElement('tbody');
 
-iniciativas.forEach(iniciativa => {
-  const entregaveis = iniciativa.entregaveis || [];
-  if (!entregaveis.length) return;
+  gantt.appendChild(grid);
 
-  // 1) Mapeia cada entregável para seu TRIMESTRE
-  const entregaveisComTri = entregaveis
-    .filter(ent => ent.mes) // ignora entregáveis sem mês
-    .map(ent => {
-      const mes = ent.mes.toLowerCase().trim();
-      const triObj = TRIMESTRES_COLUNAS.find(t => t.meses.includes(mes));
-      return {
-        nome: ent.nome,
-        tri: triObj ? triObj.nome : null
-      };
-    })
-    .filter(ent => ent.tri); // ignora se não achar tri
+  // ── uma linha por iniciativa ──
+  iniciativas.forEach((ini, idx) => {
+    const entregaveis = ini.entregaveis || [];
 
-  if (!entregaveisComTri.length) return;
+    // Cabeçalho da iniciativa (full-width)
+    const headerGrid = document.createElement('div');
+    headerGrid.className = 'gantt-grid';
 
-  // (Opcional) Ordena por ordem dos trimestres
-  const ordemTri = TRIMESTRES_COLUNAS.map(t => t.nome);
-  entregaveisComTri.sort((a, b) => ordemTri.indexOf(a.tri) - ordemTri.indexOf(b.tri));
+    const labelRow = document.createElement('div');
+    labelRow.className = 'gi-label';
+    // número + nome
+    const num = `${String(idx + 1).padStart(2,'0')}`;
+    labelRow.innerHTML = `
+      <div class="gi-dot"></div>
+      <div class="gi-title">${num}. ${ini.titulo.trim()}</div>
+      <span class="gi-badge">Viável</span>
+    `;
+    labelRow.style.gridColumn = '1 / -1';
+    labelRow.style.cursor = 'pointer';
+    labelRow.onclick = () => openModal(ini);
+    headerGrid.appendChild(labelRow);
+    gantt.appendChild(headerGrid);
 
-  const totalLinhas = entregaveisComTri.length;
+    // Linha de barras
+    const barsGrid = document.createElement('div');
+    barsGrid.className = 'gantt-grid';
 
-  entregaveisComTri.forEach((ent, index) => {
-    const tr = document.createElement('tr');
-    tr.onclick = () => openModal(iniciativa);
+    // 4 células de trimestre
+    TRIMESTRES.forEach(tri => {
+      const cell = document.createElement('div');
+      cell.className = `gb-tri-cell ${tri.cls}`;
 
-    // Coluna da iniciativa só na primeira linha (rowSpan)
-    if (index === 0) {
-      const tdIniciativa = document.createElement('td');
-      tdIniciativa.className = 'iniciativa-cell';
-      tdIniciativa.textContent = iniciativa.titulo;
-      tdIniciativa.rowSpan = totalLinhas;
-      tr.appendChild(tdIniciativa);
-    }
+      // filtra entregáveis deste trimestre
+      const itens = entregaveis.filter(e => {
+        const t = triPorMes(e.mes);
+        return t && t.nome === tri.nome;
+      });
 
-    // Para cada trimestre, criamos um TD mesclado e colocamos
-    // o entregável SOMENTE no trimestre correspondente
-    TRIMESTRES_COLUNAS.forEach(tri => {
-      const td = document.createElement('td');
-      td.className = 'mes-cell tri-cell';
-      td.colSpan = tri.meses.length;
+      itens.forEach(ent => {
+        const bar = document.createElement('div');
+        bar.className = `gantt-bar ${tri.cls}`;
+        bar.innerHTML = `
+          <span style="flex:1">${ent.nome}</span>
+          <span class="bar-month">${MESES_DISPLAY[ent.mes?.toLowerCase()] || ent.mes || ''}</span>
+        `;
+        bar.title = ent.nome;
+        bar.onclick = () => openModal(ini);
+        cell.appendChild(bar);
+      });
 
-      if (ent.tri === tri.nome) {
-        const pill = document.createElement('div');
-        pill.className = 'entregavel-pill';
-        pill.textContent = ent.nome;
-        pill.title = ent.nome;
-        td.appendChild(pill);
-      }
-
-      tr.appendChild(td);
+      barsGrid.appendChild(cell);
     });
 
-    tbody.appendChild(tr);
+    gantt.appendChild(barsGrid);
   });
-});
 
-table.appendChild(tbody);
-  scrollDiv.appendChild(table);
-  wrapper.appendChild(scrollDiv);
-  
+  // ── legenda ──
+  const footer = document.createElement('div');
+  footer.className = 'gantt-footer';
+  TRIMESTRES.forEach(t => {
+    footer.innerHTML += `
+      <div class="legend-item">
+        <div class="legend-dot ${t.cls}"></div>
+        <span>${t.nome} · ${t.label}</span>
+      </div>`;
+  });
+  gantt.appendChild(footer);
+
+  wrapper.appendChild(gantt);
   return wrapper;
 }
 
-// ══════════════════════════════════════════════════════
-//  RENDER LISTA (A ESTUDAR / INVIÁVEIS)
-// ══════════════════════════════════════════════════════
-function renderLista(iniciativas, tipo, tituloLista) {
+/* ══════════════ BUILD LISTA ══════════════ */
+function buildLista(iniciativas, tipo, titulo) {
   const wrapper = document.createElement('div');
   wrapper.className = 'lista-wrapper';
-  
-  const title = document.createElement('div');
-  title.className = `lista-title ${tipo}`;
-  title.textContent = tituloLista;
-  wrapper.appendChild(title);
-  
+  wrapper.innerHTML = `<div class="lista-title ${tipo}">${titulo}</div>`;
   const items = document.createElement('div');
   items.className = 'lista-items';
-  
-  iniciativas.forEach(iniciativa => {
+  iniciativas.forEach(ini => {
     const item = document.createElement('div');
     item.className = 'lista-item';
-    item.onclick = () => openModal(iniciativa);
-    
-    const tituloEl = document.createElement('div');
-    tituloEl.className = 'lista-item-titulo';
-    tituloEl.textContent = iniciativa.titulo;
-    
-    // Sempre adiciona o título
-    item.appendChild(tituloEl);
-
-    // 🔹 FASE 1: não exibe badge de status (fica só o título)
-    // 🔹 FASE 2 e 3: exibe o badge normalmente
-if (window.faseAtual !== 1) {
-  const badge = document.createElement('span');
-  badge.className = `lista-item-badge ${tipo}`;
-  
-  if (tipo === 'estudar') {
-    badge.textContent = 'A Estudar';
-  } else if (tipo === 'viavel') {
-    badge.textContent = 'Viável';
-  } else {
-    // inviavel
-    badge.textContent = 'Inviável';
-  }
-
-  item.appendChild(badge);
-}
-
-
+    item.onclick = () => openModal(ini);
+    const badgeText = tipo === 'estudar' ? 'A Estudar' : tipo === 'viavel' ? 'Viável' : 'Inviável';
+    item.innerHTML = `<div class="lista-item-titulo">${ini.titulo.trim()}</div>`;
+    if (window.faseAtual !== 1) {
+      item.innerHTML += `<span class="lista-item-badge ${tipo}">${badgeText}</span>`;
+    }
     items.appendChild(item);
   });
-  
   wrapper.appendChild(items);
   return wrapper;
 }
 
-// ══════════════════════════════════════════════════════
-//  MODAL
-// ══════════════════════════════════════════════════════
-function openModal(iniciativa) {
-  document.getElementById('modalTitle').textContent = iniciativa.titulo;
-  document.getElementById('modalContexto').textContent = iniciativa.contexto;
-  document.getElementById('modalProblema').textContent = iniciativa.problema;
-  document.getElementById('modalResultado').textContent = iniciativa.resultado;
-    document.getElementById('modalanaliseIA').textContent = iniciativa.analise;
-  
-  // Entregáveis (se houver)
-  const wrapper = document.getElementById('modalEntregaveisWrapper');
-  wrapper.innerHTML = '';
-  
-  if (iniciativa.entregaveis && iniciativa.entregaveis.length > 0) {
-    const entregDiv = document.createElement('div');
-    entregDiv.className = 'modal-entregaveis';
-    
-    const entregTitle = document.createElement('div');
-    entregTitle.className = 'modal-entregaveis-title';
-    entregTitle.textContent = 'Entregáveis Previstos';
-    entregDiv.appendChild(entregTitle);
-    
+/* ══════════════ MODAL ══════════════ */
+function openModal(ini) {
+  document.getElementById('modalTitle').textContent     = ini.titulo.trim();
+  document.getElementById('modalContexto').textContent  = ini.contexto || '—';
+  document.getElementById('modalProblema').textContent  = ini.problema || '—';
+  document.getElementById('modalResultado').textContent = ini.resultado || '—';
+  document.getElementById('modalanaliseIA').textContent = ini.analise  || '—';
+
+  const wrap = document.getElementById('modalEntregaveisWrapper');
+  wrap.innerHTML = '';
+  if (ini.entregaveis?.length) {
+    const div = document.createElement('div');
+    div.className = 'modal-entregaveis';
+    div.innerHTML = '<div class="modal-entregaveis-title">Entregáveis Previstos</div>';
     const ul = document.createElement('ul');
     ul.className = 'modal-entregaveis-list';
-    
-    iniciativa.entregaveis.forEach(ent => {
+    ini.entregaveis.forEach(e => {
       const li = document.createElement('li');
-      li.textContent = `${ent.nome} (${MESES_DISPLAY[ent.mes] || ent.mes})`;
+      li.textContent = `${e.nome} (${MESES_DISPLAY[e.mes?.toLowerCase()] || e.mes})`;
       ul.appendChild(li);
     });
-    
-    entregDiv.appendChild(ul);
-    wrapper.appendChild(entregDiv);
+    div.appendChild(ul);
+    wrap.appendChild(div);
   }
-  
+
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1374,92 +956,85 @@ function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
-
-
-// ══════════════════════════════════════════════════════
-//  SPLASH
-// ══════════════════════════════════════════════════════
+/* ══════════════ SPLASH / LOGO ══════════════ */
 function initSplash() {
   const splash = document.getElementById('splash');
-  const splashLogo = document.getElementById('splashLogo');
   if (!splash) return;
-  
-  if (LOGO_RAMPUP) {
-    const img = document.createElement('img');
-    img.src = LOGO_RAMPUP;
-    img.alt = 'Logo';
-    img.onerror = () => splashLogo.textContent = 'ER';
-    splashLogo.innerHTML = '';
-    splashLogo.appendChild(img);
-  } else {
-    splashLogo.textContent = 'ER';
-  }
-  
+  const img = document.getElementById('splashImg');
+  if (img && LOGO_RAMPUP) { img.src = LOGO_RAMPUP; img.onerror = () => img.style.display = 'none'; }
+  document.body.style.overflow = 'hidden';
   setTimeout(() => {
     splash.classList.add('hide');
-    splash.addEventListener('animationend', () => {
-      splash.remove();
-      document.body.style.overflow = '';
-    }, { once: true });
+    splash.addEventListener('animationend', () => { splash.remove(); document.body.style.overflow = ''; }, { once: true });
   }, 2500);
-  
-  document.body.style.overflow = 'hidden';
 }
 
 function initLogo() {
-  if (!LOGO_URL) return;
-  const container = document.getElementById('logoContainer');
-  if (!container) return;
-  
-  const img = document.createElement('img');
-  img.src = LOGO_URL;
-  img.className = 'logo-img';
-  img.alt = 'Logo';
-  container.appendChild(img);
+  const img = document.getElementById('logoImg');
+  if (img && LOGO_URL) { img.src = LOGO_URL; img.onerror = () => img.style.display = 'none'; }
 }
 
-// ══════════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════════
+/* ══════════════ TOAST ══════════════ */
 let _tt;
 function showToast(msg) {
   const el = document.getElementById('toast');
   if (!el) return;
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 3000);
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 3000);
 }
 
-// ══════════════════════════════════════════════════════
-//  INTEGRAÇÃO COPILOT STUDIO
-// ══════════════════════════════════════════════════════
-window.addEventListener('message', e => {
-  if (e.data?.type === 'IDEIAS_DATA') window.injectData(e.data.payload);
+/* ══════════════ COPILOT BRIDGE ══════════════ */
+window.addEventListener('message', e => { if (e.data?.type === 'IDEIAS_DATA') window.injectData(e.data.payload); });
+
+document.addEventListener('DOMContentLoaded', () => {
+  initLogo(); initSplash();
+  if (window.COPILOT_PAYLOAD) window.injectData(window.COPILOT_PAYLOAD);
 });
 
-// ══════════════════════════════════════════════════════
-//  INICIALIZAÇÃO
-// ══════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  initLogo();
-  initSplash();
-  
-  if (window.COPILOT_PAYLOAD) {
-    window.injectData(window.COPILOT_PAYLOAD);
-  }
-  // Se não houver dados, aguarda injeção via window.injectData()
-});
+function renderInsightsGerais() {
+  if (!DATA || !DATA.insights_gerais) return;
+
+  const container = document.getElementById("insightsContainer");
+  container.innerHTML = "";
+
+  const grupos = {
+    principais_dores: "Principais Dores",
+    oportunidades: "Oportunidades",
+    riscos: "Riscos",
+    destaques: "Destaques"
+  };
+
+  Object.keys(grupos).forEach(key => {
+    const lista = DATA.insights_gerais[key];
+    if (!lista || lista.length === 0) return;
+
+    const card = document.createElement("div");
+    card.className = "insight-card";
+
+    const title = document.createElement("h3");
+    title.textContent = grupos[key];
+    card.appendChild(title);
+
+    const ul = document.createElement("ul");
+    lista.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+
+    card.appendChild(ul);
+    container.appendChild(card);
+  });
+}
+
 
 window.COPILOT_PAYLOAD=
 {
-  "fase": 2,
+  "fase": 3,
   "metricas": {
-    "total": 8,
+    "total": 7,
     "viaveis": 3,
     "a_estudar": 2,
     "inviaveis": 2
@@ -1467,15 +1042,18 @@ window.COPILOT_PAYLOAD=
   "habilitadores": [
     {
       "nome": "RH & Cultura",
-      "viaveis": [{"id":"48","titulo":"ID: 48 | Ideia: Recompensas atreladas à evolução das competências; valiar novos formatos; indicadores de valor; metodologia OKR e ICP.","contexto":"Incentivos são críticos para engajamento e sucesso da transformação.\n","problema":"Falta de conexão entre performance e evolução\n","resultado":"Sistema de recompensas que impulsione transformação e inovação\n","analise":"Esta ideia resolve a falta de conexão entre performance e evolução, promovendo um sistema de recompensas alinhado à transformação e inovação. Pode gerar impacto em engajamento, eficiência operacional, experiência do usuário e governança. OKR: Fortalecer cultura digital (30% das horas de treinamento de liderança focadas em digital/IA; 70% favorabilidade de engajamento da transformação), Garantir liderança como sponsor (mindset de transformação em 100% das avaliações; 80% ou mais dos líderes com evidências mensais de comportamento sponsor). Árvore de valor: Engajamento, eficiência operacional e cultura de transformação [1]."},{"id":"54","titulo":"ID: 54 | Ideia: Criar novos modelos de contratação e relações de trabalho","contexto":"Acordos individuais para jornada; troca de CLT para PJ; contrato misto; apoio a desligamentos.","problema":"Estrutura atual limita agilidade, produtividade e eficiência","resultado":"Modelos de trabalho mais adaptáveis e produtivos","analise":"Esta ideia resolve a limitação de agilidade, produtividade e eficiência causada pela estrutura atual. Pode gerar impacto em eficiência operacional, produtividade e experiência do usuário. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento. Árvore de valor: Eficiência operacional e crescimento do negócio [1]."},{"id":"61","titulo":"ID: 61 | Ideia: Elaborar treinamentos com todas as áreas sobre desenvolvimento e iniciativas com IA","contexto":"A crescente exponencial da tecnologia e inteligência artificial e surgimento de demandas dos funcionários","problema":"Ela resolve o impasse entre demandas de áreas e tecnologia, agiliza processos e promove um conhecimento útil para os colaboradores se desenvolverem","resultado":"Maior autonomia entre as áreas, novas soluções, inovação e aumento do valor de iniciativa da empresa","analise":"Esta ideia resolve o impasse entre demandas das áreas e tecnologia, agilizando processos e promovendo conhecimento útil para o desenvolvimento dos colaboradores. Pode gerar impacto em eficiência operacional, inovação, autonomia entre áreas e aumento do valor das iniciativas. OKR: Fortalecer cultura digital (30% das horas de treinamento de liderança focadas em digital/IA), Maximizar resultados do negócio core e Eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Eficiência de Investimento/Custo (OPEX - pessoas, sistemas/eficiência de sistemas), Aumento da Receita (novas soluções e inovação) [2]."}],
-      "a_estudar":  [{"id":"22","titulo":"ID: 22 | Ideia: Criar uma plataforma interna onde áreas possam \"anunciar\" micro-tarefas ou projetos de curto prazo para colaboradores de outras áreas/unidades dedicarem 10% do seu tempo.","contexto":"permitir que pessoas testem novas carreiras sem sair da empresa","problema":"Silos organizacionais e subutilização de talentos","resultado":"Descoberta de talentos internos, maior retenção de pessoas","analise":"Esta ideia resolve o problema dos silos organizacionais e da subutilização de talentos, promovendo integração entre áreas e aproveitamento máximo das capacidades dos colaboradores.  \nPode gerar impacto em retenção de pessoas, descoberta de talentos internos, engajamento, eficiência operacional e experiência do colaborador [1]​[2]."},{"id":"55","titulo":"ID: 55 | Ideia: Alinhamento sobre os desligamentos relacionados à eficiência;","contexto":"A empresa enfrenta barreiras políticas internas que dificultam decisões de desligamento por baixa performance, enfraquecendo iniciativas de eficiência e transformação cultural.","problema":"A ausência de alinhamento entre áreas e lideranças gera resistência a decisões necessárias, mantém colaboradores com desempenho abaixo do esperado e impede avanços reais na maturidade de gestão.","resultado":"O alinhamento sobre desligamentos ligados à eficiência fortalece a cultura de responsabilização, reduz interferências políticas, dá respaldo às lideranças e cria um ambiente mais coerente com a agenda de performance e evolução organizacional.","analise":"Esta ideia resolve a falta de alinhamento entre áreas e lideranças, que dificulta decisões de desligamento por baixa performance e impede avanços na maturidade de gestão. Pode gerar impacto em eficiência operacional, fortalecimento da cultura de responsabilização e evolução organizacional. OKR: Maximizar resultados do negócio core, Eficiência administrativa para habilitar crescimento, Fortalecer cultura digital. Árvore de valor: Eficiência operacional, cultura e gestão, crescimento e evolução organizacional [1]."}],
-      "inviaveis":  [{"id":"40","titulo":"ID: 40 | Ideia: Fomento da cultura de citizen developer","contexto":"a necessidade de disseminação de conhecimento entre áreas da companhia","problema":"facilita a disseminação de conhecimento e o protagonismo de cada pessoa, em cada área","resultado":"desenvolver pessoas que sejam capazes de rodar iniciativas de tecnologia de forma autonoma, com baixa dependencia de fornecedores e/ou area de tecnologia.","analise":"Esta ideia resolve a necessidade de disseminar conhecimento entre áreas e promover o protagonismo de cada pessoa. Pode gerar impacto em eficiência operacional, experiência do usuário e governança. OKR: 3, 4. Árvore de valor: Fortalecimento da cultura digital e eficiência administrativa [1]."},{"id":"53","titulo":"ID: 53 | Ideia: Avaliar ocupantes de posições-chave: aplicar assessment de adesão ao mindset e mapa de influências","contexto":"Necessidade de evolução de competências para transformação; plano de ação para detratores e promotores","problema":"Resistência cultural e falta de clareza sobre papéis","resultado":"Cultura alinhada à transformação, com líderes influentes e engajados","analise":"Esta ideia resolve a resistência cultural e a falta de clareza sobre papéis, promovendo uma cultura alinhada à transformação. Pode gerar impacto em eficiência operacional, engajamento da liderança e aceleração da transformação digital. OKR: Fortalecer cultura digital, garantir liderança como sponsor e maximizar resultados do negócio core. Árvore de valor: Eixo de cultura organizacional e liderança transformadora [1]."}]
+      "viaveis": [{"id":"27","titulo":"Cultura Data Driven","contexto":"Disseminação da importância do conhecimento em dados de ao menos uma pessoa de cada área da cia.","problema":"Diminuir o gargalo das demandas de dados e analytics da cia.","resultado":"Maior autonomia da área para utilização dos dados para insights ","analise":"Esta ideia resolve o gargalo nas demandas de dados e analytics, promovendo maior autonomia das áreas para geração de insights. Pode gerar impacto em eficiência operacional, governança e experiência do usuário. OKR: Aumentar a autonomia das áreas na utilização de dados para tomada de decisão e reduzir o tempo de resposta das demandas de analytics. Árvore de valor: Eficiência Operacional e Governança.","entregaveis":"[{\"nome\":\"Diagnóstico de maturidade e backlog de dados priorizado concluído\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"MVP do portal de autoatendimento de dados implantado\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Política e papéis de governança de dados publicados\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Programa de capacitação em data literacy concluído\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"},{"id":"37","titulo":"Realizar \"Diálogos de Transformação\" fóruns específicos inspirado nos DDS porém adaptado ao tema da transformação cultural, integrando a pauta ao cotidiano das equipes, com o objetivo de permitir a reflexão do tema e estimular as competências conectadas ao tema e oportunidade de aplicação prática no dia a dia","contexto":"Necessidade de ampliar a reflexão no tema e comportamentos conectados com a pauta","problema":"Estimula a reflexão constante no tema, com compartilho prático de ideias","resultado":"Maior aderência dos colaboradores com nossas competências e com a temática, gerando resultados com foco na transformação.","analise":"Esta ideia resolve a necessidade de ampliar a reflexão sobre transformação cultural e fortalecer comportamentos alinhados à pauta no cotidiano das equipes. Pode gerar impacto em eficiência operacional, experiência do colaborador, governança e resultados sustentáveis. OKR: Aumentar o engajamento dos colaboradores com as competências-chave e promover a transformação cultural na organização. Árvore de valor: Se encaixa nos eixos de Cultura Organizacional, Pessoas e Resultados Sustentáveis.","entregaveis":"[{\"nome\":\"Roteiro padronizado e piloto concluído\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Capacitação de facilitadores e calendário publicado\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Integração aos rituais e dashboard de engajamento publicado\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Avaliação de impacto e plano de melhoria 2027 aprovado\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"},{"id":"40","titulo":"Reconhecimento e reforço da cultura","contexto":"Oportunidade de reconhecer os profissionais que estão atuando com comportamentos e entregas alinhadas ao contexto de transformação, assim como a necessidade de ampliar a visibilidade desses exemplos para todas as pessoas da emrpesa","problema":"Gera o reforço dos comportamentos que sustentam a transformação.","resultado":"Reconhecimento de comportamentos alinhados à inovação e Gera maior visibilidade das ações internamente e também externamente, podendo ser trabalho no EVP.","analise":"Esta ideia resolve a necessidade de reforçar e reconhecer comportamentos que sustentam a transformação cultural na empresa. Pode gerar impacto em engajamento, experiência do colaborador, fortalecimento do EVP e eficiência operacional. OKR: Aumentar o índice de engajamento dos colaboradores e ampliar a visibilidade de práticas inovadoras. Árvore de valor: Cultura Organizacional, Pessoas e Inovação.","entregaveis":"[{\"nome\":\"Framework de critérios e taxonomia de comportamentos de inovação publicado\",\"mes\":\"mai\",\"tri\":\"2 Tri\"},{\"nome\":\"Piloto de IA para análise de engajamento cultural operacionalizado\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"Programa interno de reconhecimento e vitrine de inovação lançado\",\"mes\":\"nov\",\"tri\":\"4 Tri\"}]"}],
+      "a_estudar": [{"id":"4","titulo":"Fomento da cultura de citizen developer","contexto":"a necessidade de disseminação de conhecimento entre áreas da companhia","problema":"facilita a disseminação de conhecimento e o protagonismo de cada pessoa, em cada área","resultado":"desenvolver pessoas que sejam capazes de rodar iniciativas de tecnologia de forma autonoma, com baixa dependencia de fornecedores e/ou area de tecnologia.","analise":"Esta ideia resolve a necessidade de disseminar conhecimento entre áreas e promover o protagonismo de cada pessoa. Pode gerar impacto em eficiência operacional, experiência do usuário e governança. OKR: 3, 4. Árvore de valor: Fortalecimento da cultura digital e eficiência administrativa [1].","entregaveis":"[{\"nome\":\"Framework e guardrails de citizen development publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Trilha de capacitação e certificação lançada\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Pilotos de automações e dashboards em produção com monitoramento ativo\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"CoE de citizen development operacional com catálogo de templates e comunidade ativa\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"},{"id":"39","titulo":"Escalar o Aprendizado em novas ferramentas e na temática","contexto":"Em um contexto de transformação, há a necessidade de qualificar os profissionais em novas ferramentas e também nos temas conectados para que eles estejam preparados para o futuro","problema":"Reskilling e Upskilling de colaboradores","resultado":"Profissionais qualificados para acompanhar a transformação e através do próprio conhecimento adquirido, poder melhorar processos e propor novas ideias e soluções para os problemas","analise":"Esta ideia resolve a necessidade de preparar os profissionais para o futuro, qualificando-os em novas ferramentas e temas conectados à transformação. Pode gerar impacto em eficiência operacional, experiência do usuário e inovação nos processos. OKR: Aumentar o percentual de colaboradores capacitados em novas competências e ferramentas alinhadas à transformação digital. Árvore de valor: Se encaixa nos eixos de Pessoas, Processos e Inovação.","entregaveis":"[{\"nome\":\"Mapa de competências digitais e trilhas publicados; avaliação diagnóstica aplicada\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Piloto de capacitação validado com avaliação de aprendizado e satisfação medidas\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Academia Digital lançada com catálogo de cursos e indicadores de adesão e conclusão operacionais\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Escala e governança implementadas; OKR monitorado em dashboard e comunidade de prática ativa\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
+      "inviaveis": [{"id":"35","titulo":"Fortalecer os traços culturais que reforçam a cultura de transformação através de comportamentos esperados para alavancar e sustentar a mudanças","contexto":"As mudanças aceleradas no contexto de concessões e necessidade de gerar mais eficiência no negócio","problema":"Dar maior clareza da cultura de transformação da Eco e sua conexão com o Jeito Eco de Ser","resultado":" \r\nter profissionais qualificados e orientados dentro da cultura Eco com foco na transformação","analise":"Esta ideia resolve a necessidade de alinhar e fortalecer a cultura de transformação, conectando-a ao Jeito Eco de Ser para sustentar mudanças e eficiência. Pode gerar impacto em eficiência operacional, experiência do usuário, governança e qualificação dos profissionais. OKR: \"Aumentar o engajamento dos colaboradores com a cultura de transformação\" e \"Elevar o índice de profissionais qualificados alinhados ao Jeito Eco de Ser\". Árvore de valor: Eixo Pessoas e Cultura, Eixo Eficiência Operacional.","entregaveis":"[{\"nome\":\"Framework de comportamentos e matriz de competências alinhados ao Jeito Eco de Ser aprovado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Programa de Capacitação - Transformação\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Campanha de engajamento e comunicação interna executada com indicadores de alcance monitorados\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Painel de OKRs de engajamento e qualificação implantado com métricas de adesão e evolução acompanhadas\",\"mes\":\"mar\",\"tri\":\"1 Tri\"},{\"nome\":\"Teste Evento\",\"mes\":\"\",\"tri\":\"1 Tri\"}]"},{"id":"38","titulo":"Desenvolvimento da líderança","contexto":"Fortalecer líderes como exemplo da transformação cultural","problema":"Amplia a capacidade da liderança em impulsionar o tema dentro da organização","resultado":"Líderes atuando com agentes da transformação em suas equipes, impulsionando o resultado da Ecorodovias","analise":"Esta ideia resolve a necessidade de fortalecer a liderança como exemplo e motor da transformação cultural na Ecorodovias. Pode gerar impacto em eficiência operacional, experiência do colaborador, governança e resultados organizacionais. OKR: \"Aumentar o engajamento e a efetividade da liderança na condução da transformação cultural\" e \"Desenvolver líderes como agentes de mudança alinhados ao Jeito Eco de Ser\". Árvore de valor: se encaixa nos eixos de Pessoas & Cultura e Excelência Operacional.","entregaveis":"[{\"nome\":\"Framework de liderança e OKRs aprovados\",\"mes\":\"mai\",\"tri\":\"2 Tri\"},{\"nome\":\"Programa de desenvolvimento de líderes lançado\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"MVPs de rituais de liderança orientados por dados concluído e avaliado \",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Painel de engajamento da liderança publicado e governança ativa\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}]
     }
-  ]
+  ],
+  "insights_gerais": {
+    "principais_dores": ["Gargalos na demanda por dados e analytics limitam a autonomia das áreas, impactando eficiência operacional e governança.","Falta de reflexão contínua e engajamento em transformação cultural reduz a aderência dos colaboradores às competências-chave.","Reconhecimento insuficiente dos comportamentos alinhados à inovação compromete o fortalecimento do EVP e o engajamento interno."],
+    "oportunidades": ["Implementar cultura data driven pode descentralizar a geração de insights, acelerando decisões e melhorando governança de dados.","Fóruns de diálogo sobre transformação cultural integrados ao cotidiano das equipes podem aumentar o engajamento e a aplicação prática das competências.","Programas de reconhecimento baseados em IA para análise de engajamento cultural podem ampliar a visibilidade e reforçar comportamentos inovadores."],
+    "riscos": ["Iniciativas de fortalecimento cultural e desenvolvimento de liderança foram consideradas inviáveis, indicando possível lacuna no suporte à transformação sustentável."],
+    "destaques": ["Roadmap prioriza iniciativas que promovem autonomia em dados e analytics, com entregas estruturadas para maturidade e governança até o final de 2026.","Foco em transformação cultural é evidenciado por ações concretas de capacitação, engajamento e reconhecimento, com metas claras de impacto em pessoas e cultura.","Iniciativas a estudar indicam potencial para expansão da cultura digital via citizen developers e qualificação contínua, reforçando eficiência e inovação."]
+  }
 }
-
-//b93a7dc7-aef2-464a-b173-eeccbb44269e
-
 
 </script>
 </body>
