@@ -361,6 +361,7 @@
     .lista-title.estudar { border-left-color: #d97706; color: #92400e; }
     .lista-title.inviavel { border-left-color: var(--ink-400); }
     .lista-title.viavel { border-left-color: var(--c-700); color: var(--c-700); }
+    .lista-title.nao-priorizada { border-left-color: #9ca3af; color: #6b7280; }
     .lista-items { display: flex; flex-direction: column; gap: 6px; }
     .lista-item {
       background: var(--white);
@@ -382,6 +383,7 @@
     .lista-item-badge.estudar { background: #fef3c7; color: #92400e; }
     .lista-item-badge.inviavel { background: var(--ink-100); color: var(--ink-600); }
     .lista-item-badge.viavel { background: #d1fae5; color: #065f46; }
+    .lista-item-badge.nao-priorizada { background: #f3f4f6; color: #6b7280; }
 
     /* ═══════════════════ MODAL ═══════════════════ */
     .modal-overlay {
@@ -721,7 +723,7 @@ function normalizeDataByPhase() {
       const all = [...(hab.viaveis||[]), ...(hab.a_estudar||[]), ...(hab.inviaveis||[])];
       hab.a_estudar = all; hab.viaveis = []; hab.inviaveis = [];
     }
-    ['viaveis','a_estudar','inviaveis'].forEach(k => {
+    ['viaveis','a_estudar','inviaveis','nao_priorizadas'].forEach(k => {
       hab[k] = hab[k] || [];
       if (window.faseAtual === 3) {
         hab[k].forEach(ini => {
@@ -776,6 +778,10 @@ function renderAll() {
     // Inviáveis
     if (hab.inviaveis?.length)
       section.appendChild(buildLista(hab.inviaveis, 'inviavel', 'Inviáveis'));
+
+    // Não Priorizadas
+    if (hab.nao_priorizadas?.length)
+      section.appendChild(buildLista(hab.nao_priorizadas, 'nao-priorizada', 'Não Priorizadas'));
 
     container.appendChild(section);
   });
@@ -912,7 +918,7 @@ function buildLista(iniciativas, tipo, titulo) {
     const item = document.createElement('div');
     item.className = 'lista-item';
     item.onclick = () => openModal(ini);
-    const badgeText = tipo === 'estudar' ? 'A Estudar' : tipo === 'viavel' ? 'Viável' : 'Inviável';
+    const badgeText = tipo === 'estudar' ? 'A Estudar' : tipo === 'viavel' ? 'Viável' : tipo === 'nao-priorizada' ? 'Não Priorizada' : 'Inviável';
     item.innerHTML = `<div class="lista-item-titulo">${ini.titulo.trim()}</div>`;
     if (window.faseAtual !== 1) {
       item.innerHTML += `<span class="lista-item-badge ${tipo}">${badgeText}</span>`;
@@ -1035,25 +1041,27 @@ window.COPILOT_PAYLOAD=
   "fase": 3,
   "metricas": {
     "total": 5,
-    "viaveis": 1,
-    "a_estudar": 1,
-    "inviaveis": 1
+    "viaveis": 2,
+    "a_estudar": 2,
+    "inviaveis": 0
   },
   "habilitadores": [
     {
       "nome": "Squad Manutenção",
-      "viaveis": [{"id":"19","titulo":"Implementar Análise Preditiva no sistema de análise de falhas.","contexto":"Entendo que ainda falta qualidade no processo de análise.","problema":"Problema de eficiência","resultado":"Mais acertividade e robustês no processo de análise, gerando cada vez mais eficiência e ganhos para equipe de manutenção.","analise":"Esta ideia resolve a dor de baixa qualidade e eficiência no processo de análise de falhas. Pode gerar impacto em eficiência operacional, ganhos para a equipe de manutenção e experiência do usuário. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Eficiência de Investimento/Custo, OPEX (pessoas), sistemas/eficiência de sistemas e manutenção das praças de pedágio [2].","entregaveis":"[{\"nome\":\"Pipeline e base histórica de falhas unificada com dicionário de dados publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"MVP de modelo preditivo de falhas validado com métricas e critérios de aceitação aprovados\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"Integração do modelo ao CMMS com alertas automáticos ativos em ambiente piloto\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Operacionalização em produção com monitoramento contínuo e rotinas de re-treino automatizadas\",\"mes\":\"fev\",\"tri\":\"1 Tri\"}]"}],
-      "a_estudar": [{"id":"36","titulo":"Pensando pelo prisma da manutenção e gestão de ativos, vejo como uma iniciativa muito relevante para a EcoRodovias a automatização/centralização do processo de gestão de ativos em uma só solução tecnológica. Hoje temos dados para todos os lados sobre as mais diferentes perspectivas, e quando olhamos para a Gestão de Ativos é fundamental que isso tudo esteja centralizado em um só lugar, ou se isso for inviável, que haja uma solução que integre tudo em um só lugar para que possamos desenvolver a gestão dos nossos ativos como um todo.","contexto":"Os desafios que a DAM tem enfrentado para conduzir o processo de gestão de ativos, principalmente a matriz de criticidade de ativos e a GIGA - Gestão Integrada e Global de Ativos, e além disso, fazer esses processos se conectarem com a estratégia corporativa.","problema":"Descentralização de dados / informações, baixa velocidade na elaboração das análises (aumenta produtividade) e baixa confiabilidade dos dados base.","resultado":"Melhorar a eficiência/produtividade do processo de Gestão de Ativos, aumentar a velocidade na entrega de insights para melhoria contínua e aumentar vertiginosamente a confiabilidade dos dados e consequentemente dos ativos em geral.","analise":"Esta ideia resolve a dor da descentralização de dados e baixa confiabilidade das informações na gestão de ativos, além de aumentar a produtividade das análises. Pode gerar impacto em eficiência operacional, governança, confiabilidade dos ativos e velocidade na entrega de insights para melhoria contínua. OKR: Aumentar a eficiência dos processos de gestão de ativos, elevar a confiabilidade dos dados e integrar a gestão de ativos à estratégia corporativa. Árvore de valor: Eficiência operacional, Governança e Gestão de Ativos.","entregaveis":"[{\"nome\":\"MVP do hub de dados de ativos em produção com catálogo publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Regras de qualidade e governança ativas com score de dados nos painéis\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Modelos de IA para priorização de manutenção operando com rastreabilidade\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Cockpit corporativo de ativos com KPIs de eficiência e confiabilidade ativos\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"}],
-      "inviaveis": [{"id":"55","titulo":"Análise de Falhas","contexto":"Projeto em andamento Squad Manutenção","problema":"Projeto em andamento Squad Manutenção","resultado":"Projeto em andamento Squad Manutenção","analise":"Esta ideia resolve a dor de identificar e corrigir falhas recorrentes nos processos de manutenção, aumentando a confiabilidade operacional. Pode gerar impacto em eficiência operacional, redução de custos, melhoria na experiência do usuário e governança. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Eficiência de Investimento/Custo, OPEX (pessoas, equipamentos, manutenção das praças de pedágio), Sistemas/Eficiência de sistemas [2].","entregaveis":"[]"}]
+      "viaveis": [{"id":"19","titulo":"Implementar Análise Preditiva no sistema de análise de falhas.","contexto":"Entendo que ainda falta qualidade no processo de análise.","problema":"Problema de eficiência","resultado":"Mais acertividade e robustês no processo de análise, gerando cada vez mais eficiência e ganhos para equipe de manutenção.","analise":"Esta ideia resolve a dor de baixa qualidade e eficiência no processo de análise de falhas. Pode gerar impacto em eficiência operacional, ganhos para a equipe de manutenção e experiência do usuário. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Eficiência de Investimento/Custo, OPEX (pessoas), sistemas/eficiência de sistemas e manutenção das praças de pedágio [2].","entregaveis":"[{\"nome\":\"Pipeline e base histórica de falhas unificada com dicionário de dados publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"MVP de modelo preditivo de falhas validado com métricas e critérios de aceitação aprovados\",\"mes\":\"ago\",\"tri\":\"3 Tri\"},{\"nome\":\"Integração do modelo ao CMMS com alertas automáticos ativos em ambiente piloto\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Operacionalização em produção com monitoramento contínuo e rotinas de re-treino automatizadas\",\"mes\":\"fev\",\"tri\":\"1 Tri\"}]"},{"id":"54","titulo":"PCM","contexto":"Projeto em andamento Squad Manutenção","problema":"Projeto em andamento Squad Manutenção","resultado":"Projeto em andamento Squad Manutenção","analise":"Esta ideia resolve a necessidade de otimizar processos de arrecadação, reduzindo o tempo gasto em atividades operacionais que não agregam valor. Pode gerar impacto em eficiência operacional, receita e governança. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento. Árvore de valor: Eficiência de Investimento/Custo e Aumento da Receita [1]​[2].","entregaveis":"[]"}],
+      "a_estudar": [{"id":"36","titulo":"Pensando pelo prisma da manutenção e gestão de ativos, vejo como uma iniciativa muito relevante para a EcoRodovias a automatização/centralização do processo de gestão de ativos em uma só solução tecnológica. Hoje temos dados para todos os lados sobre as mais diferentes perspectivas, e quando olhamos para a Gestão de Ativos é fundamental que isso tudo esteja centralizado em um só lugar, ou se isso for inviável, que haja uma solução que integre tudo em um só lugar para que possamos desenvolver a gestão dos nossos ativos como um todo.","contexto":"Os desafios que a DAM tem enfrentado para conduzir o processo de gestão de ativos, principalmente a matriz de criticidade de ativos e a GIGA - Gestão Integrada e Global de Ativos, e além disso, fazer esses processos se conectarem com a estratégia corporativa.","problema":"Descentralização de dados / informações, baixa velocidade na elaboração das análises (aumenta produtividade) e baixa confiabilidade dos dados base.","resultado":"Melhorar a eficiência/produtividade do processo de Gestão de Ativos, aumentar a velocidade na entrega de insights para melhoria contínua e aumentar vertiginosamente a confiabilidade dos dados e consequentemente dos ativos em geral.","analise":"Esta ideia resolve a dor da descentralização de dados e baixa confiabilidade das informações na gestão de ativos, além de aumentar a produtividade das análises. Pode gerar impacto em eficiência operacional, governança, confiabilidade dos ativos e velocidade na entrega de insights para melhoria contínua. OKR: Aumentar a eficiência dos processos de gestão de ativos, elevar a confiabilidade dos dados e integrar a gestão de ativos à estratégia corporativa. Árvore de valor: Eficiência operacional, Governança e Gestão de Ativos.","entregaveis":"[{\"nome\":\"MVP do hub de dados de ativos em produção com catálogo publicado\",\"mes\":\"jun\",\"tri\":\"2 Tri\"},{\"nome\":\"Regras de qualidade e governança ativas com score de dados nos painéis\",\"mes\":\"set\",\"tri\":\"3 Tri\"},{\"nome\":\"Modelos de IA para priorização de manutenção operando com rastreabilidade\",\"mes\":\"nov\",\"tri\":\"4 Tri\"},{\"nome\":\"Cockpit corporativo de ativos com KPIs de eficiência e confiabilidade ativos\",\"mes\":\"mar\",\"tri\":\"1 Tri\"}]"},{"id":"55","titulo":"Análise de Falhas","contexto":"Projeto em andamento Squad Manutenção","problema":"Projeto em andamento Squad Manutenção","resultado":"Projeto em andamento Squad Manutenção","analise":"Esta ideia resolve a dor de identificar e corrigir falhas recorrentes nos processos de manutenção, aumentando a confiabilidade operacional. Pode gerar impacto em eficiência operacional, redução de custos, melhoria na experiência do usuário e governança. OKR: Maximizar resultados do negócio core, acelerar captura de valor e eficiência administrativa para habilitar crescimento [1]. Árvore de valor: Eficiência de Investimento/Custo, OPEX (pessoas, equipamentos, manutenção das praças de pedágio), Sistemas/Eficiência de sistemas [2].","entregaveis":"[]"}],
+      "inviaveis": [],
+      "nao_priorizadas":  [{"id":"55","titulo":"Gestão de Estoques","contexto":"Squads","problema":"Projeto em andamento Squad Manutenção","resultado":"Projeto em andamento Squad Manutenção","analise":"Esta ideia resolve a dor de otimizar o controle e disponibilidade de estoques para squads de manutenção, evitando atrasos e falta de materiais. Pode gerar impacto em eficiência operacional, redução de custos, melhoria na experiência do usuário e governança. OKR: Maximizar resultados do negócio core (redução de tempo em atividades operacionais), Eficiência administrativa para habilitar crescimento (redução de tempo em atividades administrativas/operacionais) [1]. Árvore de valor: Eficiência de Investimento/Custo (OPEX, equipamentos, manutenção das praças de pedágio, sistemas/eficiência de sistemas) [2].","entregaveis":"[]"}]
     }
   ],
   "insights_gerais": {
-    "principais_dores": ["Baixa qualidade e eficiência no processo de análise de falhas impacta diretamente a manutenção, gerando retrabalho e custos operacionais elevados.","Descentralização e baixa confiabilidade dos dados na gestão de ativos dificultam a tomada de decisão rápida e alinhada à estratégia corporativa."],
-    "oportunidades": ["Implementação de análise preditiva integrada ao CMMS pode aumentar a assertividade na manutenção, reduzindo falhas e otimizando custos operacionais (OPEX).","Centralização e automação da gestão de ativos com hub de dados e modelos de IA podem elevar a governança, confiabilidade dos ativos e acelerar a entrega de insights para melhoria contínua."],
-    "riscos": ["Dependência de integração tecnológica e qualidade dos dados para operacionalização dos modelos preditivos e hub de ativos pode atrasar entregas e comprometer resultados esperados."],
-    "destaques": ["Roadmap foca em iniciativas viáveis que promovem eficiência operacional e governança, com entregas planejadas para curto e médio prazo (2º tri 2026 a 1º tri 2027).","Iniciativas inviáveis correspondem a projetos já em andamento, indicando alinhamento e priorização clara do portfólio para evitar duplicidade de esforços.","Estudo avançado para centralização da gestão de ativos demonstra visão estratégica para integrar dados e processos, potencializando ganhos em produtividade e confiabilidade."]
+    "principais_dores": ["Baixa qualidade e eficiência no processo de análise de falhas impacta diretamente a produtividade da equipe de manutenção e a robustez das operações.","Descentralização e baixa confiabilidade dos dados na gestão de ativos dificultam a tomada de decisão estratégica e reduzem a velocidade na entrega de insights.","Processos operacionais manuais e não otimizados na arrecadação consomem tempo e recursos, limitando ganhos em receita e governança."],
+    "oportunidades": ["Implementação de análise preditiva integrada ao CMMS pode aumentar a assertividade na manutenção, reduzindo custos operacionais e melhorando a eficiência do OPEX.","Centralização e automação da gestão de ativos com hub de dados e modelos de IA podem elevar a confiabilidade dos ativos e acelerar a entrega de indicadores de desempenho.","Otimização dos processos de arrecadação via iniciativas em andamento na Squad Manutenção pode gerar ganhos simultâneos em eficiência operacional e aumento de receita."],
+    "riscos": ["Dependência de integração tecnológica e qualidade dos dados para operacionalização dos modelos preditivos e hub de ativos pode atrasar entregas e comprometer resultados.","Falta de priorização e recursos para iniciativas a estudar pode postergar ganhos importantes em governança e gestão integrada de ativos."],
+    "destaques": ["Roadmap concentra-se fortemente em iniciativas de manutenção preditiva e gestão de ativos, alinhadas a ganhos claros em eficiência operacional e governança.","Iniciativas viáveis já em andamento na Squad Manutenção indicam maturidade e foco em resultados rápidos, especialmente na análise de falhas e processos de arrecadação.","Horizonte de entregas estruturado com MVPs e integrações previstas até o início de 2026 demonstra planejamento consistente para captura de valor incremental."]
   }
 }
+
 
 </script>
 </body>
